@@ -1,19 +1,19 @@
 import * as React from "react"
 import { ScrollView, StyleSheet } from "react-native"
-import { ThemeContext } from "contexts/ThemeContext"
+import { useTheme } from "contexts"
 
 type Props = {
     children?: JSX.Element | JSX.Element[],
 }
 
-const ContentView = ({ children }: Props) => {
-    const { theme } = React.useContext(ThemeContext)
+export const ScreenView = ({ children }: Props) => {
+    const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         container: {
             backgroundColor: theme.colors.background,
             minHeight: "100%",
-            padding: theme.spacing / 2
+            padding: theme.spacing / 4
         }
     })
 
@@ -25,5 +25,3 @@ const ContentView = ({ children }: Props) => {
         </ScrollView>
     )
 }
-
-export default ContentView

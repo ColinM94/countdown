@@ -1,20 +1,19 @@
 import * as React from "react"
 import { StyleSheet, Pressable, Text } from "react-native"
-import { ThemeContext } from "contexts/ThemeContext"
+import { useTheme } from "contexts"
 
 type ButtonProps = {
-    onPress?: () => void
+    onPress?: () => void,
     title: string
 }
 
 export const Button = ({ onPress, title }: ButtonProps) => {
-    const { theme } = React.useContext(ThemeContext)
+    const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         container: {
-            /*       margin: theme.spacing / 2, */
             backgroundColor: theme.colors.primary,
-            /*             padding: theme.spacing, */
+            padding: theme.spacing,
             height: 50,
             justifyContent: "center"
         },

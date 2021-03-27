@@ -21,7 +21,11 @@ type Theme = {
     spacing: number
 }
 
-export const ThemeContext = React.createContext<Value>({} as Value)
+const ThemeContext = React.createContext<Value>({} as Value)
+
+export const useTheme = () => {
+    return React.useContext(ThemeContext)
+}
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
     const [darkMode, setDarkMode] = React.useState(false)

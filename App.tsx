@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Main } from "./src/Main"
 
 export default function App() {

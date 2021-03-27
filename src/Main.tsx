@@ -1,25 +1,20 @@
 import * as React from "react"
 import { StatusBar } from "expo-status-bar"
-import { LogBox } from 'react-native';
+import { LogBox } from 'react-native'
 
-import { Button } from "components/Button"
-import { ThemeProvider } from "contexts/ThemeContext"
-import ContentView from "components/ContentView"
-
-import { AddEvent } from "./routes/AddEvent";
-import { ToastProvider } from "contexts/ToastContext";
+import { ThemeProvider, ToastProvider } from "contexts"
+import { ScreenView } from "components"
+import { Navigation } from "navigation"
 
 export const Main = () => {
-    LogBox.ignoreLogs(['Setting a timer']);
-
-
+    LogBox.ignoreLogs(['Setting a timer', 'index.tsx', 'Require cycle'])
 
     return (
         <ThemeProvider>
             <ToastProvider>
-                <ContentView>
-                    <AddEvent />
-                </ContentView>
+                <ScreenView>
+                    <Navigation />
+                </ScreenView>
                 <StatusBar style="light" translucent={false} />
             </ToastProvider>
         </ThemeProvider>

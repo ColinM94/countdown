@@ -9,7 +9,11 @@ type ContextProps = {
     showToast: (msg: string) => void
 }
 
-export const ToastContext = React.createContext<ContextProps>({} as ContextProps)
+const ToastContext = React.createContext<ContextProps>({} as ContextProps)
+
+export const useToast = () => {
+    return React.useContext(ToastContext)
+}
 
 export const ToastProvider = ({ children }: ProviderProps) => {
     const showToast = (msg: string) => {

@@ -1,9 +1,9 @@
 import * as React from "react"
-import { View, Text, StyleSheet } from "react-native"
-import { ThemeContext } from "contexts/ThemeContext"
+import { View, StyleSheet } from "react-native"
+import { useTheme } from "contexts"
 
-const Divider = () => {
-    const { theme } = React.useContext(ThemeContext)
+export const Divider = () => {
+    const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         root: {
@@ -19,6 +19,4 @@ const Divider = () => {
         <View style={styles.root} />
     )
 }
-
-export default Divider
 

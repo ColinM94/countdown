@@ -1,15 +1,15 @@
 import * as React from "react"
 import { View, Text, StyleSheet } from "react-native"
-import { ThemeContext } from "contexts/ThemeContext"
-import Divider from "components/Divider"
+import { useTheme } from "contexts"
+import { Divider } from "./Divider"
 
 type CardProps = {
     children?: JSX.Element | JSX.Element[],
     title?: string,
 }
 
-const Card = ({ children, title }: CardProps) => {
-    const { theme } = React.useContext(ThemeContext)
+export const Card = ({ children, title }: CardProps) => {
+    const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         container: {
@@ -17,7 +17,8 @@ const Card = ({ children, title }: CardProps) => {
             padding: theme.spacing,
             margin: theme.spacing / 2,
             alignItems: "center",
-            flexShrink: 1
+            flexShrink: 1,
+            flexGrow: 1
         },
         title: {
             fontSize: 20,
@@ -36,16 +37,10 @@ const Card = ({ children, title }: CardProps) => {
                     <Divider />
                 </>
             }
-            <Text style={[styles.text, { marginBottom: theme.spacing }]}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nunc ornare diam a metus fringilla dictum. Donec in tempor diam, sit amet interdum leo.
-            In nec lacinia nisl. Praesent dapibus tellus ac eros rutrum vestibulum.
-            </Text>
             {children}
         </View>
     )
 }
-
-export default Card
 
 
 

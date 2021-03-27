@@ -10,7 +10,10 @@ module.exports = function(api) {
           alias: {
             components: "./src/components",
             contexts: "./src/contexts",
-            api: "./src/api"
+            api: "./src/api",
+            screens: "./src/screens",
+            helpers: "./src/helpers",
+            navigation: "./src/navigation"
           },
         },
       ],

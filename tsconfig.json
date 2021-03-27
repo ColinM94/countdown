@@ -13,14 +13,23 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "components*": [
-        "src/components*"
+      "components": [
+        "src/components"
       ],
-      "contexts*": [
-        "src/contexts*"
+      "contexts": [
+        "src/contexts"
       ],
       "api*": [
         "src/api*"
+      ],
+      "screens": [
+        "src/screens"
+      ],
+      "helpers*": [
+        "src/helpers*"
+      ],
+      "navigation": [
+        "src/navigation"
       ]
     },
   },
