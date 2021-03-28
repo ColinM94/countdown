@@ -12,7 +12,7 @@ module.exports = function(api) {
             contexts: "./src/contexts",
             api: "./src/api",
             screens: "./src/screens",
-            helpers: "./src/helpers",
+            common: "./src/common",
             navigation: "./src/navigation"
           },
         },

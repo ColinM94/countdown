@@ -11,12 +11,15 @@ type Value = {
 }
 
 type Theme = {
+    dark: boolean,
     colors: {
         primary: string,
         secondary: string,
         background: string,
-        cardBackground: string,
-        cardText: string
+        card: string,
+        text: string
+        border: string,
+        notification: string
     }
     spacing: number
 }
@@ -28,15 +31,18 @@ export const useTheme = () => {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-    const [darkMode, setDarkMode] = React.useState(false)
+    const [darkMode, setDarkMode] = React.useState(true)
 
     const theme: Theme = {
+        dark: darkMode,
         colors: {
             primary: "red",
             secondary: "blue",
-            background: "#0f0f0f",
-            cardBackground: "#262626",
-            cardText: "white",
+            background: darkMode ? "#0f0f0f" : "white",
+            card: darkMode ? "#242424" : "white",
+            text: darkMode ? "white" : "black",
+            border: 'white',
+            notification: 'white',
         },
         spacing: 10
     }

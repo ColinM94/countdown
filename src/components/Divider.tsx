@@ -2,7 +2,11 @@ import * as React from "react"
 import { View, StyleSheet } from "react-native"
 import { useTheme } from "contexts"
 
-export const Divider = () => {
+type Props = {
+
+}
+
+export const Divider = ({ }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({

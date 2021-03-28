@@ -27,7 +27,7 @@ export const Input = ({ value, placeholder, onChange }: Props) => {
             paddingBottom: 7,
             paddingLeft: 5,
             paddingRight: 5,
-            color: theme.colors.cardText,
+            color: theme.colors.text,
             borderBottomWidth: 1,
             borderColor: "lightgrey",
             fontSize: 20
@@ -40,7 +40,7 @@ export const Input = ({ value, placeholder, onChange }: Props) => {
                 onChange={handleChange}
                 value={value}
                 placeholder={placeholder ?? ""}
-                placeholderTextColor={theme.colors.cardText}
+                placeholderTextColor={theme.colors.text}
                 style={styles.input}
             />
         </View>
