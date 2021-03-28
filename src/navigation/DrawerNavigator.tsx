@@ -43,15 +43,17 @@ export function DrawerNavigator() {
             backgroundColor: theme.colors.card
         },
         drawer: {
-            backgroundColor: theme.colors.card
+            backgroundColor: theme.colors.card,
         },
         icon: {
             color: theme.colors.text,
+            ...theme.text.button,
             marginLeft: 10
         },
         label: {
             color: theme.colors.text,
-            paddingVertical: 10
+            paddingVertical: 10,
+            ...theme.text.button
         }
     })
 
@@ -67,13 +69,15 @@ export function DrawerNavigator() {
                 labelStyle: styles.label,
             }}
         >
-            {/*             <Drawer.Screen
+            {/*             
+            <Drawer.Screen
                 name="Home"
                 component={Home}
                 options={{
                     drawerIcon: () => <FontAwesomeIcon icon="home" size={25} style={styles.icon} />
                 }}
-            /> */}
+            /> 
+            */}
             <Drawer.Screen
                 name="Events"
                 component={Events} /* initialParams={{ id: 324 }} */

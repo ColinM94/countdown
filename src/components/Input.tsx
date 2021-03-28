@@ -1,48 +1,47 @@
 import * as React from "react"
-import { View, TextInput, StyleSheet, NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
+import { View, TextInput, StyleSheet, NativeSyntheticEvent, TextInputChangeEventData, TextInputProps, Text } from "react-native"
 import { useTheme } from "contexts"
 
-type Props = {
-    value: string,
-    placeholder?: string,
-    onChange?: (text: string) => void
+type InputProps = TextInputProps & {
+    label: string
 }
 
-export const Input = ({ value, placeholder, onChange }: Props) => {
+export const Input = (props: InputProps) => {
     const { theme } = useTheme()
-
-    const handleChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
-        const value = e.nativeEvent.text
-        onChange ? onChange(value) : null
-    }
+    const { label } = props
 
     const styles = StyleSheet.create({
         container: {
             width: "100%",
-            padding: 10
+            padding: theme.spacing,
+            ...props.style as {}
+        },
+        label: {
+            marginBottom: theme.spacing / 2,
+            color: theme.colors.text,
+            ...theme.text.label,
         },
         input: {
-            width: "100%",
-            paddingTop: 7,
-            paddingBottom: 7,
-            paddingLeft: 5,
-            paddingRight: 5,
             color: theme.colors.text,
             borderBottomWidth: 1,
-            borderColor: "lightgrey",
-            fontSize: 20
+            borderColor: theme.colors.text,
+            paddingBottom: 5,
+            ...theme.text.input,
         }
     })
 
     return (
         <View style={styles.container}>
+            {label &&
+                <Text style={styles.label}>{label}</Text>
+            }
             <TextInput
-                onChange={handleChange}
-                value={value}
-                placeholder={placeholder ?? ""}
                 placeholderTextColor={theme.colors.text}
+                {...props}
                 style={styles.input}
             />
         </View>
     )
 }
+
+// Properties before ...props will be overwrited if passed in. 

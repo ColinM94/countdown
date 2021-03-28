@@ -4,19 +4,21 @@ import { useTheme } from "contexts"
 
 type Props = {
     onPress?: () => void,
-    title: string
+    title: string,
+    style: {}
 }
 
-export const Button = ({ onPress, title }: Props) => {
+export const Button = ({ onPress, title, style }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
-        container: {
+        button: {
             backgroundColor: theme.colors.primary,
             padding: theme.spacing,
             height: 50,
             width: 150,
-            justifyContent: "center"
+            justifyContent: "center",
+            ...style
         },
         text: {
             color: "white",
@@ -28,7 +30,7 @@ export const Button = ({ onPress, title }: Props) => {
         <Pressable
             onPress={onPress}
             android_ripple={{ color: "grey" }}
-            style={styles.container}
+            style={styles.button}
         >
             <Text style={styles.text}>{title}</Text>
         </Pressable>

@@ -1,5 +1,5 @@
 import { db, Doc, DocData } from "./firebase"
-import { Event } from "helpers/types"
+import { Event } from "src/common/types"
 
 // Convert firebase docs to objects. 
 function docToEvent(doc: Doc) {

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Text, FlatList, View } from 'react-native'
-import { Card, ScreenView, Button } from "components"
+import { FlatList } from 'react-native'
+import { Card, ScreenView, Button, Text } from "components"
 import { EventsProps } from "navigation"
 import { getEvents, deleteEvent } from "api/firestore"
 import { useTheme, useToast } from "contexts"
@@ -33,13 +33,20 @@ export const Events = ({ }: EventsProps) => {
 
     const eventItem = ({ item }: any) => (
         <Card>
-            <Text style={{ color: theme.colors.text, marginBottom: theme.spacing }}>{item.name}</Text>
+            {/*             <Text style={{ color: theme.colors.text, marginBottom: theme.spacing }}>{item.name}</Text> */}
             <Button title="Delete" onPress={() => deleteFromDB(item.id)} />
         </Card>
     )
 
     return (
         <ScreenView onRefresh={loadData}>
+            <>
+                {events.length < 1 &&
+                    <Card>
+                        <Text>No Events Found!</Text>
+                    </Card>
+                }
+            </>
             <FlatList
                 data={events}
                 renderItem={eventItem}

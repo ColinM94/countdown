@@ -16,15 +16,15 @@ export const Card = ({ children, title }: Props) => {
             backgroundColor: theme.colors.card,
             padding: theme.spacing,
             margin: theme.spacing / 2,
+            elevation: theme.elevation,
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 1,
             alignContent: "stretch",
-            elevation: 5
+
         },
         title: {
-            fontSize: 20,
-            fontWeight: "bold",
+            ...theme.text.h1,
             color: theme.colors.text
         },
         text: {
@@ -37,7 +37,6 @@ export const Card = ({ children, title }: Props) => {
             {title != undefined &&
                 <>
                     <Text style={[styles.text, styles.title]}>{title}</Text>
-                    <Divider />
                 </>
             }
             {children}
