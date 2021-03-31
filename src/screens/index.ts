@@ -1,5 +1,5 @@
 export * from "./Home"
-export * from "./Event"
+export * from "./EventDetails"
 export * from "./AddEvent"
-export * from "./Events"
+export * from "./EventList"
 export * from "./Settings"

@@ -14,7 +14,7 @@ export const ScreenView = ({ children, onRefresh }: Props) => {
         container: {
             backgroundColor: theme.colors.background,
             minHeight: "100%",
-            padding: theme.spacing / 4,
+            padding: theme.spacing / 2,
         }
     })
 

@@ -1,30 +1,49 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
 import { useToast, useTheme } from "contexts"
-import { Card, ScreenView, Input, Button } from "components"
+import { Card, ScreenView, Input, Button, Picker } from "components"
 import { addEvent } from "api/firestore"
 import { AddEventProps } from "navigation"
 import { DatePicker } from "components/DatePicker"
 
 export const AddEvent = ({ navigation, route }: AddEventProps) => {
     // State
-    const [name, setName] = React.useState<string>("")
-    const [date, setDate] = React.useState<Date>(new Date())
-    const [time, setTime] = React.useState<Date>(new Date())
+    const [name, setName] = React.useState("")
+    const [date, setDate] = React.useState(new Date())
+    const [color, setColor] = React.useState("")
 
     // Contexts
     const { showToast } = useToast()
     const { theme } = useTheme()
 
-    const addToDb = () => {
-        addEvent(name)
-            .then(() => showToast("Event Created"))
+    const handleSubmit = () => {
+        if (name === "") {
+            showToast("Please enter a name.")
+            return
+        }
+
+        addEvent(name, date, color)
+            .then(() => {
+                navigation.navigate("EventList")
+                showToast("Event Created")
+            })
             .catch(error => alert(error.message))
     }
 
     const onNameChange = (text: string) => {
         setName(text)
     }
+
+    const colorOptions = [
+        {
+            text: "Red",
+            value: "red"
+        },
+        {
+            text: "Blue",
+            value: "blue"
+        },
+    ]
 
     const styles = StyleSheet.create({
         input: {
@@ -38,12 +57,12 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
 
     return (
         <ScreenView>
-            <Card title="Add Event">
+            <Card>
                 <Input label="Name" value={name} onChangeText={onNameChange} style={styles.input} />
-                <Input label="Location" value={name} onChangeText={onNameChange} style={styles.input} />
-                <DatePicker date={date} setDate={setDate} label="Event Date" mode="date" />
-                <DatePicker date={date} setDate={setDate} label="Event Date" mode="time" />
-                <Button title="Add" onPress={addToDb} style={styles.button} />
+                <DatePicker date={date} setDate={setDate} label="Date" mode="date" />
+                <DatePicker date={date} setDate={setDate} label="Time" mode="time" />
+                <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" />
+                <Button title="Add" onPress={handleSubmit} style={styles.button} />
             </Card>
         </ScreenView>
     )

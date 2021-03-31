@@ -2,13 +2,13 @@ import * as React from "react"
 import { StyleSheet } from "react-native"
 import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer'
 import { RouteProp } from '@react-navigation/native'
-import { Home, AddEvent, Events, Settings } from "screens"
+import { AddEvent, EventList, Settings } from "screens"
 import { useTheme } from "contexts"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 type ScreenParams = {
     Home: undefined,
-    Events: undefined,
+    EventList: undefined,
     AddEvent: undefined,
     Settings: undefined
 }
@@ -19,8 +19,8 @@ export type HomeProps = {
 }
 
 export type EventsProps = {
-    navigation: DrawerNavigationProp<ScreenParams, 'Events'>,
-    route: RouteProp<ScreenParams, 'Events'>
+    navigation: DrawerNavigationProp<ScreenParams, 'EventList'>,
+    route: RouteProp<ScreenParams, 'EventList'>
 }
 
 export type AddEventProps = {
@@ -79,9 +79,10 @@ export function DrawerNavigator() {
             /> 
             */}
             <Drawer.Screen
-                name="Events"
-                component={Events} /* initialParams={{ id: 324 }} */
+                name="EventList"
+                component={EventList} /* initialParams={{ id: 324 }} */
                 options={{
+                    title: "Events",
                     drawerIcon: () => <FontAwesomeIcon icon="calendar-alt" size={25} style={styles.icon} />
                 }}
             />

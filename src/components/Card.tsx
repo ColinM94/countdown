@@ -1,14 +1,17 @@
 import * as React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { useTheme } from "contexts"
-import { Divider } from "./Divider"
+import { Pressable } from "./Pressable"
 
 type Props = {
     children?: JSX.Element | JSX.Element[],
     title?: string,
+    style?: {},
+    onPress?: () => void,
+    color?: "string"
 }
 
-export const Card = ({ children, title }: Props) => {
+export const Card = ({ children, title, style, onPress, color }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -21,7 +24,10 @@ export const Card = ({ children, title }: Props) => {
             justifyContent: "center",
             flexShrink: 1,
             alignContent: "stretch",
-
+            borderRadius: theme.borderRadius,
+            borderLeftColor: color ?? theme.colors.card,
+            borderLeftWidth: 10,
+            ...style
         },
         title: {
             ...theme.text.h1,
@@ -33,14 +39,12 @@ export const Card = ({ children, title }: Props) => {
     })
 
     return (
-        <View style={styles.container}>
-            {title != undefined &&
-                <>
-                    <Text style={[styles.text, styles.title]}>{title}</Text>
-                </>
-            }
-            {children}
-        </View>
+        <Pressable style={styles.container} onPress={onPress}>
+            <>
+                {title != undefined && <Text style={[styles.text, styles.title]}>{title}</Text>}
+                {children}
+            </>
+        </Pressable>
     )
 }
 

@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar"
 import { LogBox } from 'react-native'
 import { enableScreens } from 'react-native-screens'
 
-import { ThemeProvider, ToastProvider } from "contexts"
+import { ThemeProvider, ToastProvider, LoadingProvider } from "contexts"
 import { Navigation } from "navigation"
 
 // Icons. 
@@ -19,8 +19,10 @@ export const Main = () => {
     return (
         <ThemeProvider>
             <ToastProvider>
-                <Navigation />
-                <StatusBar style="light" translucent={false} />
+                <LoadingProvider>
+                    <Navigation />
+                    <StatusBar style="light" translucent={false} />
+                </LoadingProvider>
             </ToastProvider>
         </ThemeProvider>
     )

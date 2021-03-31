@@ -52,7 +52,8 @@ type Theme = {
         }
     },
     spacing: number,
-    elevation: number
+    elevation: number,
+    borderRadius: number
 }
 
 const ThemeContext = React.createContext<Value>({} as Value)
@@ -107,6 +108,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         },
         spacing: 10,
         elevation: 3,
+        borderRadius: 3
     }
 
     const value: Value = {

@@ -5,7 +5,7 @@ import { useTheme } from "contexts"
 type Props = {
     onPress?: () => void,
     title: string,
-    style: {}
+    style?: {}
 }
 
 export const Button = ({ onPress, title, style }: Props) => {
@@ -18,6 +18,7 @@ export const Button = ({ onPress, title, style }: Props) => {
             height: 50,
             width: 150,
             justifyContent: "center",
+            borderRadius: theme.borderRadius,
             ...style
         },
         text: {

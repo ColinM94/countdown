@@ -2,20 +2,21 @@ import * as React from "react"
 import { StyleSheet } from "react-native"
 import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
 import { DrawerNavigator } from "./DrawerNavigator"
-import { Event } from "screens"
+import { EventDetails } from "screens"
 import { RouteProp } from "@react-navigation/native"
 import { useTheme } from "contexts"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { Event } from "common/types"
 
 // Param types for each screen. 
 type ScreenParams = {
     Drawer: undefined,
-    Event: { id: string },
+    EventDetails: { id: string, event?: Event },
 }
 
 export type EventProps = {
-    navigation: StackNavigationProp<ScreenParams, 'Event'>,
-    route: RouteProp<ScreenParams, 'Event'>
+    navigation: StackNavigationProp<ScreenParams, 'EventDetails'>,
+    route: RouteProp<ScreenParams, 'EventDetails'>
 }
 
 // <Params> adds Type checking for initialParams screen prop. 
@@ -44,7 +45,13 @@ export const StackNavigator = () => {
                     headerShown: false
                 }}
             />
-            <Stack.Screen name="Event" component={Event} />
+            <Stack.Screen
+                name="EventDetails"
+                component={EventDetails}
+                options={{
+                    title: "Event Details"
+                }}
+            />
         </Stack.Navigator>
     )
 }

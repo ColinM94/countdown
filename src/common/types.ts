@@ -1,5 +1,7 @@
 // Types.
 export type Event = {
     id: string,
-    name?: string
+    name: string,
+    date: Date,
+    color: string
 }
