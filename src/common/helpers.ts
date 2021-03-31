@@ -46,3 +46,11 @@ export function timeSince(date: Date) {
 
     return yearsString + monthsString + daysString + hoursString + secondsString
 }
+
+export async function timer(date: Date) {
+    setTimeout(() => {
+        console.log(timeSince(date))
+        timer(date)
+    }, 1000)
+}
+

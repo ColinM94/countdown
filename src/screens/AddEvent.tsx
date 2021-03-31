@@ -1,10 +1,9 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
 import { useToast, useTheme } from "contexts"
-import { Card, ScreenView, Input, Button, Picker } from "components"
+import { Card, ScreenView, Input, Button, Picker, DatePicker } from "components"
 import { addEvent } from "api/firestore"
 import { AddEventProps } from "navigation"
-import { DatePicker } from "components/DatePicker"
 
 export const AddEvent = ({ navigation, route }: AddEventProps) => {
     // State

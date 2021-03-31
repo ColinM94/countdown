@@ -5,7 +5,7 @@ import { Button, Card, ScreenView, Text } from "components"
 import { EventProps } from "navigation"
 import { getEvent, deleteEvent } from 'api'
 import { useTheme, useLoading, useToast } from "contexts"
-import { formatDate, formatTime, timeSince } from 'common/helpers'
+import { formatDate, formatTime, timeSince, timer } from 'common/helpers'
 import { Event } from "common/types"
 
 export const EventDetails = ({ navigation, route }: EventProps) => {
@@ -18,20 +18,22 @@ export const EventDetails = ({ navigation, route }: EventProps) => {
     const { startLoading, endLoading } = useLoading()
 
     React.useEffect(() => {
-
+        timer(date)
     }, [])
 
     const loadData = async () => {
-        startLoading()
-        try {
-            const event: Event = await getEvent(id)
 
-            setName(event.name)
-            setDate(event.date)
-        } catch (error) {
-            alert(error.message)
-        }
-        endLoading()
+
+        /*  startLoading()
+         try {
+             const event: Event = await getEvent(id)
+ 
+             setName(event.name)
+             setDate(event.date)
+         } catch (error) {
+             alert(error.message)
+         }
+         endLoading() */
     }
 
     const handleDelete = (id: string) => {
