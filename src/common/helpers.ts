@@ -49,7 +49,6 @@ export function timeSince(date: Date) {
 
 export async function timer(date: Date) {
     setTimeout(() => {
-        console.log(timeSince(date))
         timer(date)
     }, 1000)
 }

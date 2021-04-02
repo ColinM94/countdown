@@ -2,7 +2,7 @@ import * as React from "react"
 import { StyleSheet } from "react-native"
 import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
 import { DrawerNavigator } from "./DrawerNavigator"
-import { EventDetails } from "screens"
+import { AddEvent, EventDetails } from "screens"
 import { RouteProp } from "@react-navigation/native"
 import { useTheme } from "contexts"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
@@ -11,6 +11,7 @@ import { Event } from "common/types"
 // Param types for each screen. 
 type ScreenParams = {
     Drawer: undefined,
+    AddEvent: undefined,
     EventDetails: { id: string, event?: Event },
 }
 
@@ -51,6 +52,10 @@ export const StackNavigator = () => {
                 options={{
                     title: "Event Details"
                 }}
+            />
+            <Stack.Screen
+                name="AddEvent"
+                component={AddEvent}
             />
         </Stack.Navigator>
     )

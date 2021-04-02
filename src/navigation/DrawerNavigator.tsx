@@ -2,9 +2,11 @@ import * as React from "react"
 import { StyleSheet } from "react-native"
 import { createDrawerNavigator, DrawerNavigationProp } from '@react-navigation/drawer'
 import { RouteProp } from '@react-navigation/native'
-import { AddEvent, EventList, Settings } from "screens"
+import { EventList, Settings } from "screens"
 import { useTheme } from "contexts"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { useNavigation } from '@react-navigation/native'
+import { Pressable } from "components"
 
 type ScreenParams = {
     Home: undefined,
@@ -37,6 +39,7 @@ const Drawer = createDrawerNavigator()
 
 export function DrawerNavigator() {
     const { theme } = useTheme()
+    const navigation = useNavigation()
 
     const styles = StyleSheet.create({
         header: {
@@ -48,7 +51,12 @@ export function DrawerNavigator() {
         icon: {
             color: theme.colors.text,
             ...theme.text.button,
-            marginLeft: 10
+        },
+        rightIcon: {
+            marginRight: 15,
+            padding: 10,
+            borderRadius: 50,
+            overflow: "hidden"
         },
         label: {
             color: theme.colors.text,
@@ -83,15 +91,11 @@ export function DrawerNavigator() {
                 component={EventList} /* initialParams={{ id: 324 }} */
                 options={{
                     title: "Events",
-                    drawerIcon: () => <FontAwesomeIcon icon="calendar-alt" size={25} style={styles.icon} />
-                }}
-            />
-            <Drawer.Screen
-                name="AddEvent"
-                component={AddEvent}
-                options={{
-                    title: "Add Event",
-                    drawerIcon: () => <FontAwesomeIcon icon="calendar-plus" size={25} style={styles.icon} />
+                    drawerIcon: () => <FontAwesomeIcon icon="calendar-alt" size={25} style={styles.icon} />,
+                    headerRight: () =>
+                        <Pressable onPress={() => navigation.navigate("AddEvent")} style={[styles.rightIcon]}>
+                            <FontAwesomeIcon icon="plus" size={23} style={styles.icon} />
+                        </Pressable>
                 }}
             />
             <Drawer.Screen

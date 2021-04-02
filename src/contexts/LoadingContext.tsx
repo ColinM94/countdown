@@ -6,8 +6,7 @@ type LoadingProviderProps = {
 }
 
 type Value = {
-    startLoading: () => void,
-    endLoading: () => void
+    loading: (active: boolean) => void,
 }
 
 const LoadingContext = React.createContext<Value>({} as Value)
@@ -17,19 +16,14 @@ export const useLoading = () => {
 }
 
 export function LoadingProvider({ children }: LoadingProviderProps) {
-    const [loading, setLoading] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(false)
 
-    const startLoading = () => {
-        setLoading(true)
-    }
-
-    const endLoading = () => {
-        setLoading(false)
+    const loading = (active: boolean) => {
+        setIsLoading(active)
     }
 
     const value: Value = {
-        startLoading,
-        endLoading
+        loading
     }
 
     const styles = StyleSheet.create({
@@ -44,7 +38,7 @@ export function LoadingProvider({ children }: LoadingProviderProps) {
     return (
         <LoadingContext.Provider value={value}>
             {children}
-            {loading && <ActivityIndicator size="large" color="red" style={styles.loading} />}
+            {isLoading && <ActivityIndicator size="large" color="red" style={styles.loading} />}
         </LoadingContext.Provider>
     )
 }

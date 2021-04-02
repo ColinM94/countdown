@@ -31,7 +31,8 @@ export const Card = ({ children, title, style, onPress, color }: Props) => {
         },
         title: {
             ...theme.text.h1,
-            color: theme.colors.text
+            color: theme.colors.text,
+            marginBottom: theme.spacing
         },
         text: {
             color: theme.colors.text

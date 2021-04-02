@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { FlatList, RefreshControl, View } from 'react-native'
 
-import { Card, Button, Text, ScreenView } from "components"
+import { Card, Button, Text, ScreenView, Timer } from "components"
 import { EventsProps, Navigation } from "navigation"
 import { getEvents, deleteEvent } from "api"
 import { useTheme, useToast, useLoading } from "contexts"
@@ -15,28 +15,26 @@ export const EventList = ({ navigation, route }: EventsProps) => {
 
     const { theme } = useTheme()
     const { showToast } = useToast()
-    const { startLoading, endLoading } = useLoading()
+    const { loading } = useLoading()
 
     React.useEffect(() => {
         loadData()
     }, [])
 
     const loadData = async () => {
-        startLoading()
+        loading(true)
         try {
             const events = await getEvents()
             setEvents(events)
         } catch (error) {
             alert(showToast(error.message))
         }
-        endLoading()
+        loading(false)
     }
 
     const eventItem = ({ item }: { item: Event }) => (
-        <Card color={item.color} onPress={() => navigation.navigate("EventDetails", { id: item.id, event: item })}>
-            <Text style={{ marginBottom: theme.spacing }}>{item.name}</Text>
-            <Text style={{ marginBottom: theme.spacing }}>{`Original Date: ${formatDate(item.date)} @ ${formatTime(item.date)}`}</Text>
-            <Text style={{ marginBottom: theme.spacing }}>{`Time Since: ${timeSince(item.date)}`}</Text>
+        <Card title={item.name} color={item.color} onPress={() => navigation.navigate("EventDetails", { id: item.id, event: item })}>
+            <Timer date={item.date} />
         </Card>
     )
 

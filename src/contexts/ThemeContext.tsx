@@ -78,11 +78,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         },
         text: {
             h1: {
-                fontSize: 28,
+                fontSize: 22,
                 opacity: 0.87
             },
             h2: {
-                fontSize: 25,
+                fontSize: 21,
                 opacity: 0.87
             },
             body: {

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Pressable as RNPressable, View } from "react-native"
+import { Pressable as RNPressable, View, StyleSheet } from "react-native"
 import { useTheme } from "contexts"
 
 type PressableProps = {
@@ -10,6 +10,10 @@ type PressableProps = {
 
 export const Pressable = ({ children, onPress, style }: PressableProps) => {
     const { theme } = useTheme()
+
+    const styles = StyleSheet.create({
+
+    })
 
     return (
         <>

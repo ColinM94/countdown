@@ -9,8 +9,8 @@ import { Navigation } from "navigation"
 // Icons. 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
-import { faHome, faCalendarPlus, faCalendarAlt, faBars, faCog } from "@fortawesome/free-solid-svg-icons"
-library.add(faHome, faCalendarPlus, faCalendarAlt, faBars, faCog)
+import { faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus } from "@fortawesome/free-solid-svg-icons"
+library.add(faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus)
 
 export const Main = () => {
     LogBox.ignoreLogs(['Setting a timer', 'index.tsx', 'Require cycle'])
