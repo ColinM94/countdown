@@ -34,7 +34,7 @@ export const StackNavigator = () => {
         },
         icon: {
             color: theme.colors.text,
-            ...theme.text.button,
+            ...theme.text.button as {},
         },
         rightIcon: {
 

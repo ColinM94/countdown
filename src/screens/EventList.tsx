@@ -40,8 +40,8 @@ export const EventList = ({ navigation, route }: EventsProps) => {
                 borderLeftWidth: 10
             }}>
             <View style={{ marginLeft: 25, width: "100%" }}>
-                <Text style={{ marginRight: "auto", fontSize: 18, marginBottom: theme.spacing }}>{item.name}</Text>
-                <Text style={{ marginRight: "auto" }}>{formatDate(item.date)}</Text>
+                <Text style={{ marginBottom: theme.spacing, ...theme.text.h2 as {} }}>{item.name}</Text>
+                <Text style={{ ...theme.text.subtitle as {} }}>{formatDate(item.date)}</Text>
             </View>
         </Card>
     )

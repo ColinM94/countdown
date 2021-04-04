@@ -28,8 +28,7 @@ export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, ic
             ...style as {}
         },
         icon: {
-            color: theme.colors.text,
-            opacity: 0.90,
+            ...theme.icon as {},
             ...iconStyle as {}
         }
     })

@@ -11,36 +11,33 @@ type Value = {
     setDarkMode: (darkMode: boolean) => void
 }
 
+type Colors = {
+    primary: string,
+    secondary: string,
+    background: string,
+    card: string,
+    text: string
+    border: string,
+    notification: string
+}
+
 type Theme = {
     dark: boolean,
-    colors: {
-        primary: string,
-        secondary: string,
-        background: string,
-        card: string,
-        text: string
-        border: string,
-        notification: string
-    }
+    colors: Colors,
     text: {
         h1: StyleProp<TextStyle>,
         h2: StyleProp<TextStyle>,
         body: StyleProp<TextStyle>,
+        subtitle: StyleProp<TextStyle>,
         label: StyleProp<TextStyle>,
         input: StyleProp<TextStyle>,
         button: StyleProp<TextStyle>,
-        disabled: StyleProp<TextStyle>
+        disabled: StyleProp<TextStyle>,
     },
     spacing: number,
     elevation: number,
     borderRadius: number,
-    header: {
-        title: StyleProp<TextStyle>,
-        icon: StyleProp<TextStyle>
-    },
-    drawer: {
-        icon: StyleProp<TextStyle>,
-    }
+    icon: StyleProp<TextStyle>
 }
 
 const ThemeContext = React.createContext<Value>({} as Value)
@@ -52,63 +49,68 @@ export const useTheme = () => {
 export function ThemeProvider({ children }: ThemeProviderProps) {
     const [darkMode, setDarkMode] = React.useState(true)
 
+    const colors: Colors = {
+        primary: darkMode ? "#2EA043" : "#2EA043",
+        secondary: "blue",
+        background: darkMode ? "#0f0f0f" : "white",
+        card: darkMode ? "#1a1a1a" : "white",
+        text: darkMode ? "white" : "black",
+        border: 'white',
+        notification: 'white',
+    }
+
     const theme: Theme = {
         dark: darkMode,
-        colors: {
-            primary: darkMode ? "#2EA043" : "#2EA043",
-            secondary: "blue",
-            background: darkMode ? "#0f0f0f" : "white",
-            card: darkMode ? "#1a1a1a" : "white",
-            text: darkMode ? "white" : "black",
-            border: 'white',
-            notification: 'white',
-        },
+        colors: colors,
         text: {
             h1: {
                 fontSize: 22,
-                opacity: 0.80
+                opacity: 0.87,
+                color: colors.text
             },
             h2: {
-                fontSize: 21,
-                opacity: 0.80
+                fontSize: 20,
+                opacity: 0.87,
+                color: colors.text
             },
             body: {
-                fontSize: 20,
-                opacity: 0.6
+                fontSize: 16,
+                opacity: 0.80,
+                color: colors.text
+            },
+            subtitle: {
+                fontSize: 14,
+                opacity: 0.7,
+                color: colors.text
             },
             label: {
                 fontSize: 15,
-                opacity: 0.60
+                opacity: 0.60,
+                color: colors.text
             },
             input: {
                 fontSize: 20,
                 opacity: 0.87,
+                color: colors.text
             },
             button: {
                 fontSize: 15,
-                opacity: 0.87
+                opacity: 0.87,
+                color: colors.text
             },
             disabled: {
                 fontSize: 20,
-                opacity: 0.38
+                opacity: 0.38,
+                color: colors.text
             }
         },
-        spacing: 10,
+        icon: {
+            opacity: 0.9,
+            color: colors.text
+        },
+        spacing: 8,
         elevation: 3,
         borderRadius: 3,
-        header: {
-            title: {
-                opacity: 0.75,
-            },
-            icon: {
-                opacity: 0.87,
-            }
-        },
-        drawer: {
-            icon: {
-                opacity: 0.87,
-            },
-        }
     }
 
     const value: Value = {

@@ -52,14 +52,11 @@ export function DrawerNavigator() {
             backgroundColor: theme.colors.card,
         },
         drawerIcon: {
-            color: theme.colors.text,
-            opacity: 0.87,
+            ...theme.icon as {},
             marginLeft: 10
         },
         drawerLabel: {
-            color: theme.colors.text,
-            fontSize: 16,
-            opacity: 0.80,
+            ...theme.text.body as {},
             paddingVertical: 15
         },
         icon: {
