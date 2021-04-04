@@ -6,7 +6,7 @@ import { EventList, Settings } from "screens"
 import { useTheme } from "contexts"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useNavigation } from '@react-navigation/native'
-import { Pressable } from "components"
+import { Pressable, IconButton } from "components"
 
 type ScreenParams = {
     Home: undefined,
@@ -39,30 +39,38 @@ const Drawer = createDrawerNavigator()
 
 export function DrawerNavigator() {
     const { theme } = useTheme()
-    const navigation = useNavigation()
 
     const styles = StyleSheet.create({
         header: {
             backgroundColor: theme.colors.card
         },
+        headerTitle: {
+            color: theme.colors.text,
+            ...theme.text.h1 as {}
+        },
         drawer: {
             backgroundColor: theme.colors.card,
         },
+        drawerIcon: {
+            color: theme.colors.text,
+            opacity: 0.87,
+            marginLeft: 10
+        },
+        drawerLabel: {
+            color: theme.colors.text,
+            fontSize: 16,
+            opacity: 0.80,
+            paddingVertical: 15
+        },
         icon: {
             color: theme.colors.text,
-            ...theme.text.button,
+        },
+        leftIcon: {
+            marginLeft: 50
         },
         rightIcon: {
-            marginRight: 15,
-            padding: 10,
-            borderRadius: 50,
-            overflow: "hidden"
+            marginRight: 5
         },
-        label: {
-            color: theme.colors.text,
-            paddingVertical: 10,
-            ...theme.text.button
-        }
     })
 
     return (
@@ -71,10 +79,11 @@ export function DrawerNavigator() {
                 headerShown: true,
                 headerStyle: styles.header,
                 headerTintColor: theme.colors.text,
+                headerTitleStyle: styles.headerTitle
             }}
             drawerContentOptions={{
                 activeTintColor: theme.colors.primary,
-                labelStyle: styles.label,
+                labelStyle: styles.drawerLabel,
             }}
         >
             {/*             
@@ -89,20 +98,28 @@ export function DrawerNavigator() {
             <Drawer.Screen
                 name="EventList"
                 component={EventList} /* initialParams={{ id: 324 }} */
-                options={{
+                options={({ navigation }) => ({
                     title: "Events",
-                    drawerIcon: () => <FontAwesomeIcon icon="calendar-alt" size={25} style={styles.icon} />,
+                    drawerIcon: () => <FontAwesomeIcon icon="calendar-alt" size={25} style={styles.drawerIcon} />,
                     headerRight: () =>
-                        <Pressable onPress={() => navigation.navigate("AddEvent")} style={[styles.rightIcon]}>
-                            <FontAwesomeIcon icon="plus" size={23} style={styles.icon} />
-                        </Pressable>
-                }}
+                        <IconButton
+                            onPress={() => navigation.navigate("AddEvent")}
+                            icon="plus"
+                            containerStyle={styles.leftIcon}
+                        />,
+                    headerLeft: () =>
+                        <IconButton
+                            onPress={() => navigation.toggleDrawer()}
+                            icon="bars"
+                            containerStyle={styles.rightIcon}
+                        />
+                })}
             />
             <Drawer.Screen
                 name="Settings"
                 component={Settings}
                 options={{
-                    drawerIcon: () => <FontAwesomeIcon icon="cog" size={25} style={styles.icon} />
+                    drawerIcon: () => <FontAwesomeIcon icon="cog" size={25} style={styles.drawerIcon} />
                 }}
             />
         </Drawer.Navigator>

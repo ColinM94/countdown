@@ -8,10 +8,9 @@ type Props = {
     title?: string,
     style?: {},
     onPress?: () => void,
-    color?: "string"
 }
 
-export const Card = ({ children, title, style, onPress, color }: Props) => {
+export const Card = ({ children, title, style, onPress }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -25,12 +24,10 @@ export const Card = ({ children, title, style, onPress, color }: Props) => {
             flexShrink: 1,
             alignContent: "stretch",
             borderRadius: theme.borderRadius,
-            borderLeftColor: color ?? theme.colors.card,
-            borderLeftWidth: 10,
             ...style
         },
         title: {
-            ...theme.text.h1,
+            ...theme.text.h1 as {},
             color: theme.colors.text,
             marginBottom: theme.spacing
         },

@@ -12,8 +12,8 @@ export function Settings({ }: Props) {
 
     return (
         <ScreenView>
-            <Card>
-                <Button title={darkMode ? "Light Mode" : "Dark Mode"} onPress={() => setDarkMode(!darkMode)} />
+            <Card style={{ padding: 0 }}>
+                <Button title={darkMode ? "Light Mode" : "Dark Mode"} onPress={() => setDarkMode(!darkMode)} style={{ width: "100%" }} />
             </Card>
         </ScreenView>
     )

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { StyleProp, TextStyle } from "react-native"
 
 type ThemeProviderProps = {
     children?: JSX.Element | JSX.Element[]
@@ -22,38 +23,24 @@ type Theme = {
         notification: string
     }
     text: {
-        h1: {
-            fontSize: number,
-            opacity: number
-        },
-        h2: {
-            fontSize: number,
-            opacity: number
-        },
-        body: {
-            fontSize: number,
-            opacity: number
-        },
-        label: {
-            fontSize: number,
-            opacity: number
-        },
-        input: {
-            fontSize: number,
-            opacity: number,
-        },
-        button: {
-            fontSize: number,
-            opacity: number
-        },
-        disabled: {
-            fontSize: number,
-            opacity: number
-        }
+        h1: StyleProp<TextStyle>,
+        h2: StyleProp<TextStyle>,
+        body: StyleProp<TextStyle>,
+        label: StyleProp<TextStyle>,
+        input: StyleProp<TextStyle>,
+        button: StyleProp<TextStyle>,
+        disabled: StyleProp<TextStyle>
     },
     spacing: number,
     elevation: number,
-    borderRadius: number
+    borderRadius: number,
+    header: {
+        title: StyleProp<TextStyle>,
+        icon: StyleProp<TextStyle>
+    },
+    drawer: {
+        icon: StyleProp<TextStyle>,
+    }
 }
 
 const ThemeContext = React.createContext<Value>({} as Value)
@@ -79,11 +66,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         text: {
             h1: {
                 fontSize: 22,
-                opacity: 0.87
+                opacity: 0.80
             },
             h2: {
                 fontSize: 21,
-                opacity: 0.87
+                opacity: 0.80
             },
             body: {
                 fontSize: 20,
@@ -108,7 +95,20 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         },
         spacing: 10,
         elevation: 3,
-        borderRadius: 3
+        borderRadius: 3,
+        header: {
+            title: {
+                opacity: 0.75,
+            },
+            icon: {
+                opacity: 0.87,
+            }
+        },
+        drawer: {
+            icon: {
+                opacity: 0.87,
+            },
+        }
     }
 
     const value: Value = {

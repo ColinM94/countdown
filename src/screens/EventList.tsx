@@ -33,8 +33,16 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     }
 
     const eventItem = ({ item }: { item: Event }) => (
-        <Card title={item.name} color={item.color} onPress={() => navigation.navigate("EventDetails", { id: item.id, event: item })}>
-            <Timer date={item.date} />
+        <Card
+            onPress={() => navigation.navigate("EventDetails", { id: item.id, event: item })}
+            style={{
+                borderLeftColor: item.color ?? theme.colors.card,
+                borderLeftWidth: 10
+            }}>
+            <View style={{ marginLeft: 25, width: "100%" }}>
+                <Text style={{ marginRight: "auto", fontSize: 18, marginBottom: theme.spacing }}>{item.name}</Text>
+                <Text style={{ marginRight: "auto" }}>{formatDate(item.date)}</Text>
+            </View>
         </Card>
     )
 

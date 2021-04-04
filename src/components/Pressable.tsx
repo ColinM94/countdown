@@ -12,21 +12,29 @@ export const Pressable = ({ children, onPress, style }: PressableProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
-
+        container: {
+            overflow: "hidden",
+        },
+        pressable: {
+            width: "100%",
+            ...style
+        }
     })
 
     return (
         <>
             {onPress ?
-                <RNPressable
-                    onPress={onPress}
-                    style={style}
-                    android_ripple={{
-                        color: "lightgrey",
-                    }}
-                >
-                    {children}
-                </RNPressable >
+                <View style={styles.container}>
+                    <RNPressable
+                        onPress={onPress}
+                        style={styles.pressable}
+                        android_ripple={{
+                            color: "lightgrey",
+                        }}
+                    >
+                        {children}
+                    </RNPressable >
+                </View>
                 :
                 <View style={style}>
                     {children}
