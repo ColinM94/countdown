@@ -27,7 +27,7 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
 
     return (
         <>
-            <Pressable onPress={() => setListVisible(true)} style={{ width: "100%", marginTop: theme.spacing }}>
+            <Pressable onPress={() => setListVisible(true)} style={{ marginTop: theme.spacing }}>
                 <Input
                     label={label}
                     value={value}

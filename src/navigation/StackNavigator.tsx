@@ -1,13 +1,13 @@
 import * as React from "react"
 import { Pressable, StyleSheet } from "react-native"
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
+import { createStackNavigator, HeaderTitle, StackNavigationProp } from "@react-navigation/stack"
 import { DrawerNavigator } from "./DrawerNavigator"
 import { AddEvent, EventDetails } from "screens"
 import { RouteProp } from "@react-navigation/native"
 import { useTheme } from "contexts"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { Event } from "common/types"
-import { Header } from "components"
+import { Header, IconButton } from "components"
 
 // Param types for each screen. 
 type ScreenParams = {
@@ -43,15 +43,19 @@ export const StackNavigator = () => {
 
     return (
         <Stack.Navigator
-            screenOptions={{
+            screenOptions={({ navigation }) => ({
+                headerTitleStyle: theme.text.h1,
                 headerShown: true,
-            }}
+                headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} />
+            })}
+
+
         >
             <Stack.Screen
                 name="Drawer"
                 component={DrawerNavigator}
                 options={{
-                    headerShown: false
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
@@ -59,15 +63,15 @@ export const StackNavigator = () => {
                 component={EventDetails}
                 options={{
                     title: "Event Details",
-                    headerRight: () =>
-                        <Pressable>
-                            <FontAwesomeIcon icon="pencil-alt" size={23} style={styles.icon} />
-                        </Pressable>
+                    headerRight: () => <IconButton onPress={() => { alert("Edit") }} icon="pencil-alt" containerStyle={{ marginRight: 5 }} />
                 }}
             />
             <Stack.Screen
                 name="AddEvent"
                 component={AddEvent}
+                options={{
+                    title: "Add Event"
+                }}
             />
         </Stack.Navigator>
     )

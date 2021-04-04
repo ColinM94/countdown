@@ -19,14 +19,14 @@ export const Input = (props: InputProps) => {
         label: {
             marginBottom: theme.spacing / 2,
             color: theme.colors.text,
-            ...theme.text.label,
+            ...theme.text.label as {},
         },
         input: {
             color: theme.colors.text,
             borderBottomWidth: 1,
             borderColor: theme.colors.text,
             paddingBottom: 5,
-            ...theme.text.input,
+            ...theme.text.input as {},
         }
     })
 

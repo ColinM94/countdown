@@ -14,6 +14,7 @@ export const Pressable = ({ children, onPress, style }: PressableProps) => {
     const styles = StyleSheet.create({
         container: {
             overflow: "hidden",
+            width: "100%",
         },
         pressable: {
             width: "100%",

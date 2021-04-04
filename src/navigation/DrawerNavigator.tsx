@@ -63,7 +63,7 @@ export function DrawerNavigator() {
             color: theme.colors.text,
         },
         leftIcon: {
-            marginLeft: 50
+            marginLeft: 5
         },
         rightIcon: {
             marginRight: 5
@@ -102,13 +102,13 @@ export function DrawerNavigator() {
                         <IconButton
                             onPress={() => navigation.navigate("AddEvent")}
                             icon="plus"
-                            containerStyle={styles.leftIcon}
+                            containerStyle={styles.rightIcon}
                         />,
                     headerLeft: () =>
                         <IconButton
                             onPress={() => navigation.toggleDrawer()}
                             icon="bars"
-                            containerStyle={styles.rightIcon}
+                            containerStyle={styles.leftIcon}
                         />
                 })}
             />
