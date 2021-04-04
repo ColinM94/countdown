@@ -36,11 +36,9 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
     const colorOptions = [
         {
             text: "Red",
-            value: "red"
         },
         {
             text: "Blue",
-            value: "blue"
         },
     ]
 

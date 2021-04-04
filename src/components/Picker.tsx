@@ -1,12 +1,13 @@
-import { Pressable } from "components"
 import * as React from "react"
+import { StyleSheet } from "react-native"
 import { BottomSheet, ListItem } from "react-native-elements"
 import { Input } from "./Input"
 import { useTheme } from "contexts"
+import { Pressable } from "components"
 
 type Option = {
     text: string,
-    value: string
+    value?: string
 }
 
 type PickerProps = {
@@ -25,6 +26,19 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
         setListVisible(false)
     }
 
+    const styles = StyleSheet.create({
+        item: {
+            backgroundColor: theme.colors.card,
+        },
+        cancelItem: {
+            backgroundColor: "#d43c31",
+            color: theme.colors.text
+        },
+        text: {
+            color: theme.colors.text
+        }
+    })
+
     return (
         <>
             <Pressable onPress={() => setListVisible(true)} style={{ marginTop: theme.spacing }}>
@@ -36,13 +50,13 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
             </Pressable>
             <BottomSheet isVisible={listVisible}>
                 {options.map((item, index) => (
-                    <ListItem onPress={() => handleClick(item.value)} key={index}>
+                    <ListItem onPress={() => handleClick(item.value ?? item.text)} key={index} containerStyle={styles.item}>
                         <ListItem.Content>
-                            <ListItem.Title>{item.text}</ListItem.Title>
+                            <ListItem.Title style={styles.text}>{item.text}</ListItem.Title>
                         </ListItem.Content>
                     </ListItem>
                 ))}
-                <ListItem onPress={() => setListVisible(false)} containerStyle={{ backgroundColor: "red", color: "white" }}>
+                <ListItem onPress={() => setListVisible(false)} containerStyle={styles.cancelItem}>
                     <ListItem.Content>
                         <ListItem.Title style={{ color: "white" }}>Cancel</ListItem.Title>
                     </ListItem.Content>

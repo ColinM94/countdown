@@ -46,7 +46,7 @@ export const StackNavigator = () => {
             screenOptions={({ navigation }) => ({
                 headerTitleStyle: theme.text.h1,
                 headerShown: true,
-                headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} />
+                headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} containerStyle={{ marginLeft: 5 }} />
             })}
 
 
