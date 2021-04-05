@@ -37,7 +37,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
             onPress={() => navigation.navigate("EventDetails", { id: "test" })}
             style={{
                 borderLeftColor: item.color ?? theme.colors.card,
-                borderLeftWidth: 10
+                borderLeftWidth: 10,
             }}>
             <View style={{ marginLeft: 25, width: "100%" }}>
                 <Text style={{ marginBottom: theme.spacing, ...theme.text.h2 as {} }}>{item.name}</Text>

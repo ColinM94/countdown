@@ -14,7 +14,7 @@ interface IconButtonProps {
     iconSize?: number
 }
 
-export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, iconSize = 24 }: IconButtonProps) => {
+export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, iconSize = 22 }: IconButtonProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({

@@ -65,12 +65,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         text: {
             h1: {
                 fontSize: 22,
-                opacity: 0.87,
+                opacity: darkMode ? 0.87 : 0.80,
                 color: colors.text
             },
             h2: {
                 fontSize: 20,
-                opacity: 0.87,
+                opacity: 0.80,
                 color: colors.text
             },
             body: {
@@ -90,12 +90,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
             },
             input: {
                 fontSize: 20,
-                opacity: 0.87,
+                opacity: 0.80,
                 color: colors.text
             },
             button: {
                 fontSize: 15,
-                opacity: 0.87,
+                opacity: 0.80,
                 color: colors.text
             },
             disabled: {
@@ -105,7 +105,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
             }
         },
         icon: {
-            opacity: 0.9,
+            opacity: darkMode ? 0.97 : 0.87,
             color: colors.text
         },
         spacing: 8,

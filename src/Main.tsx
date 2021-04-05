@@ -1,10 +1,10 @@
 import * as React from "react"
-import { StatusBar } from "expo-status-bar"
 import { LogBox } from 'react-native'
 import { enableScreens } from 'react-native-screens'
 
 import { ThemeProvider, ToastProvider, LoadingProvider } from "contexts"
 import { Navigation } from "navigation"
+import { StatusBar } from "components"
 
 // Icons. 
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -20,8 +20,8 @@ export const Main = () => {
         <ThemeProvider>
             <ToastProvider>
                 <LoadingProvider>
+                    <StatusBar />
                     <Navigation />
-                    <StatusBar style="light" translucent={false} />
                 </LoadingProvider>
             </ToastProvider>
         </ThemeProvider>

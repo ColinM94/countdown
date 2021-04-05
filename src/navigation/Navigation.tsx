@@ -35,21 +35,22 @@ export const Navigation = () => {
         },
         drawerIcon: {
             ...theme.icon as {},
-            marginLeft: 10
+
         },
         drawerLabel: {
             ...theme.text.body as {},
-            paddingVertical: 15
+            paddingVertical: 10
         },
     })
 
     const drawerNavigator = () => (
         <Drawer.Navigator
-            screenOptions={{
+            screenOptions={({ navigation }) => ({
                 headerShown: true,
                 headerTintColor: theme.colors.text,
-                headerTitleStyle: styles.headerTitle
-            }}
+                headerTitleStyle: styles.headerTitle,
+                headerLeft: () => <IconButton onPress={() => navigation.toggleDrawer()} icon="bars" containerStyle={styles.headerIcon} />
+            })}
             drawerContentOptions={{
                 activeTintColor: theme.colors.primary,
                 labelStyle: styles.drawerLabel,
@@ -59,10 +60,9 @@ export const Navigation = () => {
                 name="EventList"
                 component={EventList}
                 options={({ navigation }) => ({
-                    title: "Events",
+                    title: "My Events",
                     drawerIcon: () => <FontAwesomeIcon icon="calendar-alt" size={25} style={styles.drawerIcon} />,
                     headerRight: () => <IconButton onPress={() => navigation.navigate("AddEvent")} icon="plus" containerStyle={styles.headerIcon} />,
-                    headerLeft: () => <IconButton onPress={() => navigation.toggleDrawer()} icon="bars" containerStyle={styles.headerIcon} />
                 })}
             />
             <Drawer.Screen
@@ -102,7 +102,7 @@ export const Navigation = () => {
                     name="AddEvent"
                     component={AddEvent}
                     options={{
-                        title: "Add Event"
+                        title: "New Event"
                     }}
                 />
                 <Stack.Screen
