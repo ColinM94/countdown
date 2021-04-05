@@ -34,7 +34,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
 
     const eventItem = ({ item }: { item: Event }) => (
         <Card
-            onPress={() => navigation.navigate("EventDetails", { id: item.id, event: item })}
+            onPress={() => navigation.navigate("EventDetails", { id: "test" })}
             style={{
                 borderLeftColor: item.color ?? theme.colors.card,
                 borderLeftWidth: 10

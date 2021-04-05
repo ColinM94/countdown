@@ -7,7 +7,8 @@ import { Pressable } from "components"
 
 type Option = {
     text: string,
-    value?: string
+    value?: string,
+    color?: string
 }
 
 type PickerProps = {
@@ -28,7 +29,7 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
 
     const styles = StyleSheet.create({
         item: {
-            backgroundColor: theme.colors.card,
+            backgroundColor: theme.colors.card
         },
         cancelItem: {
             backgroundColor: "#d43c31",
@@ -50,9 +51,13 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
             </Pressable>
             <BottomSheet isVisible={listVisible}>
                 {options.map((item, index) => (
-                    <ListItem onPress={() => handleClick(item.value ?? item.text)} key={index} containerStyle={styles.item}>
+                    <ListItem
+                        onPress={() => handleClick(item.value ?? item.text)}
+                        key={index}
+                        containerStyle={styles.item}
+                    >
                         <ListItem.Content>
-                            <ListItem.Title style={styles.text}>{item.text}</ListItem.Title>
+                            <ListItem.Title style={{ color: item.color ?? theme.colors.card }}>{item.text}</ListItem.Title>
                         </ListItem.Content>
                     </ListItem>
                 ))}

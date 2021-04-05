@@ -3,11 +3,7 @@ import { ScreenView, Button, Card } from "components"
 import { useTheme } from "contexts"
 import { SettingsProps } from "navigation"
 
-type Props = {
-
-}
-
-export function Settings({ }: Props) {
+export function Settings({ navigation, route }: SettingsProps) {
     const { theme, darkMode, setDarkMode } = useTheme()
 
     return (

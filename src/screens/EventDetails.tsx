@@ -1,14 +1,13 @@
 import * as React from 'react'
 import { StyleSheet } from "react-native"
 
-import { Button, Card, ScreenView, Text, Timer } from "components"
-import { EventProps } from "navigation"
+import { Button, Card, IconButton, ScreenView, Text, Timer } from "components"
+import { EventDetailsProps } from "navigation"
 import { getEvent, deleteEvent } from 'api'
 import { useTheme, useLoading, useToast } from "contexts"
-import { formatDate, formatTime, timeSince } from 'common/helpers'
 import { Event } from "common/types"
 
-export const EventDetails = ({ navigation, route }: EventProps) => {
+export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const [id, setId] = React.useState(route.params.id)
     const [name, setName] = React.useState(route.params.event?.name ?? "")
     const [date, setDate] = React.useState(route.params.event?.date ?? new Date())
@@ -42,6 +41,15 @@ export const EventDetails = ({ navigation, route }: EventProps) => {
 
         }
     })
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => <IconButton
+                onPress={() => { navigation.navigate("EditEvent", { id: id }) }}
+                icon="pencil-alt" containerStyle={{ marginRight: 5 }}
+            />
+        })
+    }, [navigation])
 
     return (
         <ScreenView onRefresh={loadData}>
