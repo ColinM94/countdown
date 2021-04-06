@@ -26,21 +26,11 @@ export const Timer = ({ date, style }: TimerProps) => {
         loading(false)
 
         const timer = setInterval(() => {
-            /* setSeconds(prev => prev + 1) */
             calculate()
         }, 1000)
 
         return () => clearInterval(timer)
     }, [])
-
-
-    /*     React.useEffect(() => {
-            // Recalculates once per minute. 
-            if (seconds >= 59) {
-                setSeconds(0)
-                calculate()
-            }
-        }, [seconds]) */
 
     const calculate = () => {
         var utc = require('dayjs/plugin/utc')

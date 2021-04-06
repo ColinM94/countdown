@@ -80,7 +80,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     const colors: Colors = {
         primary: darkMode ? "#2EA043" : "#2EA043",
         secondary: "blue",
-        background: darkMode ? "#121212" : "white",
+        background: darkMode ? "#121212" : "#EEEEEE",
         card: darkMode ? "#272727" : "white",
         text: {
             main: darkMode ? "rgba(255, 255, 255, 1)" : "rgba(0, 0, 0, 0.87)",

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Image } from 'react-native'
 import { FontAwesomeIcon, FontAwesomeIconStyle } from "@fortawesome/react-native-fontawesome"
 
 import { Card, Text, ScreenView, Timer, Button } from "components"
@@ -41,17 +41,19 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     })
 
     const handlePress = (id: string, item: Event) => {
-        loading(true)
         navigation.navigate("EventDetails", { id: id, event: item })
     }
 
     const eventItem = ({ item }: { item: Event }) => (
         <Card
-            style={{ borderLeftColor: item.color, borderLeftWidth: theme.spacing() }}
+            style={{ borderLeftColor: item.color, borderLeftWidth: theme.spacing(), padding: 0 }}
             direction="row"
             onPress={() => handlePress(item.id, item)}
         >
-            <View style={{ flexDirection: "column", marginLeft: theme.spacing("outer") }}>
+            <View style={{ flexDirection: "column"/* , marginLeft: theme.spacing(0.5) */ }}>
+                <Image source={require('../../assets/test.png')} style={{ height: 60, width: 60 }} />
+            </View>
+            <View style={{ flexDirection: "column", marginLeft: theme.spacing(2) }}>
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
             </View>

@@ -7,17 +7,19 @@ type Props = {
     children?: JSX.Element | JSX.Element[],
     onRefresh?: () => void,
     data?: Event[],
-    renderItem?: ListRenderItem<Event>
+    renderItem?: ListRenderItem<Event>,
+    style?: {}
 }
 
-export const ScreenView = ({ children, onRefresh, data, renderItem }: Props) => {
+export const ScreenView = ({ children, onRefresh, data, renderItem, style }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         container: {
             backgroundColor: theme.colors.background,
             minHeight: "100%",
-            padding: theme.spacing("outer")
+            padding: theme.spacing("outer"),
+            ...style as {}
         },
         itemSeparator: {
             height: theme.spacing("outer")

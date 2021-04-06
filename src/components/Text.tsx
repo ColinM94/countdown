@@ -34,6 +34,7 @@ export const Text = (props: TextProps) => {
     return (
         <RNText
             numberOfLines={h1 || h2 || h3 ? 1 : 0}
+            ellipsizeMode={"tail"}
             style={[getStyle(), style]}
             {...rest}
         >

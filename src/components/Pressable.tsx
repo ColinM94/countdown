@@ -23,6 +23,7 @@ export const Pressable = (props: PressableProps) => {
             android_ripple={{
                 color: feedback ? "lightgrey" : null,
             }}
+            onLongPress={() => {alert("Long Press!")}}
             {...rest}
         >
             {children}

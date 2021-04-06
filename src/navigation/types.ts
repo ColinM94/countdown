@@ -7,8 +7,8 @@ import { Event } from "common/types"
 export type ScreenParams = {
     Drawer: undefined,
     AddEvent: undefined,
-    EditEvent: { id: string, event: Event },
-    EventDetails: { id: string, event: Event },
+    EditEvent: { id: string, event?: Event },
+    EventDetails: { id: string, event?: Event },
     EventList: undefined,
     Settings: undefined
 }

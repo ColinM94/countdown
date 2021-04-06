@@ -28,10 +28,11 @@ export const Input = (props: InputProps) => {
             ...theme.typography.body as {},
             borderBottomWidth: 1,
             borderColor: theme.colors.text.secondary,
-            paddingTop: theme.spacing(),
             paddingBottom: 4
         }
     })
+
+
 
     const handlePress = () => onPress ? onPress() : textInput.focus()
 

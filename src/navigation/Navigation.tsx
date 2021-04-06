@@ -36,11 +36,11 @@ export const Navigation = () => {
 
     const styles = StyleSheet.create({
         header: {
-            backgroundColor: theme.colors.card,
             elevation: 4,
         },
         headerIcon: {
             color: theme.colors.text.main,
+
         },
         headerTitle: {
             color: theme.colors.text.main,
@@ -71,7 +71,7 @@ export const Navigation = () => {
                 headerShown: true,
                 headerTitleStyle: styles.headerTitle,
                 headerStyle: styles.header,
-                headerLeft: () => <IconButton onPress={() => navigation.toggleDrawer()} icon="bars" iconStyle={styles.headerIcon} containerStyle={{ marginLeft: theme.spacing() }} />
+                headerLeft: () => <IconButton onPress={() => navigation.toggleDrawer()} icon="bars" iconStyle={styles.headerIcon} containerStyle={{ marginLeft: theme.spacing() }} />,
             })}
             drawerType="slide"
             /* drawerType={dimensions.width >= 768 ? 'permanent' : 'front'} */
@@ -109,43 +109,47 @@ export const Navigation = () => {
     )
 
     return (
-        <NavigationContainer theme={navTheme}>
-            <Stack.Navigator
-                screenOptions={({ navigation }) => ({
-                    headerStyle: styles.header,
-                    headerTitleStyle: styles.headerTitle,
-                    headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} iconStyle={styles.headerIcon} containerStyle={{ marginLeft: theme.spacing() }} />,
-                })}
-            >
-                <Stack.Screen
-                    name="Drawer"
-                    component={drawerNavigator}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="EventDetails"
-                    component={EventDetails}
-                    options={{
-                        title: "Event Details",
-                    }}
-                />
-                <Stack.Screen
-                    name="AddEvent"
-                    component={AddEvent}
-                    options={{
-                        title: "New Event"
-                    }}
-                />
-                <Stack.Screen
-                    name="EditEvent"
-                    component={EditEvent}
-                    options={{
-                        title: "Update Event"
-                    }}
-                />
-            </Stack.Navigator>
-        </NavigationContainer >
+        <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+            <NavigationContainer theme={navTheme}>
+                <Stack.Navigator
+                    screenOptions={({ navigation }) => ({
+                        headerStyle: styles.header,
+                        headerTitleStyle: styles.headerTitle,
+                        headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} iconStyle={styles.headerIcon} containerStyle={{ marginLeft: theme.spacing() }} />,
+                        /*                animationEnabled: false, */
+                    })}
+                >
+                    <Stack.Screen
+                        name="Drawer"
+                        component={drawerNavigator}
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="EventDetails"
+                        component={EventDetails}
+                        options={{
+                            title: "Event Details",
+                        }}
+                    />
+                    <Stack.Screen
+                        name="AddEvent"
+                        component={AddEvent}
+                        options={{
+                            title: "New Event"
+                        }}
+                    />
+                    <Stack.Screen
+                        name="EditEvent"
+                        component={EditEvent}
+                        options={{
+                            title: "Update Event"
+                        }}
+                    />
+                </Stack.Navigator>
+            </NavigationContainer >
+        </View>
+
     )
 }

@@ -24,7 +24,7 @@ export const Card = ({ children, title, style, onPress, direction = "column" }: 
             padding: theme.spacing(),
             justifyContent: "center",
             alignItems: "center",
-            ...style,
+            ...style as {},
         },
         title: {
             color: theme.colors.text.primary

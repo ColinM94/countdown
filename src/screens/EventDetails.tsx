@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { StyleSheet } from "react-native"
+import { ImageBackground, StyleSheet } from "react-native"
 
 import { Button, Card, IconButton, ScreenView, Text, Timer } from "components"
 import { EventDetailsProps } from "navigation"
 import { getEvent, deleteEvent } from 'api'
 import { useTheme, useLoading, useToast } from "contexts"
 import { Event } from "common/types"
+import { BackgroundImage } from 'react-native-elements/dist/config'
 
 export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const [id, setId] = React.useState(route.params.id)
@@ -20,6 +21,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         loading(true)
         try {
             const event: Event = await getEvent(id)
+
             setName(event.name)
             setDate(event.date)
         } catch (error) {
@@ -42,6 +44,10 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         }
     })
 
+    React.useEffect(() => {
+        loadData()
+    }, [])
+
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () =>
@@ -57,13 +63,15 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     return (
         <ScreenView onRefresh={loadData}>
             <Card style={{ flex: 1, justifyContent: "space-around" }}>
-                <Text style={styles.name}>{name}</Text>
-                <Timer date={date} style={{ /* marginBottom: theme.spacing() */ }} />
-                <Button
-                    title="Delete"
-                    onPress={() => handleDelete(id)}
-                    style={{ marginTop: theme.spacing(4), alignSelf: "center" }}
-                />
+                <ImageBackground source={require("../../assets/test.png")} style={{ height: "100%", width: "100%", flex: 1, resizeMode: "cover", justifyContent: "center", alignItems: "center" }}>
+                    <Text style={styles.name}>{name}</Text>
+                    <Timer date={date} style={{ /* marginBottom: theme.spacing() */ }} />
+                    <Button
+                        title="Delete"
+                        onPress={() => handleDelete(id)}
+                        style={{ marginTop: theme.spacing(4), alignSelf: "center" }}
+                    />
+                </ImageBackground>
             </Card>
         </ScreenView>
     )
