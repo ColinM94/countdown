@@ -33,22 +33,21 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
         },
         cancelItem: {
             backgroundColor: "#d43c31",
-            color: theme.colors.text
-        },
+/*             color: theme.colors.text
+ */        },
         text: {
-            color: theme.colors.text
-        }
+/*             color: theme.colors.text
+ */        }
     })
 
     return (
         <>
-            <Pressable onPress={() => setListVisible(true)} style={{ marginTop: theme.spacing }}>
-                <Input
-                    label={label}
-                    value={value}
-                    editable={false}
-                />
-            </Pressable>
+            <Input
+                label={label}
+                value={value}
+                editable={false}
+                onPress={() => setListVisible(true)}
+            />
             <BottomSheet isVisible={listVisible}>
                 {options.map((item, index) => (
                     <ListItem

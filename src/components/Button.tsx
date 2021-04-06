@@ -1,6 +1,7 @@
 import * as React from "react"
-import { StyleSheet, Pressable, Text } from "react-native"
+import { StyleSheet, Text } from "react-native"
 import { useTheme } from "contexts"
+import { Pressable } from "components"
 
 type Props = {
     onPress?: () => void,
@@ -12,9 +13,9 @@ export const Button = ({ onPress, title, style }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
-        button: {
+        container: {
             backgroundColor: theme.colors.primary,
-            padding: theme.spacing,
+            padding: theme.spacing(),
             height: 50,
             width: 150,
             justifyContent: "center",
@@ -22,17 +23,13 @@ export const Button = ({ onPress, title, style }: Props) => {
             ...style
         },
         text: {
-            color: "white",
             textAlign: "center",
+            ...theme.typography.button as {},
         }
     })
 
     return (
-        <Pressable
-            onPress={onPress}
-            android_ripple={{ color: "grey" }}
-            style={styles.button}
-        >
+        <Pressable onPress={onPress} style={styles.container}>
             <Text style={styles.text}>{title}</Text>
         </Pressable>
     )

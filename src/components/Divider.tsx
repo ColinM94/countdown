@@ -14,8 +14,8 @@ export const Divider = ({ }: Props) => {
             height: 1,
             width: "100%",
             backgroundColor: "white",
-            marginTop: theme.spacing,
-            marginBottom: theme.spacing
+            /*             marginTop: theme.spacing,
+                        marginBottom: theme.spacing() */
         },
     })
 

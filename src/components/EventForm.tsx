@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
 import { useToast, useTheme } from "contexts"
-import { Card, ScreenView, Input, Button, Picker, DatePicker } from "components"
+import { Card, ScreenView, Input, Button, Picker, DatePicker, Text } from "components"
 import { addEvent } from "api/firestore"
 import { Event } from "common/types"
 import { useNavigation } from '@react-navigation/native'
@@ -64,17 +64,16 @@ export const EventForm = ({ id }: EventFormProps) => {
 
     const styles = StyleSheet.create({
         input: {
-            marginTop: theme.spacing / 2
+
         },
         button: {
-            marginTop: theme.spacing * 2,
-            marginBottom: theme.spacing
+            marginTop: theme.spacing(),
         }
     })
 
     return (
         <Card>
-            <Input label="Name" value={name} onChangeText={onNameChange} style={styles.input} />
+            <Input label="Name" value={name} onChangeText={onNameChange} />
             <DatePicker date={date} setDate={setDate} label="Date" mode="date" />
             <DatePicker date={date} setDate={setDate} label="Time" mode="time" />
             <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" />

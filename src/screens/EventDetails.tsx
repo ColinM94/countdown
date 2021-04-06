@@ -20,7 +20,6 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         loading(true)
         try {
             const event: Event = await getEvent(id)
-
             setName(event.name)
             setDate(event.date)
         } catch (error) {
@@ -37,29 +36,33 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     }
 
     const styles = StyleSheet.create({
-        button: {
-
+        name: {
+            marginBottom: theme.spacing(),
+            ...theme.typography.h1 as {}
         }
     })
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
-            headerRight: () => <IconButton
-                onPress={() => { navigation.navigate("EditEvent", { id: id }) }}
-                icon="pencil-alt" containerStyle={{ marginRight: 5 }}
-            />
+            headerRight: () =>
+                <IconButton
+                    onPress={() => { navigation.navigate("EditEvent", { id: id }) }}
+                    icon="pencil-alt"
+                    iconStyle={{ color: theme.colors.text.main }}
+                    containerStyle={{ marginRight: theme.spacing() }}
+                />
         })
     }, [navigation])
 
     return (
         <ScreenView onRefresh={loadData}>
-            <Card style={{ height: "100%" }}>
-                <Text style={{ marginBottom: theme.spacing * 2 }}>{name}</Text>
-                <Timer date={date} style={{ marginBottom: theme.spacing }} />
+            <Card style={{ flex: 1, justifyContent: "space-around" }}>
+                <Text style={styles.name}>{name}</Text>
+                <Timer date={date} style={{ /* marginBottom: theme.spacing() */ }} />
                 <Button
                     title="Delete"
                     onPress={() => handleDelete(id)}
-                    style={{ marginTop: theme.spacing, alignSelf: "center" }}
+                    style={{ marginTop: theme.spacing(4), alignSelf: "center" }}
                 />
             </Card>
         </ScreenView>

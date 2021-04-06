@@ -1,16 +1,25 @@
 import * as React from "react"
-import { ScreenView, Button, Card } from "components"
-import { useTheme } from "contexts"
+import { StyleSheet } from "react-native"
+
 import { SettingsProps } from "navigation"
+import { ScreenView, Button } from "components"
+import { useTheme } from "contexts"
 
 export function Settings({ navigation, route }: SettingsProps) {
     const { theme, darkMode, setDarkMode } = useTheme()
 
+    const styles = StyleSheet.create({
+        button: {
+            marginBottom: theme.spacing(),
+            width: "100%"
+        }
+    })
+
+    const handleDarkModePress = () => setDarkMode(!darkMode)
+
     return (
         <ScreenView>
-            <Card style={{ padding: 0 }}>
-                <Button title={darkMode ? "Light Mode" : "Dark Mode"} onPress={() => setDarkMode(!darkMode)} style={{ width: "100%" }} />
-            </Card>
+            <Button title={darkMode ? "Light Mode" : "Dark Mode"} onPress={handleDarkModePress} style={styles.button} />
         </ScreenView>
     )
 }

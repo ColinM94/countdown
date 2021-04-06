@@ -1,5 +1,5 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { FontAwesomeIcon, FontAwesomeIconStyle } from "@fortawesome/react-native-fontawesome"
 import { useTheme } from "contexts"
 import * as React from "react"
 import { StyleProp } from "react-native"
@@ -10,11 +10,11 @@ interface IconButtonProps {
     icon: IconProp,
     style?: StyleProp<ViewStyle>,
     containerStyle?: StyleProp<ViewStyle>
-    iconStyle?: StyleProp<ViewStyle>
+    iconStyle?: StyleProp<FontAwesomeIconStyle>
     iconSize?: number
 }
 
-export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, iconSize = 22 }: IconButtonProps) => {
+export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, iconSize = 23 }: IconButtonProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -24,11 +24,10 @@ export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, ic
             ...containerStyle as {}
         },
         pressable: {
-            padding: 10,
+            padding: theme.spacing(),
             ...style as {}
         },
         icon: {
-            ...theme.icon as {},
             ...iconStyle as {}
         }
     })

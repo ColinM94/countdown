@@ -47,7 +47,7 @@ export async function getEvent(id: string) {
 }
 
 export async function getEvents() {
-    const docs = await db.collection("events").get()
+    const docs = await db.collection("events").orderBy("date", "desc").get()
 
     const events: Array<Event> = []
 

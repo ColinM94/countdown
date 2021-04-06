@@ -1,47 +1,33 @@
 import * as React from "react"
-import { Pressable as RNPressable, View, StyleSheet } from "react-native"
+import { Pressable as RNPressable, View, StyleSheet, PressableProps as RNPressableProps } from "react-native"
 import { useTheme } from "contexts"
 
-type PressableProps = {
-    children?: JSX.Element | JSX.Element[],
-    onPress?: () => void,
-    style?: {}
+type PressableProps = RNPressableProps & {
+    feedback?: boolean
 }
 
-export const Pressable = ({ children, onPress, style }: PressableProps) => {
-    const { theme } = useTheme()
+export const Pressable = (props: PressableProps) => {
+    const { children, feedback = true, style, ...rest } = props
 
     const styles = StyleSheet.create({
         container: {
             overflow: "hidden",
             width: "100%",
+            ...style as {}
         },
-        pressable: {
-            width: "100%",
-            ...style
-        }
     })
 
     return (
-        <>
-            {onPress ?
-                <View style={styles.container}>
-                    <RNPressable
-                        onPress={onPress}
-                        style={styles.pressable}
-                        android_ripple={{
-                            color: "lightgrey",
-                        }}
-                    >
-                        {children}
-                    </RNPressable >
-                </View>
-                :
-                <View style={style}>
-                    {children}
-                </View>
-            }
-        </>
+        <RNPressable
+            style={styles.container}
+            android_ripple={{
+                color: feedback ? "lightgrey" : null,
+            }}
+            {...rest}
+        >
+            {children}
+        </RNPressable >
+
     )
 }
 

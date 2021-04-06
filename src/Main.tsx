@@ -9,8 +9,8 @@ import { StatusBar } from "components"
 // Icons. 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
-import { faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus, faPencilAlt, faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-library.add(faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus, faPencilAlt, faArrowLeft)
+import { faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus, faPencilAlt, faArrowLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons"
+library.add(faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus, faPencilAlt, faArrowLeft, faChevronRight)
 
 export const Main = () => {
     LogBox.ignoreLogs(['Setting a timer', 'index.tsx', 'Require cycle'])

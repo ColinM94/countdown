@@ -2,49 +2,39 @@ import * as React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { useTheme } from "contexts"
 import { Pressable } from "./Pressable"
+import { StyleProp, ViewStyle } from "react-native"
 
 type Props = {
     children?: JSX.Element | JSX.Element[],
     title?: string,
-    style?: {},
+    style?: StyleProp<ViewStyle>,
     onPress?: () => void,
+    direction?: "row" | "column"
 }
 
-export const Card = ({ children, title, style, onPress }: Props) => {
+export const Card = ({ children, title, style, onPress, direction = "column" }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         container: {
+            flexDirection: direction,
             backgroundColor: theme.colors.card,
-            padding: theme.spacing,
-            margin: theme.spacing / 2,
             elevation: theme.elevation,
-            shadowColor: '#470000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.2,
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 1,
-            alignContent: "stretch",
             borderRadius: theme.borderRadius,
-            ...style
+            padding: theme.spacing(),
+            justifyContent: "center",
+            alignItems: "center",
+            ...style,
         },
         title: {
-            ...theme.text.h2 as {},
-            color: theme.colors.text,
-            marginBottom: theme.spacing
+            color: theme.colors.text.primary
         },
-        text: {
-            color: theme.colors.text
-        }
     })
 
     return (
-        <Pressable style={styles.container} onPress={onPress}>
-            <>
-                {title != undefined && <Text style={[styles.text, styles.title]}>{title}</Text>}
-                {children}
-            </>
+        <Pressable style={styles.container} onPress={onPress ?? null}>
+            {title != undefined && <Text style={[styles.title]}>{title}</Text>}
+            {children}
         </Pressable>
     )
 }

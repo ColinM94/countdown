@@ -3,7 +3,7 @@ import { TouchableOpacity, TextInput, Platform, StyleSheet } from "react-native"
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { formatDate, formatTime } from "common/helpers"
 import { useTheme } from "contexts"
-import { Input } from "components"
+import { Input, Pressable } from "components"
 
 type DatePickerProps = {
     date: Date,
@@ -30,16 +30,19 @@ export const DatePicker = ({ date, setDate, label, mode }: DatePickerProps) => {
 
     return (
         <>
-            <TouchableOpacity onPress={() => setShow(true)} style={styles.container}>
-                <Input label={label ?? "Date"} value={mode == "date" ? formatDate(date) : formatTime(date)} style={{ marginTop: theme.spacing }} editable={false} />
-            </TouchableOpacity>
+            <Input
+                label={label ?? "Date"}
+                value={mode == "date" ? formatDate(date) : formatTime(date)}
+                editable={false}
+                onPress={() => setShow(true)}
+            />
 
             {show &&
                 <DateTimePicker // date time picker code acquired here: https://github.com/react-native-datetimepicker/datetimepicker
                     value={date}
                     mode={mode}
                     display="default"
-                    onChange={onChange}
+                    onChange={(event, date) => onChange}
                 />}
         </>
     )
