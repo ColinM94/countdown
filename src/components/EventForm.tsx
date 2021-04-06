@@ -72,7 +72,7 @@ export const EventForm = ({ id }: EventFormProps) => {
     })
 
     return (
-        <Card>
+        <Card style={{ paddingVertical: theme.spacing(), paddingHorizontal: theme.spacing(3) }}>
             <Input label="Name" value={name} onChangeText={onNameChange} />
             <DatePicker date={date} setDate={setDate} label="Date" mode="date" />
             <DatePicker date={date} setDate={setDate} label="Time" mode="time" />

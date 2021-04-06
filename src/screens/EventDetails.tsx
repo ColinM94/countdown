@@ -62,7 +62,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
 
     return (
         <ScreenView onRefresh={loadData}>
-            <Card style={{ flex: 1, justifyContent: "space-around" }}>
+            <Card style={{ flex: 1, justifyContent: "space-around", padding: theme.spacing(0) }}>
                 <ImageBackground source={require("../../assets/test.png")} style={{ height: "100%", width: "100%", flex: 1, resizeMode: "cover", justifyContent: "center", alignItems: "center" }}>
                     <Text style={styles.name}>{name}</Text>
                     <Timer date={date} style={{ /* marginBottom: theme.spacing() */ }} />
