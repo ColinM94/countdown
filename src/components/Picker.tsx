@@ -15,10 +15,11 @@ type PickerProps = {
     value: string,
     setValue: (value: string) => void,
     options: Option[],
-    label: string
+    label: string,
+    style: {}
 }
 
-export const Picker = ({ value, setValue, options, label }: PickerProps) => {
+export const Picker = ({ value, setValue, options, label, style }: PickerProps) => {
     const { theme } = useTheme()
     const [listVisible, setListVisible] = React.useState(false)
 
@@ -29,7 +30,7 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
 
     const styles = StyleSheet.create({
         item: {
-            backgroundColor: theme.colors.card
+            backgroundColor: theme.colors.card,
         },
         cancelItem: {
             backgroundColor: "#d43c31",
@@ -47,6 +48,7 @@ export const Picker = ({ value, setValue, options, label }: PickerProps) => {
                 value={value}
                 editable={false}
                 onPress={() => setListVisible(true)}
+                style={style}
             />
             <BottomSheet isVisible={listVisible}>
                 {options.map((item, index) => (

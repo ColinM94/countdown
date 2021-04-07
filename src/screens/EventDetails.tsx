@@ -12,6 +12,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const [id, setId] = React.useState(route.params.id)
     const [name, setName] = React.useState(route.params.event?.name ?? "")
     const [date, setDate] = React.useState(route.params.event?.date ?? new Date())
+    const [event, setEvent] = React.useState(route.params.event)
 
     const { theme } = useTheme()
     const { showToast } = useToast()
@@ -52,7 +53,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         navigation.setOptions({
             headerRight: () =>
                 <IconButton
-                    onPress={() => { navigation.navigate("EditEvent", { id: id }) }}
+                    onPress={() => { navigation.navigate("EditEvent", { id: id, event: event }) }}
                     icon="pencil-alt"
                     iconStyle={{ color: theme.colors.text.main }}
                     containerStyle={{ marginRight: theme.spacing() }}

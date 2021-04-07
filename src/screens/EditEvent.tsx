@@ -5,7 +5,7 @@ import { EditEventProps } from "navigation"
 export const EditEvent = ({ navigation, route }: EditEventProps) => {
     return (
         <ScreenView>
-            <EventForm />
+            <EventForm event={route.params.event} />
         </ScreenView>
     )
 }

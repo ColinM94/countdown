@@ -1,8 +1,7 @@
 import * as React from "react"
-import { View, TextInput, StyleSheet, TouchableWithoutFeedback, NativeSyntheticEvent, TextInputChangeEventData, TextInputProps, Text } from "react-native"
+import { TextInput, StyleSheet, TextInputProps, Text } from "react-native"
 import { useTheme } from "contexts"
 import { Pressable } from "components"
-import { TouchableOpacity } from "react-native-gesture-handler"
 
 type InputProps = TextInputProps & {
     onPress?: () => void,
@@ -18,7 +17,6 @@ export const Input = (props: InputProps) => {
         container: {
             flex: 1,
             width: "100%",
-            paddingVertical: theme.spacing(),
             ...props.style as {}
         },
         label: {

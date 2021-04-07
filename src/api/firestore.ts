@@ -58,6 +58,14 @@ export async function getEvents() {
     return events
 }
 
+export async function updateEvent(event: Event) {
+    await db.collection("events").doc(event.id).update({
+        name: event.name,
+        date: event.date,
+        color: event.color
+    })
+}
+
 export async function deleteEvent(id: string) {
     await db.collection("events").doc(id).delete()
 }

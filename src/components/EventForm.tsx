@@ -2,19 +2,20 @@ import * as React from "react"
 import { StyleSheet } from "react-native"
 import { useToast, useTheme } from "contexts"
 import { Card, ScreenView, Input, Button, Picker, DatePicker, Text } from "components"
-import { addEvent } from "api/firestore"
+import { addEvent, updateEvent } from "api/firestore"
 import { Event } from "common/types"
 import { useNavigation } from '@react-navigation/native'
 
 type EventFormProps = {
-    id?: string
+    id?: string,
+    event?: Event
 }
 
-export const EventForm = ({ id }: EventFormProps) => {
+export const EventForm = ({ id, event }: EventFormProps) => {
     // State
-    const [name, setName] = React.useState("")
-    const [date, setDate] = React.useState(new Date())
-    const [color, setColor] = React.useState("")
+    const [name, setName] = React.useState(event?.name ?? "")
+    const [date, setDate] = React.useState(event?.date ?? new Date())
+    const [color, setColor] = React.useState(event?.color ?? "")
 
     // Contexts
     const { showToast } = useToast()
@@ -27,12 +28,21 @@ export const EventForm = ({ id }: EventFormProps) => {
             return
         }
 
-        addEvent(name, date, color)
-            .then(() => {
-                navigation.navigate("EventList")
-                showToast("Event Created")
-            })
-            .catch(error => alert(error.message))
+        if (event) {
+            updateEvent({ id: event.id, name, date, color, })
+                .then(() => {
+                    navigation.goBack()
+                    showToast("Event Updated")
+                })
+                .catch(error => alert(error.message))
+        } else {
+            addEvent(name, date, color)
+                .then(() => {
+                    navigation.navigate("EventList")
+                    showToast("Event Created")
+                })
+                .catch(error => alert(error.message))
+        }
     }
 
     const onNameChange = (text: string) => {
@@ -63,21 +73,24 @@ export const EventForm = ({ id }: EventFormProps) => {
     ]
 
     const styles = StyleSheet.create({
+        card: {
+            padding: theme.spacing(3)
+        },
         input: {
-
+            marginTop: theme.spacing(2)
         },
         button: {
-            marginTop: theme.spacing(),
+            marginTop: theme.spacing(2),
         }
     })
 
     return (
-        <Card style={{ paddingVertical: theme.spacing(), paddingHorizontal: theme.spacing(3) }}>
+        <Card style={styles.card}>
             <Input label="Name" value={name} onChangeText={onNameChange} />
-            <DatePicker date={date} setDate={setDate} label="Date" mode="date" />
-            <DatePicker date={date} setDate={setDate} label="Time" mode="time" />
-            <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" />
-            <Button title={id ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
+            <DatePicker date={date} setDate={setDate} label="Date" mode="date" style={styles.input} />
+            <DatePicker date={date} setDate={setDate} label="Time" mode="time" style={styles.input} />
+            <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" style={styles.input} />
+            <Button title={event ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
         </Card>
     )
 }

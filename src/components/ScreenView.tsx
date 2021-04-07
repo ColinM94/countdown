@@ -17,7 +17,6 @@ export const ScreenView = ({ children, onRefresh, data, renderItem, style }: Pro
     const styles = StyleSheet.create({
         container: {
             backgroundColor: theme.colors.background,
-            minHeight: "100%",
             padding: theme.spacing("outer"),
             ...style as {}
         },
@@ -44,7 +43,7 @@ export const ScreenView = ({ children, onRefresh, data, renderItem, style }: Pro
                         />
                     }
                     ItemSeparatorComponent={itemSeparator}
-                    style={styles.container}
+                    contentContainerStyle={styles.container}
                 />
                 :
                 <ScrollView

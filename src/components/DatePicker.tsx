@@ -9,10 +9,11 @@ type DatePickerProps = {
     date: Date,
     setDate: (date: Date) => void,
     label: string,
-    mode: "date" | "time"
+    mode: "date" | "time",
+    style?: {}
 }
 
-export const DatePicker = ({ date, setDate, label, mode }: DatePickerProps) => {
+export const DatePicker = ({ date, setDate, label, mode, style }: DatePickerProps) => {
     const [show, setShow] = React.useState(false)
     const { theme } = useTheme()
 
@@ -23,9 +24,7 @@ export const DatePicker = ({ date, setDate, label, mode }: DatePickerProps) => {
     }
 
     const styles = StyleSheet.create({
-        container: {
-            width: "100%"
-        }
+
     })
 
     return (
@@ -35,6 +34,7 @@ export const DatePicker = ({ date, setDate, label, mode }: DatePickerProps) => {
                 value={mode == "date" ? formatDate(date) : formatTime(date)}
                 editable={false}
                 onPress={() => setShow(true)}
+                style={style}
             />
 
             {show &&
