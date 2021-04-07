@@ -18,6 +18,7 @@ export const ScreenView = ({ children, onRefresh, data, renderItem, style }: Pro
         container: {
             backgroundColor: theme.colors.background,
             padding: theme.spacing("outer"),
+            minHeight: "100%",
             ...style as {}
         },
         itemSeparator: {
