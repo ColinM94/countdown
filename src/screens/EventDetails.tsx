@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ImageBackground, StyleSheet } from "react-native"
+import { ImageBackground, StyleSheet, View } from "react-native"
 
 import { Button, Card, IconButton, ScreenView, Text, Timer } from "components"
 import { EventDetailsProps } from "navigation"
@@ -39,9 +39,24 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     }
 
     const styles = StyleSheet.create({
+        text: {
+            textShadowColor: 'rgba(0, 0, 0, 0.75)',
+            textShadowOffset: { width: 1, height: 1 },
+            textShadowRadius: 20,
+        },
+        number: {
+
+        },
+        letter: {
+
+        },
         name: {
-            marginBottom: theme.spacing(),
-            ...theme.typography.h1 as {}
+            marginVertical: theme.spacing()
+        },
+        row: {
+            flexDirection: "row",
+            width: 125,
+            justifyContent: "space-around"
         }
     })
 
@@ -62,18 +77,12 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     }, [navigation])
 
     return (
-        <ScreenView onRefresh={loadData}>
-            <Card style={{ flex: 1, justifyContent: "space-around", padding: theme.spacing(0) }}>
-                <ImageBackground source={require("../../assets/test.png")} style={{ height: "100%", width: "100%", flex: 1, resizeMode: "cover", justifyContent: "center", alignItems: "center" }}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Timer date={date} style={{ /* marginBottom: theme.spacing() */ }} />
-                    <Button
-                        title="Delete"
-                        onPress={() => handleDelete(id)}
-                        style={{ marginTop: theme.spacing(4), alignSelf: "center" }}
-                    />
+        <ScreenView onRefresh={loadData} style={{ padding: 0 }}>
+            <Card style={{ flex: 1, justifyContent: "space-around", padding: theme.spacing(0), borderRadius: 0 }}>
+                <ImageBackground source={require("../../assets/test2.png")} style={{ height: "100%", width: "100%", flex: 1, resizeMode: "cover", justifyContent: "center", alignItems: "center" }}>
+                    <Timer date={date} title={name} />
                 </ImageBackground>
             </Card>
-        </ScreenView>
+        </ScreenView >
     )
 }

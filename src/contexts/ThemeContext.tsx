@@ -109,17 +109,17 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         },
         typography: {
             h1: {
-                fontSize: 26,
+                fontSize: 28,
                 letterSpacing: 0.25,
                 color: colors.text.primary,
             },
             h2: {
-                fontSize: 22,
+                fontSize: 26,
                 letterSpacing: 0,
                 color: colors.text.primary,
             },
             h3: {
-                fontSize: 19,
+                fontSize: 22,
                 letterSpacing: 0.15,
                 color: colors.text.primary
             },

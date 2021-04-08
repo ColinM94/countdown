@@ -4,7 +4,7 @@ import { useTheme } from "contexts"
 
 type TextProps = TextProperties & {
     style?: StyleProp<TextStyle>,
-    children?: string,
+    children?: string | JSX.Element | JSX.Element[],
     h1?: boolean,
     h2?: boolean,
     h3?: boolean,

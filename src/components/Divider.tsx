@@ -10,17 +10,17 @@ export const Divider = ({ }: Props) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
-        root: {
+        divider: {
             height: 1,
-            width: "100%",
+            width: "80%",
             backgroundColor: "white",
-            /*             marginTop: theme.spacing,
-                        marginBottom: theme.spacing() */
+            opacity: 0.4,
+            marginVertical: theme.spacing()
         },
     })
 
     return (
-        <View style={styles.root} />
+        <View style={styles.divider} />
     )
 }
 

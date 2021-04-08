@@ -33,7 +33,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
 
     const styles = StyleSheet.create({
         itemName: {
-            ...theme.typography.h2 as {},
+            ...theme.typography.h3 as {},
         },
         itemDate: {
             ...theme.typography.subtitle as {}
