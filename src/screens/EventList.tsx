@@ -46,7 +46,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
 
     const eventItem = ({ item }: { item: Event }) => (
         <Card
-            style={{ borderLeftColor: item.color, borderLeftWidth: theme.spacing(), padding: 0 }}
+            style={{ borderLeftColor: item.color ?? "white", borderLeftWidth: theme.spacing(), padding: 0 }}
             direction="row"
             onPress={() => handlePress(item.id, item)}
         >

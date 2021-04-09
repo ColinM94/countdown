@@ -45,10 +45,12 @@ export const ScreenView = ({ children, onRefresh, data, renderItem, style }: Pro
                     }
                     ItemSeparatorComponent={itemSeparator}
                     contentContainerStyle={styles.container}
+                    keyboardShouldPersistTaps='handled'
                 />
                 :
                 <ScrollView
                     contentContainerStyle={styles.container}
+                    keyboardShouldPersistTaps='handled'
                     refreshControl={
                         // Enables refresh functionality if a function has been passed in as onRefresh.  
                         <RefreshControl onRefresh={onRefresh} refreshing={false} enabled={onRefresh != undefined} />

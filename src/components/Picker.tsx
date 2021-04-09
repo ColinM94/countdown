@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
 import { BottomSheet, ListItem } from "react-native-elements"
-import { Input } from "./Input"
+import { Input, InputProps } from "./Input"
 import { useTheme } from "contexts"
 import { Pressable } from "components"
 
@@ -11,15 +11,14 @@ type Option = {
     color?: string
 }
 
-type PickerProps = {
+type PickerProps = InputProps & {
     value: string,
     setValue: (value: string) => void,
     options: Option[],
-    label: string,
-    style: {}
 }
 
-export const Picker = ({ value, setValue, options, label, style }: PickerProps) => {
+export const Picker = (props: PickerProps) => {
+    const { options, setValue } = props
     const { theme } = useTheme()
     const [listVisible, setListVisible] = React.useState(false)
 
@@ -44,11 +43,9 @@ export const Picker = ({ value, setValue, options, label, style }: PickerProps) 
     return (
         <>
             <Input
-                label={label}
-                value={value}
                 editable={false}
                 onPress={() => setListVisible(true)}
-                style={style}
+                {...props}
             />
             <BottomSheet isVisible={listVisible}>
                 {options.map((item, index) => (

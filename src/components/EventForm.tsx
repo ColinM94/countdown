@@ -81,19 +81,17 @@ export const EventForm = ({ id, event }: EventFormProps) => {
             marginBottom: theme.spacing(3)
         },
         button: {
-
+            marginTop: theme.spacing(3)
         }
     })
 
     return (
-        <>
-            <Card style={styles.card}>
-                <Input label="Name" value={name} onChangeText={onNameChange} containerStyle={styles.input} />
-                <DateTimeInput date={date} setDate={setDate} label="Date" mode="date" containerStyle={styles.input} />
-                <DateTimeInput date={date} setDate={setDate} label="Time" mode="time" containerStyle={styles.input} />
-                {/* <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" containerStyle={styles.input} /> */}
-                <Button title={event ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
-            </Card>
-        </>
+        <Card style={styles.card}>
+            <Input label="Name" value={name} onChangeText={onNameChange} containerStyle={styles.input} />
+            <DateTimeInput date={date} setDate={setDate} label="Date" mode="date" containerStyle={styles.input} />
+            <DateTimeInput date={date} setDate={setDate} label="Time" mode="time" containerStyle={styles.input} />
+            <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" containerStyle={styles.input} />
+            <Button title={event ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
+        </Card>
     )
 }

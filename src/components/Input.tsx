@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from "react-native"
+import { Keyboard, StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from "react-native"
 import { useTheme } from "contexts"
 import { IconButton, Pressable } from "components"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
@@ -24,7 +24,8 @@ export const Input = (props: InputProps) => {
         container: {
             flexDirection: "row",
             borderBottomWidth: 1,
-            borderColor: focused ? theme.colors.primary : theme.colors.text.secondary,
+            /* borderColor: focused ? theme.colors.primary : theme.colors.text.secondary, */
+            borderColor: theme.colors.text.tertiary,
             ...containerStyle as {},
         },
         inputRow: {
@@ -35,15 +36,16 @@ export const Input = (props: InputProps) => {
         },
         input: {
             flex: 1,
+            paddingVertical: 5,
             ...theme.typography.body as {},
             ...style as {}
         },
     })
 
     const handlePress = () => {
-        setFocused(true)
         textInput.focus()
-        onPress
+        setFocused(true)
+        onPress && onPress()
     }
 
     const handleFocus = () => {
@@ -57,11 +59,10 @@ export const Input = (props: InputProps) => {
 
     return (
         <Pressable onPress={handlePress} style={styles.container} feedback={false} >
-            <View style={{ flexDirection: "column", flexGrow: 1 }}>
+            <View pointerEvents="none" style={{ flexDirection: "column", flexGrow: 1 }}>
                 {label && <Text style={styles.label}>{label}</Text>}
                 <TextInput
                     ref={(input) => { textInput = input; }}
-                    onFocus={handleFocus}
                     onBlur={handleBlur}
                     placeholderTextColor={theme.colors.text.secondary}
                     style={styles.input}
