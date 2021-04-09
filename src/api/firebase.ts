@@ -4,6 +4,7 @@ import firebase from 'firebase/app'
 // Importing the required individual services. 
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/storage'
 
 export const app = firebase.initializeApp({
     apiKey: "AIzaSyBXeVexU8ZvhXTiVLBCtfz9dzRAdStri6U",
@@ -16,6 +17,7 @@ export const app = firebase.initializeApp({
 
 export const auth = firebase.auth()
 export const db = firebase.firestore()
+export const storage = firebase.storage()
 
 // Types
 export type Doc = firebase.firestore.DocumentSnapshot

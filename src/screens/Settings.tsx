@@ -41,20 +41,6 @@ export function Settings({ navigation, route }: SettingsProps) {
                 </View>
                 <Switch value={darkMode} onValueChange={handleDarkModePress} color={theme.colors.primary} style={{ marginLeft: "auto" }} />
             </Card>
-            <Card direction="row" style={styles.item} onPress={handleDarkModePress}>
-                <View>
-                    <Text h3>Dark Mode</Text>
-                    <Text subtitle>Toggle dark theme</Text>
-                </View>
-                <Switch value={darkMode} onValueChange={handleDarkModePress} color={theme.colors.primary} style={{ marginLeft: "auto" }} />
-            </Card>
-            <Card direction="row" style={styles.item} onPress={handleDarkModePress}>
-                <View>
-                    <Text h3>Dark Mode</Text>
-                    <Text subtitle>Toggle dark theme</Text>
-                </View>
-                <Switch value={darkMode} onValueChange={handleDarkModePress} color={theme.colors.primary} style={{ marginLeft: "auto" }} />
-            </Card>
         </ScreenView>
     )
 }

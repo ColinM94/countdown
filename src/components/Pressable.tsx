@@ -7,7 +7,7 @@ type PressableProps = RNPressableProps & {
 }
 
 export const Pressable = (props: PressableProps) => {
-    const { children, feedback = true, style, ...rest } = props
+    const { children, feedback = true, style, onPress, ...rest } = props
 
     const styles = StyleSheet.create({
         container: {
@@ -21,9 +21,10 @@ export const Pressable = (props: PressableProps) => {
         <RNPressable
             style={styles.container}
             android_ripple={{
-                color: feedback ? "lightgrey" : null,
+                color: feedback ? onPress ? "lightgrey" : null : null,
             }}
-            onLongPress={() => {alert("Long Press!")}}
+            onPress={onPress}
+            onLongPress={() => { alert("Long Press!") }}
             {...rest}
         >
             {children}

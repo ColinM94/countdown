@@ -6,6 +6,8 @@ import { addEvent, updateEvent } from "api/firestore"
 import { Event } from "common/types"
 import { useNavigation } from '@react-navigation/native'
 import { Surface, TextInput } from "react-native-paper"
+import { ImagePicker } from "./ImagePicker"
+import { uploadImage } from "api"
 
 type EventFormProps = {
     id?: string,
@@ -17,6 +19,7 @@ export const EventForm = ({ id, event }: EventFormProps) => {
     const [name, setName] = React.useState(event?.name ?? "")
     const [date, setDate] = React.useState(event?.date ?? new Date())
     const [color, setColor] = React.useState(event?.color ?? "")
+    const [image, setImage] = React.useState(null)
 
     // Contexts
     const { showToast } = useToast()
@@ -91,6 +94,7 @@ export const EventForm = ({ id, event }: EventFormProps) => {
             <DateTimeInput date={date} setDate={setDate} label="Date" mode="date" containerStyle={styles.input} />
             <DateTimeInput date={date} setDate={setDate} label="Time" mode="time" containerStyle={styles.input} />
             <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" containerStyle={styles.input} />
+            <ImagePicker image={image} setImage={setImage} />
             <Button title={event ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
         </Card>
     )

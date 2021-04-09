@@ -66,6 +66,7 @@ export const Input = (props: InputProps) => {
                     onBlur={handleBlur}
                     placeholderTextColor={theme.colors.text.secondary}
                     style={styles.input}
+                    editable={onPress ? false : true}
                     {...props}
                 />
             </View>

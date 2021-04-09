@@ -32,7 +32,7 @@ export const Card = ({ children, title, style, onPress, direction = "column" }: 
     })
 
     return (
-        <Pressable style={styles.container} onPress={onPress ?? null}>
+        <Pressable style={styles.container} onPress={onPress}>
             {title != undefined && <Text style={[styles.title]}>{title}</Text>}
             {children}
         </Pressable>
