@@ -154,9 +154,7 @@ export const Timer = ({ date, style, title }: TimerProps) => {
     return (
         <View style={styles.container}>
             <Text h1 style={[styles.text, styles.title]}>{title}</Text>
-            <Divider />
-            <Text overline>{formatDate(date)}</Text>
-            <Divider />
+            <Text body>{formatDate(date)}</Text>
             <View style={styles.row}>
                 {showYears &&
                     <Text style={styles.text}>

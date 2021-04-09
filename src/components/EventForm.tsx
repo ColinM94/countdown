@@ -1,10 +1,11 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
 import { useToast, useTheme } from "contexts"
-import { Card, ScreenView, Input, Button, Picker, DatePicker, Text } from "components"
+import { Card, ScreenView, Input, Button, Picker, Text, DateTimeInput } from "components"
 import { addEvent, updateEvent } from "api/firestore"
 import { Event } from "common/types"
 import { useNavigation } from '@react-navigation/native'
+import { Surface, TextInput } from "react-native-paper"
 
 type EventFormProps = {
     id?: string,
@@ -77,20 +78,22 @@ export const EventForm = ({ id, event }: EventFormProps) => {
             padding: theme.spacing(3)
         },
         input: {
-            marginTop: theme.spacing(2)
+            marginBottom: theme.spacing(3)
         },
         button: {
-            marginTop: theme.spacing(2),
+
         }
     })
 
     return (
-        <Card style={styles.card}>
-            <Input label="Name" value={name} onChangeText={onNameChange} />
-            <DatePicker date={date} setDate={setDate} label="Date" mode="date" style={styles.input} />
-            <DatePicker date={date} setDate={setDate} label="Time" mode="time" style={styles.input} />
-            <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" style={styles.input} />
-            <Button title={event ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
-        </Card>
+        <>
+            <Card style={styles.card}>
+                <Input label="Name" value={name} onChangeText={onNameChange} containerStyle={styles.input} />
+                <DateTimeInput date={date} setDate={setDate} label="Date" mode="date" containerStyle={styles.input} />
+                <DateTimeInput date={date} setDate={setDate} label="Time" mode="time" containerStyle={styles.input} />
+                {/* <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" containerStyle={styles.input} /> */}
+                <Button title={event ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
+            </Card>
+        </>
     )
 }

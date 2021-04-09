@@ -20,7 +20,7 @@ export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, ic
     const styles = StyleSheet.create({
         container: {
             overflow: "hidden",
-            borderRadius: 60,
+            borderRadius: 80,
             ...containerStyle as {}
         },
         pressable: {
@@ -28,6 +28,7 @@ export const IconButton = ({ onPress, icon, style, containerStyle, iconStyle, ic
             ...style as {}
         },
         icon: {
+            color: theme.colors.text.primary,
             ...iconStyle as {}
         }
     })

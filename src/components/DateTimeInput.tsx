@@ -1,51 +1,52 @@
 import * as React from "react"
-import { TouchableOpacity, TextInput, Platform, StyleSheet } from "react-native"
+import { Platform } from "react-native"
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { formatDate, formatTime } from "common/helpers"
-import { useTheme } from "contexts"
-import { Input, Pressable } from "components"
+import { Input } from "components"
+import { InputProps } from "components"
 
-type DatePickerProps = {
+type DatePickerProps = InputProps & {
     date: Date,
     setDate: (date: Date) => void,
-    label: string,
     mode: "date" | "time",
-    style?: {}
 }
 
-export const DatePicker = ({ date, setDate, label, mode, style }: DatePickerProps) => {
-    const [show, setShow] = React.useState(false)
-    const { theme } = useTheme()
+export const DateTimeInput = (props: DatePickerProps) => {
+    const { date, setDate, label, mode, style } = props
 
-    const onChange = (event: any, selectedDate: Date) => {
+    const [show, setShow] = React.useState(false)
+    const [dateSelected, setDateSelected] = React.useState(false)
+
+    const onChange = (event: any, selectedDate?: Date) => {
         const currentDate = selectedDate ?? date
         setShow(Platform.OS === 'ios')
         setDate(currentDate)
+        setDateSelected(true)
     }
-
-    const styles = StyleSheet.create({
-
-    })
 
     return (
         <>
             <Input
                 label={label ?? "Date"}
-                value={mode == "date" ? formatDate(date) : formatTime(date)}
-                editable={false}
+                value={dateSelected ? mode == "date" ? formatDate(date) : formatTime(date) : ""}
                 onPress={() => setShow(true)}
-                style={style}
+                rightIcon={mode == "date" ? "calendar" : "clock"}
+                rightIconOnPress={() => setShow(true)}
+                showSoftInputOnFocus={false}
+                caretHidden={true}
+                {...props}
             />
 
             {show &&
                 <DateTimePicker // date time picker code acquired here: https://github.com/react-native-datetimepicker/datetimepicker
                     value={date}
                     mode={mode}
+                    is24Hour={true}
                     display="default"
-                    onChange={(event, date) => onChange}
+                    onChange={onChange}
                 />}
         </>
     )
 }
 
-export default DatePicker
+export default DateTimeInput

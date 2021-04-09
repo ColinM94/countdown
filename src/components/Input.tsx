@@ -1,50 +1,76 @@
 import * as React from "react"
-import { TextInput, StyleSheet, TextInputProps, Text } from "react-native"
+import { StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from "react-native"
 import { useTheme } from "contexts"
-import { Pressable } from "components"
+import { IconButton, Pressable } from "components"
+import { IconProp } from "@fortawesome/fontawesome-svg-core"
+/* import { TextInput, TextInputProps } from "react-native-paper" */
 
-type InputProps = TextInputProps & {
+export type InputProps = TextInputProps & {
     onPress?: () => void,
     label?: string,
+    rightIcon?: IconProp,
+    rightIconOnPress?: () => void,
+    containerStyle?: StyleProp<ViewStyle>,
 }
 
 export const Input = (props: InputProps) => {
     const { theme } = useTheme()
-    const { label, onPress } = props
+    const { label, onPress, rightIcon, rightIconOnPress, style, containerStyle } = props
+    const [focused, setFocused] = React.useState(false)
+
     let textInput: any = null
 
     const styles = StyleSheet.create({
         container: {
-            flex: 1,
-            width: "100%",
-            ...props.style as {}
+            flexDirection: "row",
+            borderBottomWidth: 1,
+            borderColor: focused ? theme.colors.primary : theme.colors.text.secondary,
+            ...containerStyle as {},
+        },
+        inputRow: {
+            flexDirection: "row",
         },
         label: {
             ...theme.typography.overline as {}
         },
         input: {
+            flex: 1,
             ...theme.typography.body as {},
-            borderBottomWidth: 1,
-            borderColor: theme.colors.text.secondary,
-            paddingBottom: 4
-        }
+            ...style as {}
+        },
     })
 
+    const handlePress = () => {
+        setFocused(true)
+        textInput.focus()
+        onPress
+    }
 
+    const handleFocus = () => {
+        setFocused(true)
+        onPress && onPress()
+    }
 
-    const handlePress = () => onPress ? onPress() : textInput.focus()
+    const handleBlur = () => {
+        setFocused(false)
+    }
 
     return (
-        <Pressable onPress={handlePress} style={styles.container} feedback={onPress ? true : false}>
-            {label && <Text style={styles.label}>{label}</Text>}
-            <TextInput
-                ref={(input) => { textInput = input; }}
-                placeholderTextColor={theme.colors.text.secondary}
-                {...props}
-                style={styles.input}
-            />
+        <Pressable onPress={handlePress} style={styles.container} feedback={false} >
+            <View style={{ flexDirection: "column", flexGrow: 1 }}>
+                {label && <Text style={styles.label}>{label}</Text>}
+                <TextInput
+                    ref={(input) => { textInput = input; }}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    placeholderTextColor={theme.colors.text.secondary}
+                    style={styles.input}
+                    {...props}
+                />
+            </View>
+            <View style={{ flexDirection: "column", justifyContent: "flex-end" }}>
+                {rightIcon && <IconButton icon={rightIcon} onPress={rightIconOnPress} style={{}} />}
+            </View>
         </Pressable>
     )
 }
-
-// Properties before ...props will be overwritten if passed in. 
