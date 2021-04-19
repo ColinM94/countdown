@@ -13,24 +13,27 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "components": [
-        "src/components"
-      ],
-      "contexts": [
-        "src/contexts"
-      ],
       "api*": [
         "src/api*"
       ],
-      "screens": [
-        "src/screens"
+      "components*": [
+        "src/components*"
       ],
       "common*": [
         "src/common*"
       ],
-      "navigation": [
-        "src/navigation"
-      ]
+      "contexts*": [
+        "src/contexts*"
+      ],
+      "library*": [
+        "src/library*"
+      ],
+      "navigation*": [
+        "src/navigation*"
+      ],
+      "screens*": [
+        "src/screens*"
+      ],
     },
   },
 }

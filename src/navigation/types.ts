@@ -1,16 +1,21 @@
 import { DrawerNavigationProp } from "@react-navigation/drawer"
 import { RouteProp } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { Event } from "common/types"
 
 // Param types for each screen. 
 export type ScreenParams = {
+    Signin: undefined,
     Drawer: undefined,
     AddEvent: undefined,
     EditEvent: { id: string, event?: Event },
     EventDetails: { id: string, event?: Event },
     EventList: undefined,
     Settings: undefined
+}
+
+export type SigninProps = {
+    navigation: StackNavigationProp<ScreenParams, 'Signin'>,
+    route: RouteProp<ScreenParams, 'Signin'>
 }
 
 export type EventDetailsProps = {

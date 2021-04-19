@@ -1,5 +1,0 @@
-export { EventDetails } from "./EventDetails"
-export { AddEvent } from "./AddEvent"
-export { EventList } from "./EventList"
-export { Settings } from "./Settings"
-export { EditEvent } from "./EditEvent"

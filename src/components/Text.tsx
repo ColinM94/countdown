@@ -10,6 +10,7 @@ type TextProps = TextProperties & {
     h3?: boolean,
     subtitle?: boolean,
     body?: boolean,
+    input?: boolean,
     button?: boolean,
     caption?: boolean,
     overline?: boolean,
@@ -25,6 +26,7 @@ export const Text = (props: TextProps) => {
         if (h3) return theme.typography.h3
         if (subtitle) return theme.typography.subtitle
         if (body) return theme.typography.body
+        if (input) return theme.typography.input
         if (button) return theme.typography.button
         if (caption) return theme.typography.caption
         if (overline) return theme.typography.overline

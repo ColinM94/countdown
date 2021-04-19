@@ -1,35 +1,48 @@
 import * as React from 'react'
 import { StyleSheet, View, Image } from 'react-native'
-import { FontAwesomeIcon, FontAwesomeIconStyle } from "@fortawesome/react-native-fontawesome"
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { EventsProps } from 'navigation/types'
+import { useTheme } from 'contexts/ThemeContext'
+import { useToast } from 'contexts/ToastContext'
+import { useLoading } from 'contexts/LoadingContext'
+import { Card } from 'library/Card'
+import { ScreenView } from 'library/ScreenView'
+import { Text } from "library/Text"
+import { Event } from "common/types"
+import { getEvents } from 'api/firestore'
 
-import { Card, Text, ScreenView, Timer, Button } from "components"
-import { EventsProps } from "navigation"
-import { getEvents } from "api"
-import { useTheme, useToast, useLoading } from "contexts"
-import { Event } from "src/common/types"
-import { formatDate } from 'common/helpers'
+const data = [
+    {
+        id: 1,
+        title: "Event 1",
+        subtitle: "Event 1 subtitle",
+        date: new Date()
+    },
+    {
+        id: 2,
+        title: "Event 2",
+        subtitle: "Event 2 subtitle",
+        date: new Date()
+    },
+    {
+        id: 3,
+        title: "Event 3",
+        subtitle: "Event 3 subtitle",
+        date: new Date()
+    },
+    {
+        id: 4,
+        title: "Event 4",
+        subtitle: "Event 4 subtitle",
+        date: new Date()
+    }
+]
 
 export const EventList = ({ navigation, route }: EventsProps) => {
-    const [events, setEvents] = React.useState<Event[] | []>([])
-
+    const [events, setEvents] = React.useState<Event[]>()
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
-
-    React.useEffect(() => {
-        loadData()
-    }, [])
-
-    const loadData = async () => {
-        loading(true)
-        try {
-            const events = await getEvents()
-            setEvents(events)
-        } catch (error) {
-            alert(showToast(error.message))
-        }
-        loading(false)
-    }
 
     const styles = StyleSheet.create({
         itemName: {
@@ -45,28 +58,39 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     }
 
     const eventItem = ({ item }: { item: Event }) => (
-        <Card
-            style={{ borderLeftColor: item.color ?? "white", borderLeftWidth: theme.spacing(), padding: 0 }}
-            direction="row"
-            onPress={() => handlePress(item.id, item)}
-        >
-            <View style={{ flexDirection: "column"/* , marginLeft: theme.spacing(0.5) */ }}>
-                <Image source={require('../../assets/test.png')} style={{ height: 60, width: 60 }} />
-            </View>
-            <View style={{ flexDirection: "column", marginLeft: theme.spacing(2) }}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
-            </View>
-            <View style={{ flexDirection: "column", marginLeft: "auto" }}>
-                <FontAwesomeIcon icon="chevron-right" size={24} color={theme.colors.text.secondary} />
+        <Card direction="row" onPress={() => {}} style={{marginBottom: 0}}>
+            <View>
+                <Text h3>{item.name}</Text>
             </View>
         </Card>
-    )
+    )   
+
+    React.useEffect(() => {
+        loadData()
+    }, [])
+
+    const loadData = async () => {
+        let data = await getEvents()
+        setEvents(data)
+    }
 
     return (
-        <ScreenView onRefresh={loadData} data={events} renderItem={eventItem}>
-            <Card title="No Events Found!" />
+        <ScreenView data={events} renderItem={eventItem}>
+
         </ScreenView>
+
+
+/*         <ScreenView>
+            <Card>
+                <Text overline>Overline</Text>
+                <Text h1>Heading 1</Text>
+                <Text body>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </Text>
+            </Card>
+        </ScreenView> */
+       
 
     )
 }

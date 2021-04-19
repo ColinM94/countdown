@@ -6,14 +6,14 @@ module.exports = function(api) {
       [
         "module-resolver",
         {
-          extensions: ['.tsx'],
           alias: {
             components: "./src/components",
             contexts: "./src/contexts",
             api: "./src/api",
             screens: "./src/screens",
             common: "./src/common",
-            navigation: "./src/navigation"
+            navigation: "./src/navigation",
+            library: "./src/library"
           },
         },
       ],

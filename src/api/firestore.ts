@@ -1,15 +1,14 @@
-import { db, Doc, DocData } from "./firebase"
+import { db, FirestoreDoc, FirestoreDocData } from "./config"
 import { Event } from "src/common/types"
 
 // Convert firebase docs to objects. 
-function docToEvent(doc: Doc) {
-    let data: DocData = doc.data()
+function docToEvent(doc: FirestoreDoc) {
+    let data: FirestoreDocData = doc.data()
 
     let event: Event = {
         id: doc.id,
         name: data?.name,
         date: data?.date.toDate(),
-        color: data?.color
     }
 
     return event
@@ -62,7 +61,6 @@ export async function updateEvent(event: Event) {
     await db.collection("events").doc(event.id).update({
         name: event.name,
         date: event.date,
-        color: event.color
     })
 }
 

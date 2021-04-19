@@ -19,37 +19,3 @@ export function formatTime(date: Date) {
         //alert(error.message)
     }
 }
-
-export function timeSince(date: Date) {
-    var seconds = Math.floor((new Date() - date) / 1000)
-
-    const years = Math.floor(seconds / 31536000)
-    seconds %= 31536000
-
-    const months = Math.floor(seconds / 2678400)
-    seconds %= 2678400
-
-    const days = Math.floor(seconds / 86400)
-    seconds %= 86400
-
-    const hours = Math.floor(seconds / 3600)
-    seconds %= 3600
-
-    const minutes = Math.floor(seconds / 60)
-    seconds %= 60
-
-    let yearsString = years == 0 ? "" : `${years} years `
-    let monthsString = months == 0 ? "" : `${months} months `
-    let daysString = days == 0 ? "" : `${days} days `
-    let hoursString = hours == 0 ? "" : `${hours} hours `
-    let secondsString = seconds == 0 ? "" : `${seconds} seconds`
-
-    return yearsString + monthsString + daysString + hoursString + secondsString
-}
-
-export async function timer(date: Date) {
-    setTimeout(() => {
-        timer(date)
-    }, 1000)
-}
-

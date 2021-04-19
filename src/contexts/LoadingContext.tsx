@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ActivityIndicator, StyleSheet, View, Dimensions } from "react-native"
+import { ActivityIndicator, StyleSheet } from "react-native"
 
 type LoadingProviderProps = {
     children: JSX.Element | JSX.Element[]
@@ -15,7 +15,7 @@ export const useLoading = () => {
     return React.useContext(LoadingContext)
 }
 
-export function LoadingProvider({ children }: LoadingProviderProps) {
+export const LoadingProvider = ({ children }: LoadingProviderProps) => {
     const [isLoading, setIsLoading] = React.useState(false)
 
     const loading = (active: boolean) => {
