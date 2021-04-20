@@ -24,7 +24,7 @@ export const Main = () => {
             <ToastProvider>
                 <LoadingProvider>
                     <AuthProvider>
-                        <StatusBar style="light"/>
+                        <StatusBar style="light" translucent={true}/>
                         <Navigation />
                     </AuthProvider>
                 </LoadingProvider>

@@ -1,5 +1,5 @@
 // Types.
-export type Event = {
+export type eventInfo = {
     id: string,
     name: string,
     date: Date,

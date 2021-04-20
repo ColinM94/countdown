@@ -1,16 +1,17 @@
 import * as React from "react"
-import { StyleSheet, View } from "react-native"
-import { Text } from "./Text"
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
+import { Text } from "library/Text"
 import dayjs from "dayjs"
 import { formatDate, formatTime } from "common/helpers"
-import { useLoading, useTheme } from "contexts"
-import { Divider } from "components"
+import { Divider } from "library/Divider"
 import { Slider } from "react-native-elements"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { useTheme } from "contexts/ThemeContext"
+import { useLoading } from "contexts/LoadingContext"
 
 type TimerProps = {
     date: Date,
-    style?: {},
+    style?: StyleProp<ViewStyle>,
     title?: string
 }
 
@@ -113,23 +114,23 @@ export const Timer = ({ date, style, title }: TimerProps) => {
     const styles = StyleSheet.create({
         container: {
             alignItems: "center"
-            /*             backgroundColor: 'rgba(0, 0, 0, 0.1 )',
-                        borderRadius: 60 */
-
         },
         text: {
             textShadowColor: 'rgba(0, 0, 0, 1)',
-            textShadowOffset: { width: 1, height: 1 },
-            textShadowRadius: 20,
+            textShadowOffset: { width: 2, height: 2 },
+            textShadowRadius: 10,
         },
         number: {
-            marginLeft: theme.spacing()
+            marginLeft: theme.spacing.primary
         },
         letter: {
-            marginRight: theme.spacing()
+            marginRight: theme.spacing.primary
         },
         title: {
-            marginVertical: theme.spacing()
+            marginVertical: theme.spacing.primary
+        },
+        date: {
+            marginBottom: theme.spacing.primary
         },
         row: {
             width: "80%",
@@ -152,9 +153,9 @@ export const Timer = ({ date, style, title }: TimerProps) => {
     })
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             <Text h1 style={[styles.text, styles.title]}>{title}</Text>
-            <Text body>{formatDate(date)}</Text>
+            <Text body style={[styles.text, styles.date]}>{formatDate(date)}</Text>
             <View style={styles.row}>
                 {showYears &&
                     <Text style={styles.text}>
@@ -204,7 +205,7 @@ export const Timer = ({ date, style, title }: TimerProps) => {
                     allowTouchTrack={true}
                 />
             </View>
-            <Divider />
+
         </View>
     )
 }

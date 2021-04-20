@@ -49,13 +49,12 @@ export const ScreenView = ({ children, onRefresh, data, renderItem, headerCompon
                 />
                 :
                 <ScrollView
-                    contentContainerStyle={styles.container}
+                    contentContainerStyle={[styles.container, style]}
                     keyboardShouldPersistTaps='always'
                     refreshControl={
                         // Enables refresh functionality if a function has been passed in as onRefresh.  
                         <RefreshControl onRefresh={onRefresh} refreshing={false} enabled={onRefresh != undefined} />
                     }
-                    style={style}
                 >
                     {children}
                 </ScrollView>}

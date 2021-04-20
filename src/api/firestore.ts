@@ -1,11 +1,11 @@
 import { db, FirestoreDoc, FirestoreDocData } from "./config"
-import { Event } from "src/common/types"
+import { eventInfo } from "src/common/types"
 
 // Convert firebase docs to objects. 
 function docToEvent(doc: FirestoreDoc) {
     let data: FirestoreDocData = doc.data()
 
-    let event: Event = {
+    let event: eventInfo = {
         id: doc.id,
         name: data?.name,
         date: data?.date.toDate(),
@@ -48,7 +48,7 @@ export async function getEvent(id: string) {
 export async function getEvents() {
     const docs = await db.collection("events").orderBy("date", "desc").get()
 
-    const events: Array<Event> = []
+    const events: Array<eventInfo> = []
 
     docs.forEach(doc => {
         events.push(docToEvent(doc))
@@ -57,7 +57,7 @@ export async function getEvents() {
     return events
 }
 
-export async function updateEvent(event: Event) {
+export async function updateEvent(event: eventInfo) {
     await db.collection("events").doc(event.id).update({
         name: event.name,
         date: event.date,

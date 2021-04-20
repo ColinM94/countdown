@@ -8,12 +8,12 @@ import { useLoading } from 'contexts/LoadingContext'
 import { Card } from 'library/Card'
 import { ScreenView } from 'library/ScreenView'
 import { Text } from "library/Text"
-import { Event } from "common/types"
+import { eventInfo } from "common/types"
 import { getEvents } from 'api/firestore'
 import { formatDate } from 'common/helpers'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
-    const [events, setEvents] = React.useState<Event[]>()
+    const [events, setEvents] = React.useState<eventInfo[]>()
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
@@ -27,11 +27,11 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         },
     })
 
-    const eventItem = ({ item }: { item: Event }) => (
+    const eventItem = ({ item }: { item: eventInfo }) => (
         <Card 
             direction="row" 
             style={{marginBottom: 0}}
-            onPress={() => navigation.navigate("EventDetails", item)} 
+            onPress={() => navigation.navigate("EventDetails", { id: item.id, eventInfo: item })} 
         >
             <View>
                 <Text h3>{item.name}</Text>
@@ -45,8 +45,12 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     }, [])
 
     const loadData = async () => {
-        let data = await getEvents()
-        setEvents(data)
+        try {
+            let data = await getEvents()
+            setEvents(data)
+        } catch (err) {
+            showToast(err.message)
+        }
     }
 
     return (

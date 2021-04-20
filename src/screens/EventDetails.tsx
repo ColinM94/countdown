@@ -9,13 +9,13 @@ import { Text } from "library/Text"
 import { Card } from 'library/Card'
 import { Timer } from 'components/Timer'
 import { IconButton } from 'library/IconButton'
+import { StatusBar } from 'expo-status-bar'
 
 export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
-
-    console.log(route.params)
+    const [eventInfo, setEventInfo] = React.useState(route.params.eventInfo)
 
     const styles = StyleSheet.create({
         text: {
@@ -36,6 +36,9 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
             flexDirection: "row",
             width: 125,
             justifyContent: "space-around"
+        },
+        backgroundImage: {
+            flex: 1,
         }
     })
 /* 
@@ -50,13 +53,11 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     }, [navigation])  */
 
     return (
-        <ScreenView>
-            <Text>Event Details</Text>
-            <Card style={{ flex: 1, justifyContent: "space-around", padding: theme.spacing.primary, borderRadius: 0 }}>
-                {/* <ImageBackground source={require("../../assets/test2.png")} style={{ height: "100%", width: "100%", flex: 1, resizeMode: "cover", justifyContent: "center", alignItems: "center" }}> */}
-                     {/* <Timer date={route.params.date} title={route.params.name} /> */}
-               {/* </ImageBackground> */}
-            </Card>  
+        <ScreenView style={{padding: 0}}>
+            <StatusBar hidden={true}/>
+            <ImageBackground source={require("../../assets/test2.png")} style={styles.backgroundImage}> 
+                <Timer title={eventInfo.name} date={eventInfo.date} style={{marginTop: "45%"}}/>
+            </ImageBackground> 
         </ScreenView >
     )
 }
