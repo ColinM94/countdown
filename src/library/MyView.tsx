@@ -54,31 +54,15 @@ export const MyView = ({ children, onPress, style, feedbackColor, mb, direction 
     })
 
     return (
-        <>
-            {
-                feedbackEnabled &&
-                <View style={[flattenStyle, styles.rippleFix]}>
-                    <TouchableNativeFeedback
-                        onPress={onPress}
-                        background={TouchableNativeFeedback.Ripple(onPress ? feedbackColor ?? theme.colors.accent : "rgba(0,0,0,0)", false)}
-                        style={styles.touchable}
-
-                        {...rest}
-                    >
-                        {children}
-                    </TouchableNativeFeedback>
-                </View>
-            }
-            {
-                !feedbackEnabled &&
-                <TouchableWithoutFeedback
-                    style={[style, { flexDirection: direction }]}
-                    onPress={onPress}
-                    {...rest}
-                >
-                    {children}
-                </TouchableWithoutFeedback>
-            }
-        </>
+        <View style={[flattenStyle, styles.rippleFix]}>
+            <TouchableNativeFeedback
+                onPress={onPress}
+                background={feedbackEnabled ? TouchableNativeFeedback.Ripple(onPress ? feedbackColor ?? theme.colors.accent : "rgba(0,0,0,0)", false) : undefined}
+                style={styles.touchable}
+                {...rest}
+            >
+                {children}
+            </TouchableNativeFeedback>
+        </View>
     )
 }

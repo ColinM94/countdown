@@ -10,33 +10,7 @@ import { ScreenView } from 'library/ScreenView'
 import { Text } from "library/Text"
 import { Event } from "common/types"
 import { getEvents } from 'api/firestore'
-
-const data = [
-    {
-        id: 1,
-        title: "Event 1",
-        subtitle: "Event 1 subtitle",
-        date: new Date()
-    },
-    {
-        id: 2,
-        title: "Event 2",
-        subtitle: "Event 2 subtitle",
-        date: new Date()
-    },
-    {
-        id: 3,
-        title: "Event 3",
-        subtitle: "Event 3 subtitle",
-        date: new Date()
-    },
-    {
-        id: 4,
-        title: "Event 4",
-        subtitle: "Event 4 subtitle",
-        date: new Date()
-    }
-]
+import { formatDate } from 'common/helpers'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
     const [events, setEvents] = React.useState<Event[]>()
@@ -53,14 +27,15 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         },
     })
 
-    const handlePress = (id: string, item: Event) => {
-        navigation.navigate("EventDetails", { id: id, event: item })
-    }
-
     const eventItem = ({ item }: { item: Event }) => (
-        <Card direction="row" onPress={() => {}} style={{marginBottom: 0}}>
+        <Card 
+            direction="row" 
+            style={{marginBottom: 0}}
+            onPress={() => navigation.navigate("EventDetails", item)} 
+        >
             <View>
                 <Text h3>{item.name}</Text>
+                <Text subtitle2>{formatDate(item.date)}</Text>
             </View>
         </Card>
     )   

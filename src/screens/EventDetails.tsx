@@ -1,16 +1,21 @@
 import * as React from 'react'
-import { StyleSheet } from "react-native"
+import { ImageBackground, StyleSheet } from "react-native"
 import { EventDetailsProps } from 'navigation/types'
 import { useLoading } from 'contexts/LoadingContext'
 import { useTheme } from 'contexts/ThemeContext'
 import { useToast } from 'contexts/ToastContext'
 import { ScreenView } from 'library/ScreenView'
 import { Text } from "library/Text"
+import { Card } from 'library/Card'
+import { Timer } from 'components/Timer'
+import { IconButton } from 'library/IconButton'
 
 export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
+
+    console.log(route.params)
 
     const styles = StyleSheet.create({
         text: {
@@ -33,27 +38,25 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
             justifyContent: "space-around"
         }
     })
-
-    /* React.useLayoutEffect(() => {
+/* 
+    React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () =>
                 <IconButton
                     onPress={() => { navigation.navigate("EditEvent", { id: id, event: event }) }}
                     icon="pencil-alt"
-                    iconStyle={{ color: theme.colors.text.main }}
-                    containerStyle={{ marginRight: theme.spacing.primary }}
                 />
         })
-    }, [navigation]) */
+    }, [navigation])  */
 
     return (
         <ScreenView>
             <Text>Event Details</Text>
-{/*             <Card style={{ flex: 1, justifyContent: "space-around", padding: theme.spacing(0), borderRadius: 0 }}>
-                <ImageBackground source={require("../../assets/test2.png")} style={{ height: "100%", width: "100%", flex: 1, resizeMode: "cover", justifyContent: "center", alignItems: "center" }}>
-                    <Timer date={date} title={name} />
-                </ImageBackground>
-            </Card> */}
+            <Card style={{ flex: 1, justifyContent: "space-around", padding: theme.spacing.primary, borderRadius: 0 }}>
+                {/* <ImageBackground source={require("../../assets/test2.png")} style={{ height: "100%", width: "100%", flex: 1, resizeMode: "cover", justifyContent: "center", alignItems: "center" }}> */}
+                     {/* <Timer date={route.params.date} title={route.params.name} /> */}
+               {/* </ImageBackground> */}
+            </Card>  
         </ScreenView >
     )
 }

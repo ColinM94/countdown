@@ -9,7 +9,7 @@ export async function signIn(email: string, password: string) {
     await auth.signInWithEmailAndPassword(email, password)
 }
 
-export async function setResetPasswordEmail(email: string) {
+export async function sendResetPasswordEmail(email: string) {
     await auth.sendPasswordResetEmail(email)
 }
 

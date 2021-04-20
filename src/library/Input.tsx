@@ -39,9 +39,8 @@ export const Input = (props: InputProps) => {
             padding: theme.spacing.primary,
             paddingTop: label ? theme.spacing.tertiary : undefined,
             marginBottom: theme.spacing.primary,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: theme.roundness
+            borderRadius: theme.roundness,
+            elevation: theme.elevation.card
         },
         label: {
             fontSize: 14,
@@ -49,8 +48,7 @@ export const Input = (props: InputProps) => {
             color: theme.colors.text.secondary
         },
         input: {
-            flexGrow: 1,
-
+            flexGrow: 1
         },
         rightIcon: {
             alignSelf: "center",
@@ -84,17 +82,6 @@ export const Input = (props: InputProps) => {
     return (
         <MyView direction="row" onPress={handlePress} feedbackEnabled={false} style={[styles.container, containerStyle]}>
                 {label &&
-                    /*                 <View
-                                        style={{
-                                            justifyContent: "center",
-                                            borderRightWidth: 1,
-                                            borderRightColor: theme.colors.accent,
-                                            paddingRight: theme.spacing.tertiary,
-                                            marginRight: theme.spacing.primary,
-                                            width: 100
-                                        }}>
-                                        <Text subtitle2 style={styles.label}>{label}</Text>
-                                    </View> */
                     <Text subtitle>{label}</Text>
                 }
                 {leftIcon &&
