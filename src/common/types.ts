@@ -1,6 +1,6 @@
 // Types.
 export type EventInfo = {
-    id: string,
+    id?: string,
     name: string,
     date: Date,
 }

@@ -1,14 +1,16 @@
 import * as React from "react"
-import { StyleProp, StyleSheet, ViewStyle } from "react-native"
+import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
 import { MyView, MyViewProps } from "./MyView"
 import { Text } from "./Text"
 
-type ButtonProps = MyViewProps & {
-    title: string
+export interface ButtonProps extends MyViewProps {
+    title?: string
+    placeholder?: string
+    textStyle?: StyleProp<TextStyle>
 }
 
-export const Button = ({ title, style, onPress }: ButtonProps) => {
+export const Button = ({ title, style, textStyle, placeholder, onPress }: ButtonProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -26,8 +28,8 @@ export const Button = ({ title, style, onPress }: ButtonProps) => {
         <MyView
             style={[styles.button, style]}
             onPress={onPress}
-        >
-            <Text button style={styles.text}>{title}</Text>
+        >     
+            <Text button style={[styles.text, textStyle]}>{title}</Text>
         </MyView>
     )
 }

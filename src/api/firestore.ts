@@ -33,8 +33,8 @@ function docToEvent(doc: FirestoreDoc) {
 }
  */
 // Event.
-export async function addEvent(name: string, date: Date, color: string) {
-    await db.collection("events").add({ name, date, color })
+export async function addEvent(eventInfo: EventInfo) {
+    await db.collection("events").add(eventInfo)
 }
 
 export async function getEvent(id: string) {

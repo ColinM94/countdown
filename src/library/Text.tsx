@@ -13,7 +13,6 @@ type TextProps = RNTextProps & {
     subtitle2?: boolean,
     input?: boolean,
     button?: boolean,
-    style?: StyleProp<TextStyle>,
     children?: React.ReactNode | React.ReactNode[]
 }
 

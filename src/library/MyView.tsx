@@ -16,9 +16,16 @@ export interface MyViewProps extends TouchableWithoutFeedbackProps {
     mb?: number
     /** Enable/Disable onPress feedback. Default is true.  */
     feedbackEnabled?: boolean
+    /** 
+        * 'auto': The View can be the target of touch events.
+        * 'none': The View is never the target of touch events.
+        * 'box-none': The View is never the target of touch events but its subviews can be. 
+        * 'box-only': The view can be the target of touch events but its subviews cannot be.
+    */
+    pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto'
 }
 
-export const MyView = ({ children, onPress, style, feedbackColor, mb, direction = "column", feedbackEnabled = true, ...rest }: MyViewProps) => {
+export const MyView = ({ children, onPress, style, feedbackColor, mb, direction = "column", feedbackEnabled = true, pointerEvents="auto", ...rest }: MyViewProps) => {
     const { theme } = useTheme()
 
     // Combines objects in style array into one object. 
@@ -55,12 +62,12 @@ export const MyView = ({ children, onPress, style, feedbackColor, mb, direction 
         <View style={[flattenStyle, styles.rippleFix]}>
             <TouchableNativeFeedback
                 onPress={onPress}
-                background={undefined}
+                background={feedbackEnabled ? TouchableNativeFeedback.Ripple(onPress ? feedbackColor ?? theme.colors.accent : "rgba(0,0,0,0)", false) : undefined}
                 style={styles.touchable}
                 delayLongPress={200}
                 {...rest}
             >
-                <View style={styles.touchable}>
+                <View style={styles.touchable}  pointerEvents={pointerEvents}>
                     {children}
                 </View>
             </TouchableNativeFeedback>

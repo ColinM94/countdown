@@ -35,6 +35,7 @@ type Theme = {
         subtitle: StyleProp<TextStyle>,
         subtitle2: StyleProp<TextStyle>,
         input: StyleProp<TextStyle>,
+        placeholder: StyleProp<TextStyle>,
         button: StyleProp<TextStyle>,
     },
     icon: {
@@ -118,6 +119,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
                 fontSize: 16,
                 letterSpacing: 0.5,
                 color: colors.text.primary,
+            },
+            placeholder: {
+                fontSize: 16,
+                letterSpacing: 0.5,
+                color: colors.text.tertiary
             },
             button: {
                 fontSize: 14,

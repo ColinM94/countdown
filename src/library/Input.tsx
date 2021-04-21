@@ -8,6 +8,7 @@ import { ViewStyle } from "react-native"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { MyView } from "./MyView"
 import { IconButton } from "./IconButton"
+import { Button } from "./Button"
 
 export interface InputProps extends TextInputProps {
     label?: string
@@ -61,13 +62,10 @@ export const Input = (props: InputProps) => {
     })
 
     const handlePress = () => {
-        if (onPress) {
-            setFocused(true)
-            onPress()
-        } else {
-            inputRef?.blur()
-            inputRef?.focus()
-        }
+        onPress && onPress()
+        setFocused(true)
+        inputRef?.blur()
+        inputRef?.focus()
     }
 
     const handleFocus = () => {
@@ -77,10 +75,21 @@ export const Input = (props: InputProps) => {
     const handleBlur = () => {
         setFocused(false)
     } 
+
+    const handleTextChange = (text: string) => {
+        setValue && setValue(text)
+    }
+
     //{label && <Text subtitle2 style={styles.label}>{label}</Text>}
 
     return (
-        <MyView direction="row" onPress={handlePress} feedbackEnabled={false} style={[styles.container, containerStyle]}>
+        <MyView 
+            direction="row" 
+            onPress={handlePress} 
+            feedbackEnabled={false} 
+            style={[styles.container, containerStyle]} 
+            pointerEvents={onPress ? "box-only" : "auto"}
+        >
                 {label &&
                     <Text subtitle>{label}</Text>
                 }
@@ -95,9 +104,11 @@ export const Input = (props: InputProps) => {
             <TextInput
                 placeholderTextColor={theme.colors.text.tertiary}
                 style={[styles.input, theme.typography.input, style]}
+                onChangeText={handleTextChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur} 
                 ref={r => inputRef = r}
+                showSoftInputOnFocus={onPress ? true : undefined} 
                 {...rest}
             />
             {rightIcon &&

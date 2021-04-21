@@ -9,7 +9,7 @@ import { Card } from 'library/Card'
 import { ScreenView } from 'library/ScreenView'
 import { Text } from "library/Text"
 import { EventInfo } from "common/types"
-import { getEvents } from 'api/firestore'
+import { deleteEvent, getEvents } from 'api/firestore'
 import { formatDate } from 'common/helpers'
 import { Button } from 'library/Button'
 import { MyView } from 'library/MyView'
@@ -20,6 +20,8 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
+    const [selectedItemId, setSelectedItemId] = React.useState<string | undefined>()
+    const [selectedItemName, setSelectedItemName] = React.useState<string | undefined>()
 
     const styles = StyleSheet.create({
         itemName: {
@@ -70,7 +72,11 @@ export const EventList = ({ navigation, route }: EventsProps) => {
             direction="row" 
             style={{marginBottom: 0}}
             onPress={() => navigation.navigate("EventDetails", { id: item.id, EventInfo: item })} 
-            onLongPress={() => setModalVisible(true)}
+            onLongPress={() => {
+                setSelectedItemId(item.id)
+                setSelectedItemName(item.name)
+                setModalVisible(true)
+            }}
         >
             <View>
                 <Text h3>{item.name}</Text>
@@ -92,6 +98,12 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         }
     }
 
+    const handleDelete = async () => {
+        await deleteEvent(selectedItemId)
+        loadData()
+        setModalVisible(false)
+    }
+
     return (
         <>
         <Modal
@@ -103,14 +115,21 @@ export const EventList = ({ navigation, route }: EventsProps) => {
                 }}
             >
                 <View style={styles.modal}>
-                    <Text>I am a modal</Text>
+                    <Text h3 style={{marginBottom: 16}}>{selectedItemName}</Text>
                     <View style={{flexDirection: "row", marginTop: "auto"}}>
-                        <Button title="Delete" style={{marginRight: 12}}/>
-                        <Button title="Cancel" onPress={() => setModalVisible(false)} />
+                        <Button 
+                            title="Delete" 
+                            onPress={handleDelete}
+                            style={{marginRight: 12, backgroundColor: "red"}} 
+                        />
+                        <Button 
+                            title="Cancel" 
+                            onPress={() => setModalVisible(false)} 
+                        />
                     </View>
                 </View>
         </Modal>
-        <ScreenView data={events} renderItem={eventItem}>
+        <ScreenView data={events} renderItem={eventItem} onRefresh={loadData}>
 
         </ScreenView>
         </>
