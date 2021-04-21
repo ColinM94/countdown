@@ -15,7 +15,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
-    const [eventInfo, setEventInfo] = React.useState(route.params.eventInfo)
+    const [EventInfo, setEventInfo] = React.useState(route.params.EventInfo)
 
     const styles = StyleSheet.create({
         text: {
@@ -56,7 +56,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         <ScreenView style={{padding: 0}}>
             <StatusBar hidden={true}/>
             <ImageBackground source={require("../../assets/test2.png")} style={styles.backgroundImage}> 
-                <Timer title={eventInfo.name} date={eventInfo.date} style={{marginTop: "45%"}}/>
+                <Timer title={EventInfo.name} date={EventInfo.date} style={{marginTop: "45%"}}/>
             </ImageBackground> 
         </ScreenView >
     )

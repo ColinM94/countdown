@@ -160,8 +160,7 @@ export const Navigation = () => {
                                 }}
                             />
                         </>
-                    }
-                    
+                    }        
                 </Stack.Navigator>
             </NavigationContainer >
         </View>

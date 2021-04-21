@@ -1,6 +1,6 @@
 
 import * as React from "react"
-import { StyleSheet, View } from "react-native"
+import { Alert, Modal, StyleSheet, View } from "react-native"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 import { useTheme } from "contexts/ThemeContext"
@@ -105,8 +105,8 @@ export const Signin = (props: SigninProps) => {
             
         },
         title: {
-            marginTop: 28,
-            marginBottom: 36,
+            marginTop: 56,
+            marginBottom: 40,
             marginLeft: "auto",
             marginRight: "auto"
         },
@@ -119,7 +119,7 @@ export const Signin = (props: SigninProps) => {
             marginRight: 10,
         },
         button: {
-            marginTop: theme.spacing.primary
+            
         },
         bottomText: {
             marginTop: 20,
@@ -136,78 +136,79 @@ export const Signin = (props: SigninProps) => {
     })
 
     return (
-        <ScreenView style={{padding: theme.spacing.primary}}>
-            <MyView direction="row" style={styles.title}>
-                <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
-                    <FontAwesomeIcon icon="clock" size={56} color={theme.colors.primary}/>
+        <>
+            <ScreenView style={{padding: theme.spacing.primary}}>
+                <MyView direction="row" style={styles.title}>
+                    <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
+                        <FontAwesomeIcon icon="clock" size={56} color={theme.colors.primary}/>
+                    </View>
+                    <View>
+                        <Text h1 style={{fontSize: 36}}>Countdown</Text>
+                        <Text subtitle>Track your important events</Text> 
                 </View>
-                <View>
-                    <Text h1 style={{fontSize: 36}}>Countdown</Text>
-                    <Text subtitle>Track your important events</Text> 
-               </View>
-            </MyView>
+                </MyView>
 
-            <Formik
-                initialValues={{ email: "", password: "", name: ""}}
-                onSubmit={ values => handleSubmit(values)}
-            >
-                {({ handleChange, handleBlur, handleSubmit, values }) => (
-                    <>
-                        {currentLayout === "signup" &&
+                <Formik
+                    initialValues={{ email: "colinmaher94@gmail.com", password: "password123", name: ""}}
+                    onSubmit={ values => handleSubmit(values)}
+                >
+                    {({ handleChange, handleBlur, handleSubmit, values }) => (
+                        <>
+                            {currentLayout === "signup" &&
+                                <Input
+                                    placeholder="Name"
+                                    onChangeText={handleChange('name')}
+                                    value={values.name}
+                                    style={styles.input}
+                                />
+                            }
                             <Input
-                                placeholder="Name"
-                                onChangeText={handleChange('name')}
-                                value={values.name}
+                                placeholder="Email"
+                                onChangeText={handleChange('email')}
+                                value={values.email}
                                 style={styles.input}
                             />
-                        }
-                        <Input
-                            placeholder="Email"
-                            onChangeText={handleChange('email')}
-                            value={values.email}
-                            style={styles.input}
-                        />
-                        {currentLayout !== "forgotPassword" &&
-                            <Input
-                                placeholder="Password"
-                                onChangeText={handleChange('password')}
-                                value={values.password}
-                                secureTextEntry={showPassword ? false : true}
-                                rightIcon={showPassword ? "eye" : "eye-slash"}
-                                rightIconOnPress={handleShowPassword}
+                            {currentLayout !== "forgotPassword" &&
+                                <Input
+                                    placeholder="Password"
+                                    onChangeText={handleChange('password')}
+                                    value={values.password}
+                                    secureTextEntry={showPassword ? false : true}
+                                    rightIcon={showPassword ? "eye" : "eye-slash"}
+                                    rightIconOnPress={handleShowPassword}
+                                />
+                            }
+                            <Button 
+                                title={currentLayout==="signin" ? "Sign In" : currentLayout==="signup" ? "Sign Up" : currentLayout==="forgotPassword" ? "Reset Password" : "" } 
+                                onPress={handleSubmit} 
+                                style={styles.button}
                             />
-                        }
-                       
-                        <Button 
-                            title={currentLayout==="signin" ? "Sign In" : currentLayout==="signup" ? "Sign Up" : currentLayout==="forgotPassword" ? "Reset Password" : "" } 
-                            onPress={handleSubmit} 
-                            style={styles.button}
-                        />
-                    </>
-                )}
-            </Formik>    
+                        </>
+                    )}
+                </Formik>    
 
-            {currentLayout === "signin" && 
-                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signup")} feedbackEnabled={false}>
-                    <Text subtitle>Need an account? <Text style={{ fontWeight: "bold" }}>Sign Up.</Text></Text>
-                </MyView>
-            }
-            {currentLayout === "signup" && 
-                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
-                    <Text subtitle>Already have an account? <Text style={{ fontWeight: "bold" }}>Sign In.</Text></Text>
-                </MyView>
-            }
-            {currentLayout === "forgotPassword" && 
-                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
-                    <Text subtitle2>Return to Signin.</Text>
-                </MyView>
-            }
-            {currentLayout=="signin" &&
-                <MyView style={styles.forgotPassword} onPress={() => setCurrentLayout("forgotPassword")} feedbackEnabled={false}>
-                    <Text subtitle2>Forgot password?</Text>
-                </MyView>
-            }   
-        </ScreenView>
+                {currentLayout === "signin" && 
+                    <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signup")} feedbackEnabled={false}>
+                        <Text subtitle>Need an account? <Text style={{ fontWeight: "bold" }}>Sign Up.</Text></Text>
+                    </MyView>
+                }
+                {currentLayout === "signup" && 
+                    <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
+                        <Text subtitle>Already have an account? <Text style={{ fontWeight: "bold" }}>Sign In.</Text></Text>
+                    </MyView>
+                }
+                {currentLayout === "forgotPassword" && 
+                    <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
+                        <Text subtitle>Return to Signin.</Text>
+                    </MyView>
+                }
+                {currentLayout=="signin" &&
+                    <MyView style={styles.forgotPassword} onPress={() => setCurrentLayout("forgotPassword")} feedbackEnabled={false}>
+                        <Text subtitle2>Forgot password?</Text>
+                    </MyView>
+                }   
+            </ScreenView>
+        </>
     )
 }
 

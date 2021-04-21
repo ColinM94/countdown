@@ -25,7 +25,7 @@ export const Button = ({ title, style, onPress }: ButtonProps) => {
     return (
         <MyView
             style={[styles.button, style]}
-            onPress={onPress ?? (() => { })}
+            onPress={onPress}
         >
             <Text button style={styles.text}>{title}</Text>
         </MyView>

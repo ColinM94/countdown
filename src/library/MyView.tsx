@@ -1,10 +1,8 @@
 import * as React from "react"
-import { StyleSheet, View, TouchableWithoutFeedbackProps, ViewProps } from "react-native"
+import { StyleSheet, View, TouchableWithoutFeedbackProps, TouchableNativeFeedback } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
-import { TouchableNativeFeedback, TouchableWithoutFeedback } from "react-native-gesture-handler"
 
-
-export interface MyViewProps extends ViewProps {
+export interface MyViewProps extends TouchableWithoutFeedbackProps {
     onPress?: () => void,
     /** Components rendered inside this view. */
     children?: React.ReactNode | React.ReactNode[]
@@ -16,7 +14,7 @@ export interface MyViewProps extends ViewProps {
     direction?: "row" | "column"
     /** Bottom Margin */
     mb?: number
-    /** Enabled/Disabled onPress feedback. Default is true.  */
+    /** Enable/Disable onPress feedback. Default is true.  */
     feedbackEnabled?: boolean
 }
 
@@ -57,11 +55,14 @@ export const MyView = ({ children, onPress, style, feedbackColor, mb, direction 
         <View style={[flattenStyle, styles.rippleFix]}>
             <TouchableNativeFeedback
                 onPress={onPress}
-                background={feedbackEnabled ? TouchableNativeFeedback.Ripple(onPress ? feedbackColor ?? theme.colors.accent : "rgba(0,0,0,0)", false) : undefined}
+                background={undefined}
                 style={styles.touchable}
+                delayLongPress={200}
                 {...rest}
             >
-                {children}
+                <View style={styles.touchable}>
+                    {children}
+                </View>
             </TouchableNativeFeedback>
         </View>
     )

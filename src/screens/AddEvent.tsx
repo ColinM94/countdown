@@ -33,15 +33,15 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
                 onSubmit={values => handleSubmit(values)}
             >
                 {({ handleChange, handleBlur, handleSubmit, values }) => (
-                    <Card>
+                    <>
                         <Input
-                            label="Title"
+                            placeholder="Title"
                             onChangeText={handleChange('title')}
                             onBlur={() => handleBlur('title')}
                             value={values.title}
                         />
                         <Button title="Create Event" onPress={handleSubmit} />
-                    </Card>
+                    </>
                 )}
             </Formik>
         </ScreenView>

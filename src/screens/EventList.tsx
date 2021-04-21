@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, View, Image } from 'react-native'
+import { StyleSheet, View, Image, Alert, Modal } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { EventsProps } from 'navigation/types'
 import { useTheme } from 'contexts/ThemeContext'
@@ -8,12 +8,15 @@ import { useLoading } from 'contexts/LoadingContext'
 import { Card } from 'library/Card'
 import { ScreenView } from 'library/ScreenView'
 import { Text } from "library/Text"
-import { eventInfo } from "common/types"
+import { EventInfo } from "common/types"
 import { getEvents } from 'api/firestore'
 import { formatDate } from 'common/helpers'
+import { Button } from 'library/Button'
+import { MyView } from 'library/MyView'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
-    const [events, setEvents] = React.useState<eventInfo[]>()
+    const [events, setEvents] = React.useState<EventInfo[]>()
+    const [modalVisible, setModalVisible] = React.useState(false)
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
@@ -25,13 +28,49 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         itemDate: {
             ...theme.typography.subtitle as {}
         },
+        modal: {
+            marginLeft: "auto", 
+            marginRight: "auto", 
+            marginTop: "40%", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            backgroundColor: theme.colors.card, 
+            borderRadius: theme.roundness,
+            borderColor: theme.colors.accent,
+            borderWidth: 1,
+            padding: 24
+        }
     })
 
-    const eventItem = ({ item }: { item: eventInfo }) => (
+    const showAlert = (item: EventInfo) =>
+        Alert.alert(
+            "Alert Title",
+            "My Alert Msg",
+            [
+            {
+                text: "Cancel",
+                onPress: () => Alert.alert("Cancel Pressed"),
+                style: "cancel",
+            },
+            {
+                text: "Delete",
+                onPress: () => showToast("Deleted"),
+                
+            }
+            ],
+            {
+                cancelable: true,
+                onDismiss: () =>
+                    Alert.alert("This alert was dismissed by tapping outside of the alert dialog."),
+            }
+    );
+
+    const eventItem = ({ item }: { item: EventInfo }) => (
         <Card 
             direction="row" 
             style={{marginBottom: 0}}
-            onPress={() => navigation.navigate("EventDetails", { id: item.id, eventInfo: item })} 
+            onPress={() => navigation.navigate("EventDetails", { id: item.id, EventInfo: item })} 
+            onLongPress={() => setModalVisible(true)}
         >
             <View>
                 <Text h3>{item.name}</Text>
@@ -54,9 +93,27 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     }
 
     return (
+        <>
+        <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible)
+                }}
+            >
+                <View style={styles.modal}>
+                    <Text>I am a modal</Text>
+                    <View style={{flexDirection: "row", marginTop: "auto"}}>
+                        <Button title="Delete" style={{marginRight: 12}}/>
+                        <Button title="Cancel" onPress={() => setModalVisible(false)} />
+                    </View>
+                </View>
+        </Modal>
         <ScreenView data={events} renderItem={eventItem}>
 
         </ScreenView>
+        </>
 
 
 /*         <ScreenView>
