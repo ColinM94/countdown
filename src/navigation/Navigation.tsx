@@ -115,7 +115,6 @@ export const Navigation = () => {
                         headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} style={styles.headerIcon} />,
                     
                     })}
-                    initialRouteName="AddEvent"
                 >
                     { !isSignedIn &&
                         <>

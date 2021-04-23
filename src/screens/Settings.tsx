@@ -33,7 +33,7 @@ export function Settings({ navigation, route }: SettingsProps) {
 
     return (
         <ScreenView>
-            <Card direction="row"  onPress={handleDarkModePress}>
+            <Card direction="row" onPress={handleDarkModePress}>
                 <View>
                     <Text h3>Dark Mode</Text>
                     <Text subtitle>Toggle dark theme</Text>

@@ -2,7 +2,7 @@ import * as React from "react"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Formik } from "formik"
 
-import { StyleSheet } from "react-native"
+import { Modal, ModalProps, StyleSheet } from "react-native"
 import { AddEventProps } from "navigation/types"
 import { useToast } from "contexts/ToastContext"
 import { ScreenView } from "library/ScreenView"
@@ -18,14 +18,17 @@ import { MyView } from "library/MyView"
 import { ImagePicker } from "library/ImagePicker"
 import { EventInfo } from "common/types"
 import { useAuth } from "contexts/AuthContext"
+import { useLoading } from "contexts/LoadingContext"
 
-export const AddEvent = ({ navigation, route }: AddEventProps) => {
+export const AddEvent = (props: ModalProps) => {
     const [name, setName] = React.useState("")
     const [date, setDate] = React.useState<Date | undefined>()
 
     const { showToast } = useToast()
     const { theme } = useTheme()
-    const { currentUser } = useAuth()
+    const { userId } = useAuth()
+    const { loading } = useLoading()
+    
     
     const validateForm = () => {
        
@@ -33,6 +36,7 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
     }
 
     const handleSubmit = async () => {
+        loading(true)
         if(name.length < 1) {
             showToast("Please enter a name.") 
             return 
@@ -42,15 +46,14 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
         }
 
         try {
-            await addEvent(currentUser.id, {name, date})
-
+            await addEvent(userId, {name, date})
             setName("")
             setDate(undefined)
-            
             showToast("Event Created")
         } catch(err) {
             showToast(err.message)
         }
+        loading(false)
     }
 
     const styles = StyleSheet.create({
@@ -65,7 +68,7 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
     })
 
     return (
-        <ScreenView>
+        <Modal {...props}>
             <Input 
                 value={name} 
                 setValue={setName} 
@@ -89,6 +92,6 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
                 />
             </View>
             <Button title="Create Event" onPress={handleSubmit} />
-        </ScreenView>
+        </Modal>
     )
 }

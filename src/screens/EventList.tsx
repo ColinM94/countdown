@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { StyleSheet, View, Image, Alert, Modal } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { EventsProps } from 'navigation/types'
 import { useTheme } from 'contexts/ThemeContext'
 import { useToast } from 'contexts/ToastContext'
@@ -9,14 +8,14 @@ import { Card } from 'library/Card'
 import { ScreenView } from 'library/ScreenView'
 import { Text } from "library/Text"
 import { EventInfo } from "common/types"
-import { deleteEvent, getEvents } from 'api/firestore'
+import { deleteEvent } from 'api/firestore'
 import { formatDate } from 'common/helpers'
-import { Button } from 'library/Button'
-import { MyView } from 'library/MyView'
 import { useAuth } from 'contexts/AuthContext'
+import { useStore } from 'contexts/StoreContext'
+import { Button } from 'library/Button'
+import { List } from 'library/List'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
-    const [events, setEvents] = React.useState<EventInfo[]>()
     const [modalVisible, setModalVisible] = React.useState(false)
     const [selectedItemId, setSelectedItemId] = React.useState<string>()
     const [selectedItemName, setSelectedItemName] = React.useState<string>()
@@ -24,7 +23,8 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
-    const { currentUser } = useAuth()
+    const { userId } = useAuth()
+    const { events } = useStore() 
 
     const styles = StyleSheet.create({
         itemName: {
@@ -47,34 +47,11 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         }
     })
 
-    const showAlert = (item: EventInfo) =>
-        Alert.alert(
-            "Alert Title",
-            "My Alert Msg",
-            [
-            {
-                text: "Cancel",
-                onPress: () => Alert.alert("Cancel Pressed"),
-                style: "cancel",
-            },
-            {
-                text: "Delete",
-                onPress: () => showToast("Deleted"),
-                
-            }
-            ],
-            {
-                cancelable: true,
-                onDismiss: () =>
-                    Alert.alert("This alert was dismissed by tapping outside of the alert dialog."),
-            }
-    );
-
     const eventItem = ({ item }: { item: EventInfo }) => (
         <Card 
             direction="row" 
             style={{marginBottom: 0}}
-            onPress={() => navigation.navigate("EventDetails", { id: item.id, EventInfo: item })} 
+            onPress={() => navigation.navigate("EventDetails", { item: item })} 
             onLongPress={() => {
                 setSelectedItemId(item.id)
                 setSelectedItemName(item.name)
@@ -83,33 +60,27 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         >
             <View>
                 <Text h3>{item.name}</Text>
-                <Text subtitle2>{formatDate(item.date)}</Text>
+                <Text subtitle2>{formatDate(item.date)}</Text> 
             </View>
         </Card>
     )   
 
-    React.useEffect(() => {
-        loadData()
-    }, [])
-
-    const loadData = async () => {
-        try {
-            let data = await getEvents(currentUser.id)
-            setEvents(data)
-        } catch (err) {
-            showToast(err.message)
-        }
-    }
-
     const handleDelete = async () => {
-        await deleteEvent(selectedItemId)
-        loadData()
+        loading(true)
+        
+        try {
+            await deleteEvent(userId, selectedItemId)
+        } catch(err) {
+            showToast(err)
+        } 
+        
         setModalVisible(false)
+        loading(false)
     }
 
     return (
         <>
-        <Modal
+          <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
@@ -131,24 +102,8 @@ export const EventList = ({ navigation, route }: EventsProps) => {
                         />
                     </View>
                 </View>
-        </Modal>
-        <ScreenView data={events} renderItem={eventItem} onRefresh={loadData}>
-
-        </ScreenView>
+            </Modal>
+            <List data={events} renderItem={eventItem} />
         </>
-
-
-/*         <ScreenView>
-            <Card>
-                <Text overline>Overline</Text>
-                <Text h1>Heading 1</Text>
-                <Text body>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </Text>
-            </Card>
-        </ScreenView> */
-       
-
     )
 }

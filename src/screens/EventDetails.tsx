@@ -10,12 +10,18 @@ import { Card } from 'library/Card'
 import { Timer } from 'components/Timer'
 import { IconButton } from 'library/IconButton'
 import { StatusBar } from 'expo-status-bar'
+import { useStore } from 'contexts/StoreContext'
+import { db } from 'api/config'
+import { useAuth } from 'contexts/AuthContext'
+import { EventInfo } from 'common/types'
 
 export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
-    const [EventInfo, setEventInfo] = React.useState(route.params.EventInfo)
+    const { events } = useStore()
+    const { userId } = useAuth()
+    const [eventInfo, setEventInfo] = React.useState(route.params.item)
 
     const styles = StyleSheet.create({
         text: {
@@ -41,23 +47,13 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
             flex: 1,
         }
     })
-/* 
-    React.useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () =>
-                <IconButton
-                    onPress={() => { navigation.navigate("EditEvent", { id: id, event: event }) }}
-                    icon="pencil-alt"
-                />
-        })
-    }, [navigation])  */
 
     return (
         <ScreenView style={{padding: 0}}>
             <StatusBar hidden={true}/>
             <ImageBackground source={require("../../assets/test2.png")} style={styles.backgroundImage}> 
-                <Timer title={EventInfo.name} date={EventInfo.date} style={{marginTop: "45%"}}/>
-            </ImageBackground> 
+                <Timer title={eventInfo.name} date={eventInfo.date} style={{marginTop: "45%"}}/> 
+            </ImageBackground>  
         </ScreenView >
     )
 }

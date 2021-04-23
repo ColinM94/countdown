@@ -5,14 +5,11 @@ import { useTheme } from "contexts/ThemeContext"
 
 type ScreenViewProps = {
     children?: React.ReactNode | React.ReactNode[],
+    style?: StyleProp<ViewStyle>,
     onRefresh?: () => void,
-    data?: any[],
-    renderItem?: ListRenderItem<any>,
-    headerComponent?: any,
-    style?: StyleProp<ViewStyle>
 }
 
-export const ScreenView = ({ children, onRefresh, data, renderItem, headerComponent, style }: ScreenViewProps) => {
+export const ScreenView = ({ children, style, onRefresh }: ScreenViewProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -25,39 +22,16 @@ export const ScreenView = ({ children, onRefresh, data, renderItem, headerCompon
         }
     })
 
-    const itemSeparator = () => (
-        <View style={styles.itemSeparator} />
-    )
-
     return (
-        <>
-            {data ?
-                <FlatList
-                    data={data}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id.toString()}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={false}
-                            onRefresh={onRefresh}
-                        />
-                    }
-                    ListHeaderComponent={headerComponent}
-                    ItemSeparatorComponent={itemSeparator}
-                    contentContainerStyle={styles.container}
-                    keyboardShouldPersistTaps='always'
-                />
-                :
-                <ScrollView
-                    contentContainerStyle={[styles.container, style]}
-                    keyboardShouldPersistTaps='always'
-                    refreshControl={
-                        // Enables refresh functionality if a function has been passed in as onRefresh.  
-                        <RefreshControl onRefresh={onRefresh} refreshing={false} enabled={onRefresh != undefined} />
-                    }
-                >
-                    {children}
-                </ScrollView>}
-        </>
+        <ScrollView
+            contentContainerStyle={[styles.container, style]}
+            keyboardShouldPersistTaps='always'
+            refreshControl={
+                // Enables refresh functionality if a function has been passed in as onRefresh.  
+                <RefreshControl onRefresh={onRefresh} refreshing={false} enabled={onRefresh != undefined} />
+            }
+        >
+            {children}
+        </ScrollView>
     )
 }

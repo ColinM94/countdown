@@ -50,7 +50,7 @@ export async function updateEvent(event: EventInfo) {
     })
 }
 
-export async function deleteEvent(id: string) {
-    await db.collection("events").doc(id).delete()
+export async function deleteEvent(userId: string, eventId: string) {
+    await db.collection("users").doc(userId).collection("events").doc(eventId).delete()
 }
 

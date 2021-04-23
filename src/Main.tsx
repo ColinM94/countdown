@@ -14,6 +14,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons"
 import { faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus, faPencilAlt, faArrowLeft, faChevronRight, faCalendar, faClock, faLock, faEnvelope, faUser, faSignOutAlt, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
 import { AuthProvider } from "contexts/AuthContext"
 import { Button } from "library/Button"
+import { StoreProvider } from "contexts/StoreContext"
 
 export const Main = () => {
     LogBox.ignoreLogs(['Setting a timer', 'index.tsx', 'Require cycle'])
@@ -25,8 +26,10 @@ export const Main = () => {
             <ToastProvider>
                 <LoadingProvider>
                     <AuthProvider>
-                        <StatusBar style="light" translucent={true}/>
-                        <Navigation />
+                        <StoreProvider>
+                            <StatusBar style="light" translucent={true}/>
+                            <Navigation />
+                        </StoreProvider>
                     </AuthProvider>
                 </LoadingProvider>
             </ToastProvider>
