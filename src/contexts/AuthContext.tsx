@@ -10,27 +10,32 @@ type AuthProviderProps = {
     children?: JSX.Element | JSX.Element[]
 }
 
-type UseAuthProps = {
-    currentUser: FirebaseUser | null,
+interface UseAuthProps {
     isSignedIn: boolean
+    currentUser?: CurrentUser
+}
+
+interface CurrentUser {
+    id: string,
+    email: string | null
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [currentUser, setCurrentUser] = React.useState<FirebaseUser | null>(null)
     const [isSignedIn, setIsSignedIn] = React.useState(false)
+    const [currentUser, setCurrentUser] = React.useState<CurrentUser>()
 
     React.useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
-            setCurrentUser(user)
-            setIsSignedIn(user ? true : false)
+            setCurrentUser(user ? {id: user?.uid, email: user?.email} : undefined)
+            setIsSignedIn(user ? true : false)      
         })
 
         return unsubscribe
     }, [])
 
     const value: UseAuthProps = {
-        currentUser,
-        isSignedIn
+        isSignedIn,
+        currentUser
     }
 
     return (

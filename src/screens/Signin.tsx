@@ -5,50 +5,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 import { useTheme } from "contexts/ThemeContext"
 import { useToast } from "contexts/ToastContext"
+import { useLoading } from "contexts/LoadingContext"
+import { MyView } from "library/MyView"
 import { ScreenView } from "library/ScreenView"
 import { Text } from "library/Text"
 import { Input } from "library/Input"
 import { Button } from "library/Button"
 import { sendResetPasswordEmail, signIn, signUp } from "api/auth"
 import { SigninProps } from "navigation/types"
-import { useLoading } from "contexts/LoadingContext"
-import { Card } from "library/Card"
-import { MyView } from "library/MyView"
-import { Formik } from "formik"
+import { addUser } from "api/firestore"
 
 export const Signin = (props: SigninProps) => {
-    const [showSignIn, setShowSignIn] = React.useState(true)
-    const [showForgotPassword, setShowForgotPassword] = React.useState(false)
     const [showPassword, setShowPassword] = React.useState(false)
     const [currentLayout, setCurrentLayout] = React.useState<"signin" | "signup" | "forgotPassword">("signin")
-
-    // Contexts.
+    const [email, setEmail] = React.useState("")
+    const [password, setPassword] = React.useState("")
     const { showToast } = useToast()
     const { theme } = useTheme()
     const { loading } = useLoading()
 
-    // Errors.
-    const [emailError, setEmailError] = React.useState(false)
-    const [nameError, setNameError] = React.useState(false)
-    const [passwordError, setPasswordError] = React.useState(false)
-    const [password2Error, setPassword2Error] = React.useState(false)
-
-    // Icons.
-    const iconSize = 24
-    const crossIcon = <FontAwesomeIcon icon="times" size={iconSize} color={"red"} />
-    const tickIcon = <FontAwesomeIcon icon="check" size={iconSize} color={"green"} />
-    const envelopeIcon = <FontAwesomeIcon icon="envelope" size={iconSize} color={theme.icon.color} />
-    const userIcon = <FontAwesomeIcon icon="user" size={iconSize} color={theme.icon.color} />
-    const lockIcon = <FontAwesomeIcon icon="lock" size={iconSize} color={theme.icon.color} />
-
-    // Regex.
-    const emailFormat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
-    const handleShowPassword = () => {
+    const toggleShowPassword = () => {
         setShowPassword(!showPassword) 
     }
 
     const validateEmail = (email: string) => {
+        const emailFormat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (!emailFormat.test(email)) {
             showToast("Invalid email format")
             return false
@@ -64,41 +45,35 @@ export const Signin = (props: SigninProps) => {
         return true
     }
 
-    const validateName = (name: string) => {
-        if (name.length < 1) {
-            showToast("Name too short")
-            return false
-        } 
-        return true
+    const handleSignIn = async () => {
+        if(validateEmail(email) && validatePassword(password)) {
+            await signIn(email, password)
+        }
     }
 
-    const handleSubmit = async ({email, password, name}) => {
+    const handleSignUp = async () => {
+        if(validateEmail(email) && validatePassword(password)) {
+            await signUp(email, password)
+            showToast("Account created :)")
+        }    
+    }
+
+    const handlePasswordReset = async () => {
+        await sendResetPasswordEmail(email)
+        showToast(`Password reset link sent to\n${email}`)
+    }
+
+    const handleSubmit = async () => {
         loading(true)
         try {
-            if(currentLayout === "forgotPassword") {
-                await sendResetPasswordEmail(email)
-                setCurrentLayout("signin")
-                showToast(`Password reset link sent to\n${email}`)
-            } else if (currentLayout === "signin") {
-                if(validateEmail(email) && validatePassword(password)) await signIn(email, password)
-            } else if(currentLayout === "signup") {
-                if(validateEmail(email) && validatePassword(password) && validateName(name)) {
-                    await signUp(email, password)
-                    showToast("Account created :)")
-                }          
-            }
-        } catch(err) {
+            if(currentLayout==="signin") await handleSignIn()
+            else if(currentLayout==="signup") await handleSignUp()
+            else if(currentLayout==="forgotPassword") await handlePasswordReset()
+        } catch (err) {
             showToast(err.message)
         }
         loading(false)
     }
-
-    // Reruns validation if user switches to Signup screen. 
-    React.useEffect(() => {
-        if (!showSignIn) {
-
-        }
-    }, [showSignIn])
 
     const styles = StyleSheet.create({
         input: {
@@ -115,7 +90,7 @@ export const Signin = (props: SigninProps) => {
             marginRight: 16,
         },
         rightIcon: {
-            opacity: showSignIn ? 0 : 100,
+ /*            opacity: showSignIn ? 0 : 100, */
             marginRight: 10,
         },
         button: {
@@ -136,79 +111,60 @@ export const Signin = (props: SigninProps) => {
     })
 
     return (
-        <>
-            <ScreenView style={{padding: theme.spacing.primary}}>
-                <MyView direction="row" style={styles.title}>
-                    <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
-                        <FontAwesomeIcon icon="clock" size={56} color={theme.colors.primary}/>
-                    </View>
-                    <View>
-                        <Text h1 style={{fontSize: 36}}>Countdown</Text>
-                        <Text subtitle>Track your important events</Text> 
+        <ScreenView style={{padding: theme.spacing.primary}}>
+            <MyView direction="row" style={styles.title}>
+                <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
+                    <FontAwesomeIcon icon="clock" size={56} color={theme.colors.primary}/>
                 </View>
+                <View>
+                    <Text h1 style={{fontSize: 36}}>Countdown</Text>
+                    <Text subtitle>Track your important events</Text> 
+            </View>
+            </MyView>
+
+            <Input
+                placeholder="Email"
+                value={email}
+                setValue={setEmail}
+                style={styles.input}
+            />
+            {currentLayout !== "forgotPassword" &&
+                <Input
+                    placeholder="Password"
+                    value={password}
+                    setValue={setPassword}
+                    secureTextEntry={showPassword ? false : true}
+                    rightIcon={showPassword ? "eye" : "eye-slash"}
+                    rightIconOnPress={toggleShowPassword}
+                />
+            }
+            <Button 
+                title={currentLayout==="signin" ? "Sign In" : currentLayout==="signup" ? "Sign Up" : currentLayout==="forgotPassword" ? "Reset Password" : "" } 
+                onPress={handleSubmit} 
+                style={styles.button}
+            />  
+ 
+            {currentLayout === "signin" && 
+                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signup")} feedbackEnabled={false}>
+                    <Text subtitle>Need an account? <Text style={{ fontWeight: "bold" }}>Sign Up.</Text></Text>
                 </MyView>
-
-                <Formik
-                    initialValues={{ email: "colinmaher94@gmail.com", password: "password123", name: ""}}
-                    onSubmit={ values => handleSubmit(values)}
-                >
-                    {({ handleChange, handleBlur, handleSubmit, values }) => (
-                        <>
-                            {currentLayout === "signup" &&
-                                <Input
-                                    placeholder="Name"
-                                    onChangeText={handleChange('name')}
-                                    value={values.name}
-                                    style={styles.input}
-                                />
-                            }
-                            <Input
-                                placeholder="Email"
-                                onChangeText={handleChange('email')}
-                                value={values.email}
-                                style={styles.input}
-                            />
-                            {currentLayout !== "forgotPassword" &&
-                                <Input
-                                    placeholder="Password"
-                                    onChangeText={handleChange('password')}
-                                    value={values.password}
-                                    secureTextEntry={showPassword ? false : true}
-                                    rightIcon={showPassword ? "eye" : "eye-slash"}
-                                    rightIconOnPress={handleShowPassword}
-                                />
-                            }
-                            <Button 
-                                title={currentLayout==="signin" ? "Sign In" : currentLayout==="signup" ? "Sign Up" : currentLayout==="forgotPassword" ? "Reset Password" : "" } 
-                                onPress={handleSubmit} 
-                                style={styles.button}
-                            />
-                        </>
-                    )}
-                </Formik>    
-
-                {currentLayout === "signin" && 
-                    <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signup")} feedbackEnabled={false}>
-                        <Text subtitle>Need an account? <Text style={{ fontWeight: "bold" }}>Sign Up.</Text></Text>
-                    </MyView>
-                }
-                {currentLayout === "signup" && 
-                    <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
-                        <Text subtitle>Already have an account? <Text style={{ fontWeight: "bold" }}>Sign In.</Text></Text>
-                    </MyView>
-                }
-                {currentLayout === "forgotPassword" && 
-                    <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
-                        <Text subtitle>Return to Signin.</Text>
-                    </MyView>
-                }
-                {currentLayout=="signin" &&
-                    <MyView style={styles.forgotPassword} onPress={() => setCurrentLayout("forgotPassword")} feedbackEnabled={false}>
-                        <Text subtitle2>Forgot password?</Text>
-                    </MyView>
-                }   
-            </ScreenView>
-        </>
+            }
+            {currentLayout === "signup" && 
+                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
+                    <Text subtitle>Already have an account? <Text style={{ fontWeight: "bold" }}>Sign In.</Text></Text>
+                </MyView>
+            }
+            {currentLayout === "forgotPassword" && 
+                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
+                    <Text subtitle>Return to Signin.</Text>
+                </MyView>
+            }
+            {currentLayout=="signin" &&
+                <MyView style={styles.forgotPassword} onPress={() => setCurrentLayout("forgotPassword")} feedbackEnabled={false}>
+                    <Text subtitle2>Forgot password?</Text>
+                </MyView>
+            }   
+        </ScreenView>
     )
 }
 

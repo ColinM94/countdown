@@ -13,15 +13,18 @@ import { deleteEvent, getEvents } from 'api/firestore'
 import { formatDate } from 'common/helpers'
 import { Button } from 'library/Button'
 import { MyView } from 'library/MyView'
+import { useAuth } from 'contexts/AuthContext'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
     const [events, setEvents] = React.useState<EventInfo[]>()
     const [modalVisible, setModalVisible] = React.useState(false)
+    const [selectedItemId, setSelectedItemId] = React.useState<string>()
+    const [selectedItemName, setSelectedItemName] = React.useState<string>()
+
     const { theme } = useTheme()
     const { showToast } = useToast()
     const { loading } = useLoading()
-    const [selectedItemId, setSelectedItemId] = React.useState<string | undefined>()
-    const [selectedItemName, setSelectedItemName] = React.useState<string | undefined>()
+    const { currentUser } = useAuth()
 
     const styles = StyleSheet.create({
         itemName: {
@@ -91,7 +94,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
 
     const loadData = async () => {
         try {
-            let data = await getEvents()
+            let data = await getEvents(currentUser.id)
             setEvents(data)
         } catch (err) {
             showToast(err.message)

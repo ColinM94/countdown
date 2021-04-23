@@ -1,7 +1,9 @@
 import { auth } from "./config"
+import { addUser } from "./firestore"
 
 export async function signUp(email: string, password: string) {
-    await auth.createUserWithEmailAndPassword(email, password)
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password)
+    await addUser(userCredential.user.uid)
 }
 
 /** Attempts to sign user in using email and password.  */

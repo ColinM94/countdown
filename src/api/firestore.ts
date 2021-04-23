@@ -14,39 +14,25 @@ function docToEvent(doc: FirestoreDoc) {
     return event
 }
 
-/* export async function eventsListener() {
-    const query = db.collection('events')
-
-    const observer = query.onSnapshot(querySnapshot => {
-        const events: Array<Event> = []
-
-        querySnapshot.forEach(doc => {
-            events.push(docToEvent(doc))
-        })
-
-        return 
-    }, err => {
-        alert(err)
-    })
-
-    return observer
+export async function addUser(userId: string) {
+    await db.collection("users").doc(userId).set({})
 }
- */
+
 // Event.
-export async function addEvent(eventInfo: EventInfo) {
-    await db.collection("events").add(eventInfo)
+export async function addEvent(userId: string, eventInfo: EventInfo) {
+    await db.collection("users").doc(userId).collection("events").add(eventInfo)
 }
 
 export async function getEvent(id: string) {
-    let doc = await db.collection("events").doc(id).get()
+    let doc = await db.collection("users").doc(id).get()
 
     if (!doc.exists) throw Error("Event not found!")
 
     return docToEvent(doc)
 }
 
-export async function getEvents() {
-    const docs = await db.collection("events").orderBy("date", "desc").get()
+export async function getEvents(userId: string) {
+    const docs = await db.collection("users").doc(userId).collection("events").orderBy("date", "desc").get()
 
     const events: Array<EventInfo> = []
 

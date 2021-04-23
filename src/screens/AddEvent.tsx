@@ -17,6 +17,7 @@ import { Text } from "library/Text"
 import { MyView } from "library/MyView"
 import { ImagePicker } from "library/ImagePicker"
 import { EventInfo } from "common/types"
+import { useAuth } from "contexts/AuthContext"
 
 export const AddEvent = ({ navigation, route }: AddEventProps) => {
     const [name, setName] = React.useState("")
@@ -24,18 +25,24 @@ export const AddEvent = ({ navigation, route }: AddEventProps) => {
 
     const { showToast } = useToast()
     const { theme } = useTheme()
+    const { currentUser } = useAuth()
     
+    const validateForm = () => {
+       
+        return true
+    }
+
     const handleSubmit = async () => {
         if(name.length < 1) {
-            showToast("Please enter a name.")
-            return
+            showToast("Please enter a name.") 
+            return 
         } else if(!date) {
             showToast("Please select a date.")
-            return
+            return 
         }
 
         try {
-            await addEvent({name, date})
+            await addEvent(currentUser.id, {name, date})
 
             setName("")
             setDate(undefined)
