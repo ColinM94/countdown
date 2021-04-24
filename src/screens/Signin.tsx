@@ -120,7 +120,7 @@ export const Signin = (props: SigninProps) => {
                 <View>
                     <Text h1 style={{fontSize: 36}}>Countdown</Text>
                     <Text subtitle>Track your important events</Text> 
-            </View>
+                </View>
             </MyView>
 
             <Input
