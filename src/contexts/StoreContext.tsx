@@ -53,7 +53,7 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
             })
 
         return () => unsubscribe()
-    }, [currentUser.id])
+    }, [currentUser])
 
     const value: Value = {
         events

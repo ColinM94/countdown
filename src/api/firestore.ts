@@ -18,8 +18,18 @@ export async function addUser(userId: string) {
     await db.collection("users").doc(userId).set({})
 }
 
-export async function updateUser(userId: string, ) {
+export async function getUser(userId: string) {
+    let doc = await db.collection("users").doc(userId).get()
+    return doc.data()
+}
 
+interface UserData {
+    darkMode?: boolean,
+    dateFormat?: string
+}
+
+export async function updateUser(userId: string, data: UserData) {
+    await db.collection("users").doc(userId).update(data)
 }
 
 // Event.

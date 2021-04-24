@@ -1,5 +1,6 @@
 import * as React from "react"
 import { StyleProp, TextStyle } from "react-native"
+import { useAuth } from "./AuthContext"
 
 type ThemeProviderProps = {
     children?: JSX.Element | JSX.Element[]
@@ -61,7 +62,8 @@ export const useTheme = () => {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-    const [isDark, setIsDark] = React.useState(true)
+    const { currentUser } = useAuth()
+    const [isDark, setIsDark] = React.useState(currentUser.darkMode)
 
     const colors = {
         primary: "#3E84E0",

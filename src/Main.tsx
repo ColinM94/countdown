@@ -20,15 +20,15 @@ export const Main = () => {
     library.add(faHome, faCalendarPlus, faCalendarAlt, faBars, faCog, faPlus, faPencilAlt, faArrowLeft, faChevronRight, faCalendar, faClock, faLock, faEnvelope, faUser, faSignOutAlt, faEye, faEyeSlash, faChevronRight, faChevronDown, faChevronUp)
 
     return (
-        <ThemeProvider>
             <AppProvider>
                 <AuthProvider>
-                    <StoreProvider>
-                        <StatusBar style="light" translucent={true}/>
-                        <Navigation />
-                    </StoreProvider>
+                    <ThemeProvider>
+                        <StoreProvider>
+                            <StatusBar style="light" translucent={true}/>
+                            <Navigation />
+                        </StoreProvider>
+                    </ThemeProvider>
                 </AuthProvider>
             </AppProvider>     
-        </ThemeProvider>
     )
 }

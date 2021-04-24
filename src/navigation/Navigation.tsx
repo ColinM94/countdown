@@ -18,6 +18,7 @@ import { AddEvent } from "screens/AddEvent"
 import { EditEvent } from "screens/EditEvent"
 import { useAuth } from "contexts/AuthContext"
 import { Signin } from "screens/Signin"
+import { MyView } from "library/MyView"
 
 // <..Params> adds Type checking for initialParams screen prop. 
 const Stack = createStackNavigator<ScreenParams>()
@@ -50,7 +51,9 @@ export const Navigation = () => {
             backgroundColor: theme.colors.card,
         },
         drawerTitle: {
-           
+           marginLeft: "auto",
+           marginRight: "auto",
+           marginVertical: 16,
         },
         drawerIcon: {
             color: theme.colors.text.secondary,
@@ -100,7 +103,15 @@ export const Navigation = () => {
 
     const drawerContent = (props: DrawerContentComponentProps) => (
         <DrawerContentScrollView {...props}>
-            <Text style={styles.drawerTitle}>Events App</Text>
+            <MyView direction="row" style={styles.drawerTitle}>
+                <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
+                    <FontAwesomeIcon icon="clock" size={32} color={theme.colors.primary}/>
+                </View>
+                <View>
+                    <Text h1 style={{fontSize: 24}}>Countdown</Text>
+                    <Text subtitle>Track your important events</Text> 
+                </View>
+            </MyView>
             <DrawerItemList {...props} />
         </DrawerContentScrollView>
     )

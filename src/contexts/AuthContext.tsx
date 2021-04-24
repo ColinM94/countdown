@@ -1,10 +1,13 @@
 import * as React from "react"
 import { auth } from "api/config"
+import { getUser } from "api/firestore"
 
 interface CurrentUser {
     id: string | null
     email: string | null
     isSignedIn: boolean
+    darkMode: boolean
+    dateFormat: string
 }
 
 type AuthProviderProps = {
@@ -15,6 +18,16 @@ interface State {
     currentUser: CurrentUser,
 }
 
+const initialState: State = {
+    currentUser: {
+        id: null,
+        email: null,
+        isSignedIn: false,
+        darkMode: true,
+        dateFormat: "DD/MM/YY"
+    }
+}
+
 export const AuthContext = React.createContext({} as State)
 
 export const useAuth = (): State => {
@@ -22,19 +35,23 @@ export const useAuth = (): State => {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [currentUser, setCurrentUser] = React.useState<CurrentUser>({
-        id: null, 
-        email: null, 
-        isSignedIn: false,
-    })
+    const [currentUser, setCurrentUser] = React.useState(initialState.currentUser)
 
     React.useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
-            setCurrentUser({
-                id: user?.uid ?? null,
-                email: user?.email ?? null,
-                isSignedIn: user ? true : false
-            })   
+            if(user) {
+                getUser(user.uid).then(userData => {
+                    setCurrentUser({
+                        id: user.uid,
+                        email: user.email,
+                        isSignedIn: true,
+                        darkMode: userData?.darkMode ?? initialState.currentUser.darkMode,
+                        dateFormat: userData?.dateFormat ?? initialState.currentUser.dateFormat
+                    })
+                })
+            } else {
+                setCurrentUser(initialState.currentUser) 
+            }
         })
         return () => unsubscribe()
     }, [])

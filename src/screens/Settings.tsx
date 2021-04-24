@@ -9,35 +9,52 @@ import { Card } from "library/Card"
 import { signOut } from "api/auth"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { Picker } from "library/Picker"
-import { addDateFormat } from "api/firestore"
+import { addDateFormat, updateUser } from "api/firestore"
 import { useAuth } from "contexts/AuthContext"
 import { useApp } from "contexts/AppContext"
 
 const options = [
     {
-        text: "DD/MM/YY",
-        value: "DD/MM/YY",
+        text: "dd/mm/yy",
+        value: "dd/mm/yy",
     },
     {
-        text: "DD.MM.YY",
-        value: "DD.MM.YY",
+        text: "dd.mm.yy",
+        value: "dd.mm.yy",
     }
 ]
 
 export function Settings({ navigation, route }: SettingsProps) {
-    const [dateFormat, setDateFormat] = React.useState(options[0].value)
-    const [showDateFormatPicker, setShowDateFormatPicker] = React.useState(false)
     const { loading, toast } = useApp()
     const { currentUser } = useAuth()
-    
     const { theme, isDark, setIsDark } = useTheme()
+
+    const [dateFormat, setDateFormat] = React.useState(currentUser.dateFormat)
+    const [showDateFormatPicker, setShowDateFormatPicker] = React.useState(false)
     
-    const handleDarkModePress = () => {
+    React.useEffect(() => {
+     
+    }, [])
+    
+    const handleDarkModePress = async () => {
+        loading(true)
         setIsDark(!isDark)
+
+        try {
+            await updateUser(currentUser.id, {darkMode: !isDark})
+        } catch (err) {
+            toast(err.message)
+        }
+
+        loading(false)
     }
 
-    const handleSignOut = () => {
-        signOut()
+    const handleSignOut = async () => {
+        try {
+            await signOut()
+        } catch (err) {
+            toast(err.message)
+        }
     }
 
     const styles = StyleSheet.create({

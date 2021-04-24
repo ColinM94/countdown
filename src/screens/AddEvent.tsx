@@ -31,8 +31,6 @@ export const AddEvent = ({navigation, route}: AddEventProps) => {
 
         try {
             await addEvent(currentUser.id, {name, date})
-/*             setName("")
-            setDate(undefined) */
             navigation.goBack()
             toast("Event Created")
         } catch(err) {

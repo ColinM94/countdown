@@ -52,7 +52,7 @@ export const Picker = ({value, setValue, show, setShow, data}: PickerProps) => {
 
     const renderItem = ({item} : {item: Item}) => (
         <MyView onPress={() => handlePress(item)} style={[styles.item, styles.selectableItem]} >
-            <Text subtitle>{item.text}</Text>
+            <Text subtitle style={{color: item.value === value ? theme.colors.text.primary : theme.colors.text.tertiary}}>{item.text}</Text>
         </MyView>
     )
 
