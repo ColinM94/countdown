@@ -4,25 +4,23 @@ import { Alert, Modal, StyleSheet, View } from "react-native"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 import { useTheme } from "contexts/ThemeContext"
-import { useToast } from "contexts/ToastContext"
-import { useLoading } from "contexts/LoadingContext"
 import { MyView } from "library/MyView"
 import { ScreenView } from "library/ScreenView"
 import { Text } from "library/Text"
 import { Input } from "library/Input"
 import { Button } from "library/Button"
-import { sendResetPasswordEmail, signIn, signUp } from "api/auth"
 import { SigninProps } from "navigation/types"
-import { addUser } from "api/firestore"
+import { useApp } from "contexts/AppContext"
+import { sendResetPasswordEmail, signIn, signUp } from "api/auth"
 
 export const Signin = (props: SigninProps) => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [currentLayout, setCurrentLayout] = React.useState<"signin" | "signup" | "forgotPassword">("signin")
-    const [email, setEmail] = React.useState("")
-    const [password, setPassword] = React.useState("")
-    const { showToast } = useToast()
+    const [email, setEmail] = React.useState("colinmaher94@gmail.com")
+    const [password, setPassword] = React.useState("mara123")
+
+    const { toast, loading } = useApp()
     const { theme } = useTheme()
-    const { loading } = useLoading()
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword) 
@@ -31,7 +29,7 @@ export const Signin = (props: SigninProps) => {
     const validateEmail = (email: string) => {
         const emailFormat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (!emailFormat.test(email)) {
-            showToast("Invalid email format")
+            toast("Invalid email format")
             return false
         } 
         return true  
@@ -39,7 +37,7 @@ export const Signin = (props: SigninProps) => {
 
     const validatePassword = (password: string) => {
         if(password.length < 6) {
-            showToast("Password too short")
+            toast("Password too short")
             return false
         }
         return true
@@ -47,20 +45,24 @@ export const Signin = (props: SigninProps) => {
 
     const handleSignIn = async () => {
         if(validateEmail(email) && validatePassword(password)) {
-            await signIn(email, password)
+            await signIn(email, password) 
         }
     }
 
     const handleSignUp = async () => {
         if(validateEmail(email) && validatePassword(password)) {
             await signUp(email, password)
-            showToast("Account created :)")
-        }    
+            toast("Account created :)")
+        } 
     }
 
     const handlePasswordReset = async () => {
-        await sendResetPasswordEmail(email)
-        showToast(`Password reset link sent to\n${email}`)
+        try {
+            await sendResetPasswordEmail(email)
+        } catch (err) {
+            toast(err.message)
+        }
+        toast(`Password reset link sent to\n${email}`)
     }
 
     const handleSubmit = async () => {
@@ -70,7 +72,7 @@ export const Signin = (props: SigninProps) => {
             else if(currentLayout==="signup") await handleSignUp()
             else if(currentLayout==="forgotPassword") await handlePasswordReset()
         } catch (err) {
-            showToast(err.message)
+            toast(err.message)
         }
         loading(false)
     }
@@ -90,7 +92,6 @@ export const Signin = (props: SigninProps) => {
             marginRight: 16,
         },
         rightIcon: {
- /*            opacity: showSignIn ? 0 : 100, */
             marginRight: 10,
         },
         button: {
