@@ -7,7 +7,7 @@ import { Divider } from "library/Divider"
 import { Slider } from "react-native-elements"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useTheme } from "contexts/ThemeContext"
-import { useLoading } from "contexts/LoadingContext"
+import { useApp } from "contexts/AppContext"
 
 type TimerProps = {
     date: Date,
@@ -36,7 +36,7 @@ export const Timer = ({ date, style, title }: TimerProps) => {
     const [sliderValue, setSliderValue] = React.useState(1)
 
     const { theme } = useTheme()
-    const { loading } = useLoading()
+    const { loading } = useApp()
 
     const utc = require('dayjs/plugin/utc')
     dayjs.extend(utc)

@@ -6,11 +6,11 @@ import { Text } from "./Text"
 
 export interface ButtonProps extends MyViewProps {
     title?: string
-    placeholder?: string
     textStyle?: StyleProp<TextStyle>
 }
 
-export const Button = ({ title, style, textStyle, placeholder, onPress }: ButtonProps) => {
+export const Button = (props: ButtonProps) => {
+    const { title, style, textStyle, ...rest } = props
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -27,7 +27,8 @@ export const Button = ({ title, style, textStyle, placeholder, onPress }: Button
     return (
         <MyView
             style={[styles.button, style]}
-            onPress={onPress}
+            feedbackEnabled={true}
+            {...rest}
         >     
             <Text button style={[styles.text, textStyle]}>{title}</Text>
         </MyView>

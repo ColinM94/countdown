@@ -1,9 +1,8 @@
+import * as React from "react"
 import { db } from "api/config"
 import { EventInfo } from "common/types"
-import * as React from "react"
-import { ActivityIndicator, StyleSheet } from "react-native"
-import { AuthContext, useAuth } from "./AuthContext"
-import { useLoading } from "./LoadingContext"
+import { useAuth } from "./AuthContext"
+import { useApp } from "./AppContext"
 
 type StoreProviderProps = {
     children: JSX.Element | JSX.Element[]
@@ -29,14 +28,14 @@ export const useStore = () => {
 export const StoreProvider = ({ children }: StoreProviderProps) => {
     const [events, setEvents] = React.useState(initialState.events)
 
-    const { userId } = useAuth()
-    const { loading} = useLoading()
+    const { currentUser } = useAuth()
+    const { loading} = useApp()
 
     React.useEffect(() => {
-        if(!userId) return 
+        if(!currentUser.id) return 
 
         loading(true)
-        const unsubscribe = db.collection("users").doc(userId).collection("events")
+        const unsubscribe = db.collection("users").doc(currentUser.id).collection("events")
             .onSnapshot(querySnapshot => {
                 loading(true)
                 let tempEvents: EventInfo[] = []
@@ -54,7 +53,7 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
             })
 
         return () => unsubscribe()
-    }, [userId])
+    }, [currentUser.id])
 
     const value: Value = {
         events

@@ -22,13 +22,13 @@ export const EventForm = ({ id, event }: EventFormProps) => {
     const [image, setImage] = React.useState(null)
 
     // Contexts
-    const { showToast } = useToast()
+    const { toast } = useToast()
     const { theme } = useTheme()
     const navigation = useNavigation()
 
     const handleSubmit = () => {
         if (name === "") {
-            showToast("Please enter a name.")
+            toast("Please enter a name.")
             return
         }
 
@@ -36,14 +36,14 @@ export const EventForm = ({ id, event }: EventFormProps) => {
             updateEvent({ id: event.id, name, date, color, })
                 .then(() => {
                     navigation.goBack()
-                    showToast("Event Updated")
+                    toast("Event Updated")
                 })
                 .catch(error => alert(error.message))
         } else {
             addEvent(name, date, color)
                 .then(() => {
                     navigation.navigate("EventList")
-                    showToast("Event Created")
+                    toast("Event Created")
                 })
                 .catch(error => alert(error.message))
         }

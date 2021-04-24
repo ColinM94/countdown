@@ -2,8 +2,6 @@ import * as React from 'react'
 import { StyleSheet, View, Image, Alert, Modal } from 'react-native'
 import { EventsProps } from 'navigation/types'
 import { useTheme } from 'contexts/ThemeContext'
-import { useToast } from 'contexts/ToastContext'
-import { useLoading } from 'contexts/LoadingContext'
 import { Card } from 'library/Card'
 import { ScreenView } from 'library/ScreenView'
 import { Text } from "library/Text"
@@ -14,6 +12,7 @@ import { useAuth } from 'contexts/AuthContext'
 import { useStore } from 'contexts/StoreContext'
 import { Button } from 'library/Button'
 import { List } from 'library/List'
+import { useApp } from 'contexts/AppContext'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
     const [modalVisible, setModalVisible] = React.useState(false)
@@ -21,18 +20,11 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     const [selectedItemName, setSelectedItemName] = React.useState<string>()
 
     const { theme } = useTheme()
-    const { showToast } = useToast()
-    const { loading } = useLoading()
-    const { userId } = useAuth()
+    const { toast, loading } = useApp()
+    const { currentUser } = useAuth()
     const { events } = useStore() 
 
     const styles = StyleSheet.create({
-        itemName: {
-            ...theme.typography.h3 as {},
-        },
-        itemDate: {
-            ...theme.typography.subtitle as {}
-        },
         modal: {
             marginLeft: "auto", 
             marginRight: "auto", 
@@ -69,9 +61,9 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         loading(true)
         
         try {
-            await deleteEvent(userId, selectedItemId)
+            await deleteEvent(currentUser.id, selectedItemId)
         } catch(err) {
-            showToast(err)
+            toast(err)
         } 
         
         setModalVisible(false)

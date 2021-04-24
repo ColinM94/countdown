@@ -25,7 +25,7 @@ const Drawer = createDrawerNavigator<ScreenParams>()
 
 export const Navigation = () => {
     const { theme, isDark } = useTheme()
-    const { isSignedIn } = useAuth()
+    const { currentUser } = useAuth()
 
     const navTheme = {
         dark: isDark,
@@ -116,7 +116,7 @@ export const Navigation = () => {
                     
                     })}
                 >
-                    { !isSignedIn &&
+                    { !currentUser.isSignedIn &&
                         <>
                             <Stack.Screen
                                 name="Drawer"
@@ -128,7 +128,7 @@ export const Navigation = () => {
                         </>
                     }
                     {
-                        isSignedIn && 
+                        currentUser.isSignedIn && 
                         <>
                             <Stack.Screen
                                 name="Drawer"

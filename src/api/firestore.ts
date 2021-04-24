@@ -18,6 +18,10 @@ export async function addUser(userId: string) {
     await db.collection("users").doc(userId).set({})
 }
 
+export async function updateUser(userId: string, ) {
+
+}
+
 // Event.
 export async function addEvent(userId: string, eventInfo: EventInfo) {
     await db.collection("users").doc(userId).collection("events").add(eventInfo)
@@ -53,4 +57,15 @@ export async function updateEvent(event: EventInfo) {
 export async function deleteEvent(userId: string, eventId: string) {
     await db.collection("users").doc(userId).collection("events").doc(eventId).delete()
 }
+
+
+/* Settings */
+export async function addDateFormat(userId: string, dateFormat: string) {
+    await db.collection("users").doc(userId).update({
+        dateFormat: dateFormat
+    })
+}
+
+
+
 

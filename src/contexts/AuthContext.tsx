@@ -1,44 +1,46 @@
 import * as React from "react"
-import { auth, FirebaseUser } from "api/config"
+import { auth } from "api/config"
 
-interface State {
-    /** Boolean stuff kiiid */
+interface CurrentUser {
+    id: string | null
+    email: string | null
     isSignedIn: boolean
-    /** Boolean userId */
-    userId: string | null
 }
 
 type AuthProviderProps = {
     children?: React.ReactNode | React.ReactNode[]
 }
 
-const initialState: State = {
-    isSignedIn: false,
-    userId: null
+interface State {
+    currentUser: CurrentUser,
 }
 
-export const AuthContext = React.createContext(initialState)
+export const AuthContext = React.createContext({} as State)
 
-export const useAuth = () => {
+export const useAuth = (): State => {
     return React.useContext(AuthContext)
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [isSignedIn, setIsSignedIn] = React.useState(initialState.isSignedIn)
-    const [userId, setUserId] = React.useState(initialState.userId)
+    const [currentUser, setCurrentUser] = React.useState<CurrentUser>({
+        id: null, 
+        email: null, 
+        isSignedIn: false,
+    })
 
     React.useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
-            setUserId(user?.uid ?? null)
-            setIsSignedIn(user ? true : false)      
+            setCurrentUser({
+                id: user?.uid ?? null,
+                email: user?.email ?? null,
+                isSignedIn: user ? true : false
+            })   
         })
-
-        return unsubscribe
+        return () => unsubscribe()
     }, [])
 
     const value: State = {
-        isSignedIn,
-        userId
+        currentUser
     }
     
     return (
