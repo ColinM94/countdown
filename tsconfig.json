@@ -33,7 +33,8 @@
       ],
       "screens*": [
         "src/screens*"
-      ],
-    },
+      ]
+    }
   },
+  "extends": "expo/tsconfig.base"
 }

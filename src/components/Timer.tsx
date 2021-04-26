@@ -9,8 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useTheme } from "contexts/ThemeContext"
 import { useApp } from "contexts/AppContext"
 
-type TimerProps = {
-    date: Date,
+interface TimerProps {
+    /** Date  */
+    date: Date
     style?: StyleProp<ViewStyle>,
     title?: string
 }
@@ -67,14 +68,14 @@ export const Timer = ({ date, style, title }: TimerProps) => {
                 setShowYears(false)
             }
 
-            if (prev <= 2) {
+/*             if (prev <= 2) {
                 setShowMonths(true)
                 const monthDiff = Math.floor(Math.trunc(date1.diff(date2, 'month', true)))
                 date1 = date1.subtract(monthDiff, 'month')
                 setMonths(Math.abs(monthDiff))
             } else {
                 setShowMonths(false)
-            }
+            } */
 
             if (prev <= 3) {
                 setShowDays(true)
@@ -155,7 +156,7 @@ export const Timer = ({ date, style, title }: TimerProps) => {
     return (
         <View style={[styles.container, style]}>
             <Text h1 style={[styles.text, styles.title]}>{title}</Text>
-            <Text body style={[styles.text, styles.date]}>{formatDate(date)}</Text>
+            <Text body style={[styles.text, styles.date]}>{formatDate(date)} - {formatTime(date)}</Text>
             <View style={styles.row}>
                 {showYears &&
                     <Text style={styles.text}>

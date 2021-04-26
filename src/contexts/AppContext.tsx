@@ -1,5 +1,6 @@
 import * as React from "react"
 import { StyleSheet, Alert, Platform, ToastAndroid, ActivityIndicator } from "react-native"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type AppContextProps = {
     children?: React.ReactNode | React.ReactNode[]
@@ -20,10 +21,7 @@ export const useApp = (): State => {
 
 export const AppProvider = ({ children }: AppContextProps) => {
     const [isLoading, setIsLoading] = React.useState(false)
-    const [settings, setSettings] = React.useState({
-        
-    })
-
+    
     const toast = (msg: string) => {
         if (Platform.OS === "android") {
             ToastAndroid.show(msg, ToastAndroid.SHORT)

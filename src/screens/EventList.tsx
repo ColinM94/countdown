@@ -13,6 +13,7 @@ import { useStore } from 'contexts/StoreContext'
 import { Button } from 'library/Button'
 import { List } from 'library/List'
 import { useApp } from 'contexts/AppContext'
+import { Timer } from 'components/Timer'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
     const [modalVisible, setModalVisible] = React.useState(false)
@@ -52,7 +53,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         >
             <View>
                 <Text h3>{item.name}</Text>
-                <Text subtitle2>{formatDate(item.date)}</Text> 
+                <Text subtitle2 >{formatDate(item.date)}</Text> 
             </View>
         </Card>
     )   

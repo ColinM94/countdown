@@ -11,10 +11,9 @@ export const Divider = ({ style }: DividerProps) => {
 
     const styles = StyleSheet.create({
         divider: {
-            height: 1,
+            height: 10,
             width: "100%",
-            backgroundColor: theme.colors.text.tertiary,
-            marginBottom: theme.spacing.primary
+            backgroundColor: "red",
         }
     })
 

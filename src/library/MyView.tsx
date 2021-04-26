@@ -52,7 +52,7 @@ export const MyView = ({ children, onPress, style, feedbackColor, mb, direction 
             paddingBottom: flattenStyle?.paddingBottom,
             paddingLeft: flattenStyle?.paddingLeft,
             paddingRight: flattenStyle?.paddingRight,
-            flexDirection: direction,
+            flexDirection: flattenStyle?.flexDirection ?? direction,
             elevation: flattenStyle?.elevation,
             margin: 0,
         },
@@ -67,7 +67,7 @@ export const MyView = ({ children, onPress, style, feedbackColor, mb, direction 
                 delayLongPress={200}
                 {...rest}
             >
-                <View style={styles.touchable}  pointerEvents={pointerEvents}>
+                <View style={styles.touchable} pointerEvents={pointerEvents}>
                     {children}
                 </View>
             </TouchableNativeFeedback>

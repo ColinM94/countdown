@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
+import { StyleSheet } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
 import { MyView, MyViewProps } from "./MyView"
 

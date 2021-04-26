@@ -32,7 +32,7 @@ export const AddEvent = ({navigation, route}: AddEventProps) => {
         try {
             await addEvent(currentUser.id, {name, date})
             navigation.goBack()
-            toast("Event Created")
+            toast("Event Created") 
         } catch(err) {
             toast(err.message)
         }

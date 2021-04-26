@@ -57,6 +57,7 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
                 mode={mode}
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
+                date={value}
                 isDarkModeEnabled={true}
                 timePickerModeAndroid='default'
             />

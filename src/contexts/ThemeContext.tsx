@@ -1,3 +1,4 @@
+import { getData } from "api/localStorage"
 import * as React from "react"
 import { StyleProp, TextStyle } from "react-native"
 import { useAuth } from "./AuthContext"
@@ -62,11 +63,11 @@ export const useTheme = () => {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-    const { currentUser } = useAuth()
-    const [isDark, setIsDark] = React.useState(currentUser.darkMode)
+    const [isDark, setIsDark] = React.useState(true)
 
     const colors = {
         primary: "#3E84E0",
+        primaryAccent: "#5693E4",
         secondary: "red",
         background: isDark ? "#121212" : "white",  // "#EEEEEE"
         card: isDark ? "#1E1E1E" : "white",

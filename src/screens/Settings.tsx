@@ -1,6 +1,5 @@
 import * as React from "react"
-import { StyleSheet, View } from "react-native"
-import { Switch } from 'react-native-paper'
+import { StyleSheet, View, Switch} from "react-native"
 import { SettingsProps } from "navigation/types"
 import { useTheme } from "contexts/ThemeContext"
 import { ScreenView } from "library/ScreenView"
@@ -86,7 +85,7 @@ export function Settings({ navigation, route }: SettingsProps) {
                     <Text h3>Dark Mode</Text>
                     <Text subtitle>Toggle dark theme</Text>
                 </View>
-                <Switch value={isDark} onValueChange={handleDarkModePress} color={theme.colors.primary} style={{ marginLeft: "auto" }} />
+                <Switch value={isDark} onValueChange={handleDarkModePress} thumbColor={theme.colors.primary} trackColor={{false: theme.colors.accent, true: theme.colors.primaryAccent}} style={{ marginLeft: "auto" }} />
             </Card>
             <Card direction="row" onPress={() => setShowDateFormatPicker(true)}>
                 <View>
