@@ -18,13 +18,15 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const { toast } = useApp()
     const { currentUser } = useAuth()
     const { events } = useStore()
-    const [event, setEvent] = React.useState<EventInfo>()
+
+    const [id, setId] = React.useState()
     const [name, setName] = React.useState(route.params.event.name)
     const [date, setDate] = React.useState(route.params.event.date)
     const [isVisible, setIsVisible] = React.useState(false)
     const [isFullScreen, setIsFullScreen] = React.useState(false)
 
     React.useEffect(() => {
+        setId(route.params.event.id)
         setName(route.params.event.name)
         setDate(route.params.event.date)
     }, [route.params.event])
@@ -56,7 +58,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
 
     const handleDelete = async () => {
         try {
-            await deleteEvent(currentUser.id, event.id)
+            await deleteEvent(currentUser.id, id)
             navigation.goBack()
         } catch (err) {
             toast(err.message)
