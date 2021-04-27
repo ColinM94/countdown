@@ -5,10 +5,8 @@ import { useTheme } from "contexts/ThemeContext"
 import { Card, CardProps } from "./Card"
 import { Text } from "./Text"
 import { ViewStyle } from "react-native"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { MyView } from "./MyView"
-import { IconButton } from "./IconButton"
-import { Button } from "./Button"
+import { Icon } from "./Icon"
+import { Pressable } from "./Pressable"
 
 export interface InputProps extends TextInputProps {
     label?: string
@@ -41,7 +39,8 @@ export const Input = (props: InputProps) => {
             paddingTop: label ? theme.spacing.tertiary : undefined,
             marginBottom: theme.spacing.primary,
             borderRadius: theme.roundness,
-            elevation: theme.elevation.card
+            elevation: theme.elevation.card,
+            flexDirection: "row"
         },
         label: {
             fontSize: 14,
@@ -51,9 +50,12 @@ export const Input = (props: InputProps) => {
         input: {
             flexGrow: 1
         },
-        rightIcon: {
-            alignSelf: "center",
-            marginLeft: theme.spacing.secondary,
+        rightIconContainer: {
+            justifyContent: "center", 
+            alignItems: "center", 
+            marginRight: theme.spacing.tertiary,
+            borderRadius: 40,
+            paddingHorizontal: 5
         },
         leftIcon: {
             alignSelf: "center",
@@ -83,10 +85,9 @@ export const Input = (props: InputProps) => {
     //{label && <Text subtitle2 style={styles.label}>{label}</Text>}
 
     return (
-        <MyView 
-            direction="row" 
+        <Pressable 
             onPress={handlePress} 
-            feedbackEnabled={false} 
+            feedback={false} 
             style={[styles.container, containerStyle]} 
             pointerEvents={onPress ? "box-only" : "auto"}
         >
@@ -94,7 +95,7 @@ export const Input = (props: InputProps) => {
                     <Text subtitle>{label}</Text>
                 }
                 {leftIcon &&
-                    <FontAwesomeIcon
+                    <Icon
                         icon={leftIcon}
                         color={theme.icon.color}
                         size={theme.icon.size}
@@ -112,14 +113,14 @@ export const Input = (props: InputProps) => {
                 {...rest}
             />
             {rightIcon &&
-                <MyView onPress={rightIconOnPress} feedbackEnabled={false} style={{justifyContent: "center", alignItems: "center", marginRight: theme.spacing.tertiary}}>
-                    <FontAwesomeIcon
+                <Pressable onPress={rightIconOnPress} feedback={rightIconOnPress ? true : false} style={styles.rightIconContainer}>
+                    <Icon
                         icon={rightIcon}
                         color={theme.icon.color}
                         size={theme.icon.size}
                     /> 
-                </MyView>        
+                </Pressable>        
             }
-        </MyView>
+        </Pressable>
     )
 }

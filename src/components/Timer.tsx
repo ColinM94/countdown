@@ -5,7 +5,6 @@ import dayjs from "dayjs"
 import { formatDate, formatTime } from "common/helpers"
 import { Divider } from "library/Divider"
 import { Slider } from "react-native-elements"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useTheme } from "contexts/ThemeContext"
 import { useApp } from "contexts/AppContext"
 
@@ -67,15 +66,15 @@ export const Timer = ({ date, style, title }: TimerProps) => {
             } else {
                 setShowYears(false)
             }
-
-/*             if (prev <= 2) {
+            
+            if (prev <= 2) {
                 setShowMonths(true)
                 const monthDiff = Math.floor(Math.trunc(date1.diff(date2, 'month', true)))
                 date1 = date1.subtract(monthDiff, 'month')
                 setMonths(Math.abs(monthDiff))
             } else {
                 setShowMonths(false)
-            } */
+            } 
 
             if (prev <= 3) {
                 setShowDays(true)

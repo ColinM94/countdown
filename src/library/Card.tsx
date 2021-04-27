@@ -1,9 +1,9 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
-import { MyView, MyViewProps } from "./MyView"
+import { Pressable, PressableProps } from "./Pressable"
 
-export interface CardProps extends MyViewProps {
+export interface CardProps extends PressableProps {
 
 }
 
@@ -21,8 +21,8 @@ export const Card = ({ style, children, ...rest }: CardProps) => {
     })
 
     return (
-        <MyView style={[styles.card, style]} {...rest}>
+        <Pressable style={[styles.card, style]} {...rest}>
             {children}
-        </MyView>
+        </Pressable>
     )
 }

@@ -1,101 +1,92 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
-import { useToast, useTheme } from "contexts"
-import { Card, ScreenView, Input, Button, Picker, Text, DateTimeInput } from "components"
+import { Input } from "library/Input"
+import { Button } from "library/Button"
+import { DateTimePicker } from "library/DateTimePicker"
 import { addEvent, updateEvent } from "api/firestore"
-import { Event } from "common/types"
-import { useNavigation } from '@react-navigation/native'
-import { Surface, TextInput } from "react-native-paper"
-import { ImagePicker } from "./ImagePicker"
-import { uploadImage } from "api"
+import { View } from "react-native"
+import { useTheme } from "contexts/ThemeContext"
+import { useAuth } from "contexts/AuthContext"
+import { useApp } from "contexts/AppContext"
+import { EventInfo } from "common/types"
+import { useNavigation } from "@react-navigation/native"
 
-type EventFormProps = {
-    id?: string,
-    event?: Event
+interface EventFormProps {
+    event?: EventInfo
 }
 
-export const EventForm = ({ id, event }: EventFormProps) => {
-    // State
+export const EventForm = ({event}: EventFormProps) => {
+    const [id, setId] = React.useState(event?.id)
     const [name, setName] = React.useState(event?.name ?? "")
-    const [date, setDate] = React.useState(event?.date ?? new Date())
-    const [color, setColor] = React.useState(event?.color ?? "")
-    const [image, setImage] = React.useState(null)
+    const [date, setDate] = React.useState<Date | undefined>(event?.date ?? undefined)
 
-    // Contexts
-    const { toast } = useToast()
     const { theme } = useTheme()
+    const { currentUser } = useAuth()
+    const { loading, toast } = useApp()
     const navigation = useNavigation()
 
-    const handleSubmit = () => {
-        if (name === "") {
-            toast("Please enter a name.")
-            return
+    const handleSubmit = async () => {
+        loading(true)
+        if(name.length < 1) {
+            toast("Please enter a name.") 
+            return 
+        } else if(!date) {
+            toast("Please select a date.")
+            return 
         }
 
-        if (event) {
-            updateEvent({ id: event.id, name, date, color, })
-                .then(() => {
-                    navigation.goBack()
-                    toast("Event Updated")
-                })
-                .catch(error => alert(error.message))
-        } else {
-            addEvent(name, date, color)
-                .then(() => {
-                    navigation.navigate("EventList")
-                    toast("Event Created")
-                })
-                .catch(error => alert(error.message))
+        try {
+            if(event) {
+                await updateEvent(currentUser.id, {id, name, date})
+                toast("Event Updated") 
+                navigation.navigate("EventDetails", {event: {id: id, name: name, date}})
+            } else {
+                await addEvent(currentUser.id, {name, date})
+                navigation.goBack()
+                toast("Event Created") 
+            }
+        } catch(err) {
+            toast(err.message)
         }
+        loading(false)
     }
-
-    const onNameChange = (text: string) => {
-        setName(text)
-    }
-
-    const colorOptions = [
-        {
-            text: "Red",
-            value: "#eb4034",
-            color: "#eb4034"
-        },
-        {
-            text: "Blue",
-            value: "#3b49e3",
-            color: "#3b49e3"
-        },
-        {
-            text: "Gold",
-            value: "gold",
-            color: "gold"
-        },
-        {
-            text: "Purple",
-            value: "#6f36e0",
-            color: "#6f36e0"
-        },
-    ]
 
     const styles = StyleSheet.create({
-        card: {
-            padding: theme.spacing(3)
+        datePicker: {
+            flex: 1,
+            marginRight: theme.spacing.primary / 2
         },
-        input: {
-            marginBottom: theme.spacing(3)
-        },
-        button: {
-            marginTop: theme.spacing(3)
+        timePicker: {
+            flex: 1,
+            marginLeft: theme.spacing.primary / 2
         }
     })
 
     return (
-        <Card style={styles.card}>
-            <Input label="Name" value={name} onChangeText={onNameChange} containerStyle={styles.input} />
-            <DateTimeInput date={date} setDate={setDate} label="Date" mode="date" containerStyle={styles.input} />
-            <DateTimeInput date={date} setDate={setDate} label="Time" mode="time" containerStyle={styles.input} />
-            <Picker value={color} setValue={setColor} options={colorOptions} label="Colour" containerStyle={styles.input} />
-            <ImagePicker image={image} setImage={setImage} />
-            <Button title={event ? "Update" : "Add"} onPress={handleSubmit} style={styles.button} />
-        </Card>
+        <>
+            <Input 
+                value={name} 
+                setValue={setName} 
+                placeholder="Name" 
+                containerStyle={{marginBottom: theme.spacing.primary}} 
+            />
+            <View style={{flexDirection: "row"}}>
+                <DateTimePicker 
+                    value={date} 
+                    setValue={setDate} 
+                    mode="date" 
+                    placeholder="Select Date" 
+                    containerStyle={styles.datePicker}
+                />
+                <DateTimePicker 
+                    value={date} 
+                    setValue={setDate} 
+                    mode="time" 
+                    placeholder="Select Time" 
+                    containerStyle={styles.timePicker}    
+                />
+            </View>
+            <Button title={event ? "Update Event" : "Create Event"} onPress={handleSubmit} />
+        </>
     )
 }

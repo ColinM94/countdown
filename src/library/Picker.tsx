@@ -2,8 +2,7 @@ import * as React from "react"
 import { StyleSheet, Modal, View } from "react-native"
 import { Text } from "library/Text"
 import { useTheme } from "contexts/ThemeContext"
-import { Button } from "./Button"
-import { MyView } from "./MyView"
+import { Pressable } from "./Pressable"
 import { FlatList } from "react-native-gesture-handler"
 
 type Item = {
@@ -51,9 +50,9 @@ export const Picker = ({value, setValue, show, setShow, data}: PickerProps) => {
     }
 
     const renderItem = ({item} : {item: Item}) => (
-        <MyView onPress={() => handlePress(item)} style={[styles.item, styles.selectableItem]} >
+        <Pressable onPress={() => handlePress(item)} style={[styles.item, styles.selectableItem]} >
             <Text subtitle style={{color: item.value === value ? theme.colors.text.primary : theme.colors.text.tertiary}}>{item.text}</Text>
-        </MyView>
+        </Pressable>
     )
 
     return (
@@ -71,9 +70,9 @@ export const Picker = ({value, setValue, show, setShow, data}: PickerProps) => {
                     renderItem={renderItem}
                     keyExtractor={item => item.value}
                 />
-                <MyView onPress={hidePicker} style={[styles.item, styles.cancelItem]} >
+                <Pressable onPress={hidePicker} style={[styles.item, styles.cancelItem]} >
                     <Text subtitle>Cancel</Text>
-                </MyView>
+                </Pressable>
             </View>
         </Modal>
     )

@@ -6,7 +6,7 @@ import { ScreenView } from "library/ScreenView"
 import { Text } from "library/Text"
 import { Card } from "library/Card"
 import { signOut } from "api/auth"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { Icon } from "library/Icon"
 import { Picker } from "library/Picker"
 import { addDateFormat, updateUser } from "api/firestore"
 import { useAuth } from "contexts/AuthContext"
@@ -58,8 +58,12 @@ export function Settings({ navigation, route }: SettingsProps) {
 
     const styles = StyleSheet.create({
         item: {
-            paddingHorizontal: theme.spacing.primary,
-            marginBottom: theme.spacing.primary
+            flexDirection: "row"
+        },
+        itemRight: {
+            marginLeft: "auto", 
+            marginRight: theme.spacing.tertiary, 
+            justifyContent: "center"
         },
         button: {
             marginBottom: theme.spacing.primary,
@@ -80,29 +84,29 @@ export function Settings({ navigation, route }: SettingsProps) {
 
     return (
         <ScreenView>
-            <Card direction="row" onPress={handleDarkModePress}>
+            <Card onPress={handleDarkModePress} style={styles.item}>
                 <View>
                     <Text h3>Dark Mode</Text>
                     <Text subtitle>Toggle dark theme</Text>
                 </View>
                 <Switch value={isDark} onValueChange={handleDarkModePress} thumbColor={theme.colors.primary} trackColor={{false: theme.colors.accent, true: theme.colors.primaryAccent}} style={{ marginLeft: "auto" }} />
             </Card>
-            <Card direction="row" onPress={() => setShowDateFormatPicker(true)}>
+            <Card onPress={() => setShowDateFormatPicker(true)} style={styles.item}>
                 <View>
                     <Text h3>Date Format</Text>
                     <Text subtitle>{dateFormat}</Text>
                 </View>
-                <View style={{marginLeft: "auto", marginRight: theme.spacing.tertiary, justifyContent: "center"}}>
-                    <FontAwesomeIcon icon="chevron-right" size={28} color={theme.icon.color}/>
+                <View style={styles.itemRight}>
+                    <Icon icon="chevron-right" size={28} color={theme.icon.color}/>
                 </View>
             </Card>
-            <Card direction="row" onPress={handleSignOut}>
+            <Card onPress={handleSignOut} style={styles.item}>
                 <View>
                     <Text h3>Sign out</Text>
                     <Text subtitle>Return to the login screen</Text>
                 </View>
-                <View style={{marginLeft: "auto", marginRight: theme.spacing.tertiary, justifyContent: "center"}}>
-                    <FontAwesomeIcon icon="sign-out-alt" size={28} color={theme.icon.color}/>
+                <View style={styles.itemRight}>
+                    <Icon icon="sign-out-alt" size={28} color={theme.icon.color}/>
                 </View>
             </Card>
             <Picker show={showDateFormatPicker} setShow={setShowDateFormatPicker} value={dateFormat} setValue={handleDateFormat} data={options}/>

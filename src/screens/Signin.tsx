@@ -1,10 +1,10 @@
 
 import * as React from "react"
 import { Alert, Modal, StyleSheet, View } from "react-native"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { Icon } from "library/Icon"
 
 import { useTheme } from "contexts/ThemeContext"
-import { MyView } from "library/MyView"
+import { Pressable } from "library/Pressable"
 import { ScreenView } from "library/ScreenView"
 import { Text } from "library/Text"
 import { Input } from "library/Input"
@@ -78,14 +78,12 @@ export const Signin = (props: SigninProps) => {
     }
 
     const styles = StyleSheet.create({
-        input: {
-            
-        },
         title: {
             marginTop: 56,
             marginBottom: 40,
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            flexDirection: "row"
         },
         leftIcon: {
             marginLeft: 10,
@@ -102,32 +100,33 @@ export const Signin = (props: SigninProps) => {
             padding: theme.spacing.primary,
             alignItems: "center",
             alignSelf: "center",
+            borderRadius: theme.roundness
         },
         forgotPassword: {
             marginTop: "auto",
             marginBottom: 8,
             alignSelf: "center",
-            padding: theme.spacing.primary      
+            padding: theme.spacing.primary,
+            borderRadius: theme.roundness
         }
     })
 
     return (
         <ScreenView style={{padding: theme.spacing.primary}}>
-            <MyView direction="row" style={styles.title}>
+            <Pressable style={styles.title}>
                 <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
-                    <FontAwesomeIcon icon="clock" size={56} color={theme.colors.primary}/>
+                    <Icon icon="clock" size={56} color={theme.colors.primary}/>
                 </View>
                 <View>
                     <Text h1 style={{fontSize: 36}}>Countdown</Text>
                     <Text subtitle>Track your important events</Text> 
                 </View>
-            </MyView>
+            </Pressable>
 
             <Input
                 placeholder="Email"
                 value={email}
                 setValue={setEmail}
-                style={styles.input}
             />
             {currentLayout !== "forgotPassword" &&
                 <Input
@@ -146,24 +145,24 @@ export const Signin = (props: SigninProps) => {
             />  
  
             {currentLayout === "signin" && 
-                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signup")} feedbackEnabled={false}>
+                <Pressable style={styles.bottomText} onPress={() => setCurrentLayout("signup")} feedback={true}>
                     <Text subtitle>Need an account? <Text style={{ fontWeight: "bold" }}>Sign Up.</Text></Text>
-                </MyView>
+                </Pressable>
             }
             {currentLayout === "signup" && 
-                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
+                <Pressable style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedback={true}>
                     <Text subtitle>Already have an account? <Text style={{ fontWeight: "bold" }}>Sign In.</Text></Text>
-                </MyView>
+                </Pressable>
             }
             {currentLayout === "forgotPassword" && 
-                <MyView style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedbackEnabled={false}>
+                <Pressable style={styles.bottomText} onPress={() => setCurrentLayout("signin")} feedback={true}>
                     <Text subtitle>Return to Signin.</Text>
-                </MyView>
+                </Pressable>
             }
             {currentLayout=="signin" &&
-                <MyView style={styles.forgotPassword} onPress={() => setCurrentLayout("forgotPassword")} feedbackEnabled={false}>
+                <Pressable style={styles.forgotPassword} onPress={() => setCurrentLayout("forgotPassword")} feedback={true}>
                     <Text subtitle2>Forgot password?</Text>
-                </MyView>
+                </Pressable>
             }   
         </ScreenView>
     )

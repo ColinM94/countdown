@@ -1,6 +1,6 @@
 import { getData } from "api/localStorage"
 import * as React from "react"
-import { StyleProp, TextStyle } from "react-native"
+import { ColorValue, StyleProp, TextStyle } from "react-native"
 import { useAuth } from "./AuthContext"
 
 type ThemeProviderProps = {
@@ -14,15 +14,16 @@ type UseThemeProps = {
 }
 
 type Colors = {
-    primary: string,
-    secondary: string,
-    background: string,
-    card: string,
-    accent: string,
+    primary: ColorValue,
+    secondary: ColorValue,
+    background: ColorValue,
+    card: ColorValue,
+    accent: ColorValue,
+    feedback: ColorValue,
     text: {
-        primary: string,
-        secondary: string,
-        tertiary: string
+        primary: ColorValue,
+        secondary: ColorValue,
+        tertiary: ColorValue
     }
 }
 
@@ -42,7 +43,7 @@ type Theme = {
     },
     icon: {
         size: number,
-        color: string
+        color: ColorValue
     },
     spacing: {
         primary: number,
@@ -72,6 +73,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         background: isDark ? "#121212" : "white",  // "#EEEEEE"
         card: isDark ? "#1E1E1E" : "white",
         accent: isDark ? "grey" : "lightgrey",
+        feedback: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
         text: {
             primary: isDark ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)",
             secondary: isDark ? "rgba(255, 255, 255, 0.54)" : "rgba(0, 0, 0, 0.64)",
@@ -146,8 +148,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         },
         roundness: 4,
         elevation: {
-            header: 4,
-            card: 2,
+            header: isDark ? 0 : 4,
+            card: isDark ? 0 : 2,
         },
     }
 

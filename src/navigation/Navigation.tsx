@@ -1,6 +1,6 @@
 import * as React from "react"
 import { StyleSheet, useWindowDimensions, View } from "react-native"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { Icon } from "library/Icon"
 
 import { createStackNavigator } from "@react-navigation/stack"
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerContentComponentProps, DrawerItem } from "@react-navigation/drawer"
@@ -18,7 +18,7 @@ import { AddEvent } from "screens/AddEvent"
 import { EditEvent } from "screens/EditEvent"
 import { useAuth } from "contexts/AuthContext"
 import { Signin } from "screens/Signin"
-import { MyView } from "library/MyView"
+import { Pressable } from "library/Pressable"
 
 // <..Params> adds Type checking for initialParams screen prop. 
 const Stack = createStackNavigator<ScreenParams>()
@@ -51,9 +51,10 @@ export const Navigation = () => {
             backgroundColor: theme.colors.card,
         },
         drawerTitle: {
-           marginLeft: "auto",
-           marginRight: "auto",
-           marginVertical: 16,
+            flexDirection: "row",
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginVertical: 16,
         },
         drawerIcon: {
             color: theme.colors.text.secondary,
@@ -87,7 +88,7 @@ export const Navigation = () => {
                 component={EventList}
                 options={({ navigation }) => ({
                     title: "My Events",
-                    drawerIcon: () => <FontAwesomeIcon icon="calendar-alt" size={theme.icon.size} style={styles.drawerIcon} />,
+                    drawerIcon: () => <Icon icon="calendar-alt" size={theme.icon.size} style={styles.drawerIcon} />,
                     headerRight: () => <IconButton onPress={() => navigation.navigate("AddEvent")} icon="plus" style={styles.headerIcon} />,
                 })}
             />
@@ -95,7 +96,7 @@ export const Navigation = () => {
                 name="Settings"
                 component={Settings}
                 options={{
-                    drawerIcon: () => <FontAwesomeIcon icon="cog" size={theme.icon.size} style={styles.drawerIcon} />
+                    drawerIcon: () => <Icon icon="cog" size={theme.icon.size} style={styles.drawerIcon} />
                 }}
             />
         </Drawer.Navigator>
@@ -103,15 +104,15 @@ export const Navigation = () => {
 
     const drawerContent = (props: DrawerContentComponentProps) => (
         <DrawerContentScrollView {...props}>
-            <MyView direction="row" style={styles.drawerTitle}>
+            <Pressable style={styles.drawerTitle}>
                 <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
-                    <FontAwesomeIcon icon="clock" size={32} color={theme.colors.primary}/>
+                    <Icon icon="clock" size={32} color={theme.colors.primary}/>
                 </View>
                 <View>
                     <Text h1 style={{fontSize: 24}}>Countdown</Text>
                     <Text subtitle>Track your important events</Text> 
                 </View>
-            </MyView>
+            </Pressable>
             <DrawerItemList {...props} />
         </DrawerContentScrollView>
     )

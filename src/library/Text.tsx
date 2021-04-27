@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
+import { Text as RNText, TextProps as RNTextProps } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
 
 type TextProps = RNTextProps & {
@@ -17,11 +17,10 @@ type TextProps = RNTextProps & {
 }
 
 export const Text = (props: TextProps) => {
-    const { title, h1, h2, h3, body, overline, subtitle, subtitle2, input, button, style, children, ...rest } = props
+    const { h1, h2, h3, body, overline, subtitle, subtitle2, input, button, style, children, ...rest } = props
     const { theme } = useTheme()
 
     const getStyle = () => {
-        if (title) return theme.typography.title
         if (h1) return theme.typography.h1
         if (h2) return theme.typography.h2
         if (h3) return theme.typography.h3

@@ -57,8 +57,8 @@ export async function getEvents(userId: string) {
     return events
 }
 
-export async function updateEvent(event: EventInfo) {
-    await db.collection("events").doc(event.id).update({
+export async function updateEvent(userId: string, event: EventInfo) {
+    await db.collection("users").doc(userId).collection("events").doc(event.id).update({
         name: event.name,
         date: event.date,
     })

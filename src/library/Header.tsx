@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
 import { IconButton } from "./IconButton"
 import { Text } from "./Text"
-import { Input } from "./Input"
 
 export const Header = ({ title }) => {
     const { theme } = useTheme()

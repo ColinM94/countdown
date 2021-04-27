@@ -1,10 +1,10 @@
 import * as React from "react"
 import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
-import { MyView, MyViewProps } from "./MyView"
+import { Pressable, PressableProps } from "./Pressable"
 import { Text } from "./Text"
 
-export interface ButtonProps extends MyViewProps {
+export interface ButtonProps extends PressableProps {
     title?: string
     textStyle?: StyleProp<TextStyle>
 }
@@ -25,12 +25,11 @@ export const Button = (props: ButtonProps) => {
     })
 
     return (
-        <MyView
+        <Pressable
             style={[styles.button, style]}
-            feedbackEnabled={true}
             {...rest}
         >     
             <Text button style={[styles.text, textStyle]}>{title}</Text>
-        </MyView>
+        </Pressable>
     )
 }

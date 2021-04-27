@@ -3,7 +3,6 @@ import { Keyboard } from "react-native"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import { formatDate, formatTime } from "common/helpers"
 import { Input, InputProps } from "./Input"
-import { useTheme } from "contexts/ThemeContext"
 
 interface DateTimePickerProps extends Omit<InputProps, "value" | "setValue">  {
     /** If undefined, a placeholder will be displayed until value is chosen. */
@@ -17,8 +16,6 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
   
     const [formattedDate, setFormattedDate] = React.useState<string | undefined>()
     const [isVisible, setIsVisible] = React.useState(false)
-
-    const { theme } = useTheme()
 
     const showDatePicker = () => {
         setIsVisible(true)
@@ -38,6 +35,10 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
     React.useEffect(() => {
         if(!value) {
             setFormattedDate(undefined)
+        } else if (mode === "date") {
+            setFormattedDate(formatDate(value))
+        } else if (mode === "time") {
+            setFormattedDate(formatTime(value))
         }
     }, [value])
 

@@ -11,7 +11,7 @@ type ListProps = {
     style?: StyleProp<ViewStyle>
 }
 
-export const List = ({data, renderItem, headerComponent, onRefresh, style}: ListProps) => {
+export const ListView = ({data, renderItem, headerComponent, onRefresh, style}: ListProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({

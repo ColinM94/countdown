@@ -1,14 +1,13 @@
 import * as React from "react"
-import { StyleSheet, View, Modal, Pressable } from "react-native"
+import { StyleSheet, View, Modal } from "react-native"
 import { useApp } from "contexts/AppContext"
 import { useTheme } from "contexts/ThemeContext"
-import { MyView } from "./MyView"
+import { Pressable } from "./Pressable"
 import { Text } from "./Text"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { Divider } from "./Divider"
+import { Icon } from "./Icon"
 
-interface item {
+export interface Item {
     text: string
     onPress: () => void
     leftIcon: IconProp
@@ -18,16 +17,14 @@ interface item {
 interface MenuProps {
     isVisible: boolean
     setIsVisible: (visible: boolean) => void
-    items: item[]
+    items: Item[]
 }
 
 export const Menu = ({isVisible, setIsVisible, items}: MenuProps) => {
     const { theme } = useTheme()
-    const { toast } = useApp()
     
     const handlePress = (onPress: () => void) => {
         onPress()
-
         setIsVisible(false)
     }
 
@@ -39,11 +36,12 @@ export const Menu = ({isVisible, setIsVisible, items}: MenuProps) => {
         },
         menu: {     
             backgroundColor: theme.colors.card, 
-            marginLeft: "auto"
+            marginLeft: "auto",
+            borderRadius: theme.roundness,
         },
         item: {
             flexDirection: "row",
-            padding: 12
+            padding: 12,
         },
         leftIcon: {
             marginRight: 12
@@ -63,11 +61,11 @@ export const Menu = ({isVisible, setIsVisible, items}: MenuProps) => {
             <View style={styles.menu}>      
                 {items.map(item => 
                     <>
-                        <MyView onPress={() => handlePress(item.onPress)} style={styles.item}>
-                            <FontAwesomeIcon icon={item.leftIcon} color={theme.icon.color} size={theme.icon.size} style={styles.leftIcon} />
+                        <Pressable onPress={() => handlePress(item.onPress)} style={styles.item}>
+                            <Icon icon={item.leftIcon} color={theme.icon.color} size={theme.icon.size} style={styles.leftIcon} />
                             <Text>{item.text}</Text>
-                        </MyView>
-                        <View style={{backgroundColor: item.divider ? theme.colors.accent : 'rgba(0,0,0,0)', height: 1}} />
+                        </Pressable>
+                        <View style={{backgroundColor: item.divider ? theme.colors.accent : 'rgba(0,0,0,0)', height: 1, marginHorizontal: 4 }} />
                     </>
                 )}
             </View>

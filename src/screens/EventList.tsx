@@ -11,21 +11,18 @@ import { formatDate } from 'common/helpers'
 import { useAuth } from 'contexts/AuthContext'
 import { useStore } from 'contexts/StoreContext'
 import { Button } from 'library/Button'
-import { List } from 'library/List'
+import { ListView } from 'library/ListView'
 import { useApp } from 'contexts/AppContext'
 import { Timer } from 'components/Timer'
 
 export const EventList = ({ navigation, route }: EventsProps) => {
-    const [modalVisible, setModalVisible] = React.useState(false)
-    const [selectedItemId, setSelectedItemId] = React.useState<string>()
-    const [selectedItemName, setSelectedItemName] = React.useState<string>()
-
     const { theme } = useTheme()
-    const { toast, loading } = useApp()
-    const { currentUser } = useAuth()
     const { events } = useStore() 
 
     const styles = StyleSheet.create({
+        container: {
+            marginBottom: 0
+        },
         modal: {
             marginLeft: "auto", 
             marginRight: "auto", 
@@ -41,16 +38,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     })
 
     const eventItem = ({ item }: { item: EventInfo }) => (
-        <Card 
-            direction="row" 
-            style={{marginBottom: 0}}
-            onPress={() => navigation.navigate("EventDetails", { item: item })} 
-            onLongPress={() => {
-                setSelectedItemId(item.id)
-                setSelectedItemName(item.name)
-                setModalVisible(true)
-            }}
-        >
+        <Card style={styles.container} onPress={() => navigation.navigate("EventDetails", { event: item })}>
             <View>
                 <Text h3>{item.name}</Text>
                 <Text subtitle2 >{formatDate(item.date)}</Text> 
@@ -58,45 +46,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         </Card>
     )   
 
-    const handleDelete = async () => {
-        loading(true)
-        
-        try {
-            await deleteEvent(currentUser.id, selectedItemId)
-        } catch(err) {
-            toast(err)
-        } 
-        
-        setModalVisible(false)
-        loading(false)
-    }
-
     return (
-        <>
-          <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible)
-                }}
-            >
-                <View style={styles.modal}>
-                    <Text h3 style={{marginBottom: 16}}>{selectedItemName}</Text>
-                    <View style={{flexDirection: "row", marginTop: "auto"}}>
-                        <Button 
-                            title="Delete" 
-                            onPress={handleDelete}
-                            style={{marginRight: 12, backgroundColor: "red"}} 
-                        />
-                        <Button 
-                            title="Cancel" 
-                            onPress={() => setModalVisible(false)} 
-                        />
-                    </View>
-                </View>
-            </Modal>
-            <List data={events} renderItem={eventItem} />
-        </>
+        <ListView data={events} renderItem={eventItem} />
     )
 }

@@ -1,5 +1,5 @@
-import { useTheme } from "contexts/ThemeContext"
 import * as React from "react"
+import { useTheme } from "contexts/ThemeContext"
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 
 type DividerProps = {
