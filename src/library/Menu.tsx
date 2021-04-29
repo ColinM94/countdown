@@ -57,7 +57,7 @@ export const Menu = ({isVisible, setIsVisible, items}: MenuProps) => {
             setIsVisible(!isVisible)
         }}
     >
-        <Pressable style={styles.container} onPress={() => {setIsVisible(false)}}>               
+        <Pressable style={styles.container} onPress={() => {setIsVisible(false)}} feedback={false}>               
             <View style={styles.menu}>      
                 {items.map(item => 
                     <>

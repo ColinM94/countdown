@@ -12,24 +12,19 @@ export const FAB = ({ onPress }: FABProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
-        container: {
-            overflow: "hidden",
-            borderRadius: 25,
-            position: 'absolute',
-            right: 12,
-            bottom: 12
-        },
         fab: {
+            position: "absolute",
+            borderRadius: 30,
+            right: 16,
+            bottom: 16,
+            padding: 16,
             backgroundColor: theme.colors.primary,
-            padding: 15
         },
     })
 
     return (
-        <View style={styles.container}>
-            <Pressable style={styles.fab} onPress={onPress}>
-                <Icon icon="plus" size={20} color="white" />
-            </Pressable>
-        </View>
+        <Pressable style={styles.fab} onPress={onPress} feedbackColor="lightblue">
+            <Icon icon="plus" size={20} color="white" />
+        </Pressable>
     )
 }

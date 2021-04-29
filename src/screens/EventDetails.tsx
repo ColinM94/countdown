@@ -1,11 +1,9 @@
 import * as React from 'react'
-import { ImageBackground, Modal, StyleSheet, View } from "react-native"
+import { ImageBackground, StyleSheet, StatusBar } from "react-native"
 import { EventDetailsProps } from 'navigation/types'
 import { useTheme } from 'contexts/ThemeContext'
 import { ScreenView } from 'library/ScreenView'
 import { Timer } from 'components/Timer'
-import { StatusBar } from 'expo-status-bar'
-import { useStore } from 'contexts/StoreContext'
 import { useApp } from 'contexts/AppContext'
 import { IconButton } from 'library/IconButton'
 import { Item, Menu } from 'library/Menu'
@@ -17,17 +15,14 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const { theme } = useTheme()
     const { toast } = useApp()
     const { currentUser } = useAuth()
-    const { events } = useStore()
-    const [event, setEvent] = React.useState<EventInfo>()
-    const [name, setName] = React.useState(route.params.event.name)
-    const [date, setDate] = React.useState(route.params.event.date)
+
+    const [eventInfo, setEventInfo] = React.useState<EventInfo>(route.params.eventInfo)
     const [isVisible, setIsVisible] = React.useState(false)
     const [isFullScreen, setIsFullScreen] = React.useState(false)
 
     React.useEffect(() => {
-        setName(route.params.event.name)
-        setDate(route.params.event.date)
-    }, [route.params.event])
+        setEventInfo(route.params.eventInfo)
+    }, [route.params.eventInfo])
 
     const styles = StyleSheet.create({
         text: {
@@ -51,12 +46,19 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         },
         backgroundImage: {
             flex: 1,
+        },
+        menuBtn: {
+            position: "absolute",
+            right: 4,
+            margin: 4,
+            marginTop: isFullScreen ? theme.spacing.primary : StatusBar.currentHeight + 4, 
+            marginLeft: "auto"
         }
     })
 
     const handleDelete = async () => {
         try {
-            await deleteEvent(currentUser.id, event.id)
+            await deleteEvent(currentUser.id, eventInfo.id)
             navigation.goBack()
         } catch (err) {
             toast(err.message)
@@ -71,9 +73,8 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         },
         {
             text: "Edit",
-            onPress: () => navigation.navigate("EditEvent", {event: route.params.event}),
+            onPress: () => navigation.navigate("EditEvent", {eventInfo: route.params.eventInfo}),
             leftIcon: "pencil-alt",
-
         },
         {
             text: "Delete",
@@ -84,10 +85,10 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
 
     return (
         <ScreenView style={{padding: 0}}>
-            <StatusBar translucent={false} backgroundColor={theme.colors.primary} hidden={isFullScreen} style={"light"}/> 
+            <StatusBar hidden={isFullScreen} />  
             <ImageBackground source={require("../../assets/test2.png")} style={styles.backgroundImage}> 
-                <IconButton icon="ellipsis-v" onPress={() => setIsVisible(true)} style={{margin: 4, marginLeft: "auto"}}/>
-                <Timer title={name} date={date} style={{marginTop: "45%"}}/> 
+                <IconButton icon="ellipsis-v" onPress={() => setIsVisible(true)} style={styles.menuBtn}/>
+                <Timer title={eventInfo.name} date={eventInfo.date} style={{marginTop: "45%"}}/> 
             </ImageBackground>     
             <Menu isVisible={isVisible} setIsVisible={setIsVisible} items={items} /> 
         </ScreenView >

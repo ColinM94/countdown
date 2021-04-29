@@ -89,8 +89,8 @@ export const Navigation = () => {
                 options={({ navigation }) => ({
                     title: "My Events",
                     drawerIcon: () => <Icon icon="calendar-alt" size={theme.icon.size} style={styles.drawerIcon} />,
-                    headerRight: () => <IconButton onPress={() => navigation.navigate("AddEvent")} icon="plus" style={styles.headerIcon} />,
-                })}
+/*                     headerRight: () => <IconButton onPress={() => navigation.navigate("AddEvent")} icon="plus" style={styles.headerIcon} />, */ 
+               })}
             />
             <Drawer.Screen
                 name="Settings"

@@ -1,7 +1,5 @@
-import { getData } from "api/localStorage"
 import * as React from "react"
 import { ColorValue, StyleProp, TextStyle } from "react-native"
-import { useAuth } from "./AuthContext"
 
 type ThemeProviderProps = {
     children?: JSX.Element | JSX.Element[]

@@ -8,8 +8,8 @@ export type ScreenParams = {
     Signin: undefined,
     Drawer: undefined,
     AddEvent: undefined,
-    EditEvent: { id: string, event?: EventInfo },
-    EventDetails: { id: string, event: EventInfo },
+    EditEvent: { eventInfo: EventInfo },
+    EventDetails: { eventInfo: EventInfo },
     EventList: undefined,
     Settings: undefined
 }
