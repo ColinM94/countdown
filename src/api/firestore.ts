@@ -37,8 +37,8 @@ export async function addEvent(userId: string, eventInfo: EventInfo) {
     await db.collection("users").doc(userId).collection("events").add(eventInfo)
 }
 
-export async function getEvent(id: string) {
-    let doc = await db.collection("users").doc(id).get()
+export async function getEvent(userId: string, eventId: string) {
+    let doc = await db.collection("users").doc(userId).collection("events").doc(eventId).get()
 
     if (!doc.exists) throw Error("Event not found!")
 

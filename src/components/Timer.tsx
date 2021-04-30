@@ -1,8 +1,8 @@
 import * as React from "react"
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
+import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from "react-native"
 import { Text } from "library/Text"
 import dayjs from "dayjs"
-import { formatDate, formatTime } from "common/helpers"
+import { addCommas, formatDate, formatNumberWithCommas, formatTime } from "common/helpers"
 import { Divider } from "library/Divider"
 import { Slider } from "react-native-elements"
 import { useTheme } from "contexts/ThemeContext"
@@ -11,11 +11,22 @@ import { useApp } from "contexts/AppContext"
 interface TimerProps {
     /** Date  */
     date: Date
-    style?: StyleProp<ViewStyle>,
+    style?: StyleProp<ViewStyle>
     title?: string
+    textStyle?: StyleProp<TextStyle>
+    numberStyle?: StyleProp<TextStyle>
+    letterStyle?: StyleProp<TextStyle>
+    /** 
+     * 1: Years 2: Months 3: Days 4: Hours 5: Minutes 6: Seconds. 
+     * Default is 1.
+     * E.g. If set to 1, all values will be shown, if set to 6, only seconds will be shown.
+    **/
+    precision?: number
 }
 
-export const Timer = ({ date, style, title }: TimerProps) => {
+export const Timer = (props: TimerProps) => {
+    const { date, style, title, textStyle, numberStyle, letterStyle, precision=1 } = props
+
     const [years, setYears] = React.useState(0)
     const [showYears, setShowYears] = React.useState(true)
 
@@ -33,8 +44,6 @@ export const Timer = ({ date, style, title }: TimerProps) => {
 
     const [seconds, setSeconds] = React.useState(0)
 
-    const [sliderValue, setSliderValue] = React.useState(1)
-
     const { theme } = useTheme()
     const { loading } = useApp()
 
@@ -51,161 +60,90 @@ export const Timer = ({ date, style, title }: TimerProps) => {
         }, 1000)
 
         return () => clearInterval(timer)
-    }, [sliderValue])
+    }, [precision])
 
     const calculate = () => {
-        setSliderValue(prev => {
-            let date1 = dayjs(date).utc(true)
-            let date2 = dayjs().utc(true)
+        let date1 = dayjs(date).utc(true)
+        let date2 = dayjs().utc(true)
 
-            if (prev === 1) {
-                setShowYears(true)
-                const yearDiff = Math.floor(Math.trunc(date1.diff(date2, 'year', true)))
-                date1 = date1.subtract(yearDiff, 'year')
-                setYears(Math.abs(yearDiff))
-            } else {
-                setShowYears(false)
-            }
-            
-            if (prev <= 2) {
-                setShowMonths(true)
-                const monthDiff = Math.floor(Math.trunc(date1.diff(date2, 'month', true)))
-                date1 = date1.subtract(monthDiff, 'month')
-                setMonths(Math.abs(monthDiff))
-            } else {
-                setShowMonths(false)
-            } 
+        let yearDiff = 0
+        let monthDiff = 0
+        let dayDiff = 0
+        let hourDiff = 0
+        let minuteDiff = 0
+        let secondDiff = 0
 
-            if (prev <= 3) {
-                setShowDays(true)
-                const dayDiff = Math.floor(Math.trunc(date1.diff(date2, 'day', true)))
-                date1 = date1.subtract(dayDiff, 'day')
-                setDays(Math.abs(dayDiff))
-            } else {
-                setShowDays(false)
-            }
+        if (precision === 1) {
+            yearDiff = Math.floor(Math.trunc(date1.diff(date2, 'year', true)))
+            date1 = date1.subtract(yearDiff, 'year')
+            setYears(Math.abs(yearDiff))
+            Math.abs(yearDiff) > 0 ? setShowYears(true) : setShowYears(false)
+        } else {
+            setShowYears(false)
+        }
+        
+        if (precision <= 2) {
+            monthDiff = Math.floor(Math.trunc(date1.diff(date2, 'month', true)))
+            date1 = date1.subtract(monthDiff, 'month')
+            setMonths(Math.abs(monthDiff))
+            Math.abs(yearDiff) > 0 || Math.abs(monthDiff) > 0 ? setShowMonths(true) : setShowMonths(false)
+        } else {
+            setShowMonths(false)
+        } 
 
-            if (prev <= 4) {
-                setShowHours(true)
-                const hourDiff = Math.floor(Math.trunc(date1.diff(date2, 'hour', true)))
-                date1 = date1.subtract(hourDiff, 'hour')
-                setHours(Math.abs(hourDiff))
-            } else {
-                setShowHours(false)
-            }
+        if (precision <= 3) {
+            dayDiff = Math.floor(Math.trunc(date1.diff(date2, 'day', true)))
+            date1 = date1.subtract(dayDiff, 'day')
+            setDays(Math.abs(dayDiff))
+            Math.abs(yearDiff) > 0 || Math.abs(monthDiff) > 0 || Math.abs(dayDiff) > 0 ? setShowDays(true) : setShowDays(false)
+        } else {
+            setShowDays(false)
+        }
 
-            if (prev <= 5) {
-                setShowMinutes(true)
-                const minuteDiff = Math.floor(Math.trunc(date1.diff(date2, 'minute', true)))
-                date1 = date1.subtract(minuteDiff, 'minute')
-                setMinutes(Math.abs(minuteDiff))
-            } else {
-                setShowMinutes(false)
-            }
+        if (precision <= 4) {
+            const hourDiff = Math.floor(Math.trunc(date1.diff(date2, 'hour', true)))
+            date1 = date1.subtract(hourDiff, 'hour')
+            setHours(Math.abs(hourDiff))
+            Math.abs(yearDiff) > 0 || Math.abs(monthDiff) > 0 || Math.abs(dayDiff) > 0 || Math.abs(hourDiff) > 0 ? setShowHours(true) : setShowHours(false)
+        } else {
+            setShowHours(false)
+        }
 
-            const secondDiff = Math.floor(Math.trunc(date1.diff(date2, 'second', true)))
-            date1 = date1.subtract(secondDiff, 'second')
-            setSeconds(Math.abs(secondDiff))
+        if (precision <= 5) {
+            minuteDiff = Math.floor(Math.trunc(date1.diff(date2, 'minute', true)))
+            date1 = date1.subtract(minuteDiff, 'minute')
+            setMinutes(Math.abs(minuteDiff))
+            Math.abs(yearDiff) > 0 || Math.abs(monthDiff) > 0 || Math.abs(dayDiff) > 0 || Math.abs(hourDiff) > 0 || Math.abs(minuteDiff) > 0 ? setShowHours(true) : setShowHours(false)
+        } else {
+            setShowMinutes(false)
+        }
 
-            return prev
-        })
+        secondDiff = Math.floor(Math.trunc(date1.diff(date2, 'second', true)))
+        date1 = date1.subtract(secondDiff, 'second')
+        setSeconds(Math.abs(secondDiff))
     }
 
     const styles = StyleSheet.create({
         container: {
-            alignItems: "center"
-        },
-        text: {
-            textShadowColor: 'rgba(0, 0, 0, 1)',
-            textShadowOffset: { width: 2, height: 2 },
-            textShadowRadius: 10,
-        },
-        number: {
-            marginLeft: theme.spacing.primary
-        },
-        letter: {
-            marginRight: theme.spacing.primary
-        },
-        title: {
-            marginVertical: theme.spacing.primary
-        },
-        date: {
-            marginBottom: theme.spacing.primary
-        },
-        row: {
-            width: "80%",
-            flexDirection: "row",
-            justifyContent: "space-evenly"
-        },
-        slider: {
-            width: "100%",
-        },
-        sliderThumb: {
-            backgroundColor: theme.colors.primary,
-            borderWidth: 1,
-            borderColor: theme.colors.card,
-            height: 30,
-            width: 30
-        },
-        sliderTrack: {
-            height: 2
-        }
+           
+        },  
     })
 
-    return (
-        <View style={[styles.container, style]}>
-            <Text h1 style={[styles.text, styles.title]}>{title}</Text>
-            <Text body style={[styles.text, styles.date]}>{formatDate(date)} - {formatTime(date)}</Text>
-            <View style={styles.row}>
-                {showYears &&
-                    <Text style={styles.text}>
-                        <Text h1 style={styles.number}>{years.toString()}</Text>
-                        <Text subtitle style={styles.letter}>Y</Text>
-                    </Text>
-                }
-                {showMonths &&
-                    <Text style={styles.text}>
-                        <Text h1 style={styles.number}>{months.toString()}</Text>
-                        <Text subtitle style={styles.letter}>M</Text>
-                    </Text>
-                }
-                {showDays &&
-                    <Text style={styles.text}>
-                        <Text h1 style={styles.number}>{days.toString()}</Text>
-                        <Text subtitle style={styles.letter}>D</Text>
-                    </Text>
-                }
-                {showHours &&
-                    <Text style={styles.text}>
-                        <Text h1 style={styles.number}>{hours.toString()}</Text>
-                        <Text subtitle style={styles.letter}>H</Text>
-                    </Text>
-                }
-                {showMinutes &&
-                    <Text style={styles.text}>
-                        <Text h1 style={styles.number}>{minutes.toString()}</Text>
-                        <Text subtitle style={styles.letter}>M</Text>
-                    </Text>
-                }
-                <Text style={styles.text}>
-                    <Text h1 style={styles.number}>{seconds.toString()}</Text>
-                    <Text subtitle style={styles.letter}>S</Text>
-                </Text>
-            </View>
-            <View style={styles.row}>
-                <Slider
-                    value={sliderValue}
-                    onValueChange={setSliderValue}
-                    minimumValue={1}
-                    maximumValue={6}
-                    step={1}
-                    style={styles.slider}
-                    thumbStyle={styles.sliderThumb}
-                    trackStyle={styles.sliderTrack}
-                    allowTouchTrack={true}
-                />
-            </View>
+    const line = (num: number, letter: string) => (
+        <Text style={textStyle} numberOfLines={1} adjustsFontSizeToFit>    
+            <Text h1 style={numberStyle}>{formatNumberWithCommas(num)}</Text>
+            <Text subtitle style={letterStyle}>{letter}</Text>
+        </Text>
+    )
 
-        </View>
+    return (
+        <>
+            { showYears && line(years, "Years") }
+            { showMonths && line(months, "Months") }
+            { showDays && line(days, "Days") }
+            { showHours && line(hours, "Hours") }
+            { showMinutes && line(minutes, "Minutes") }
+            { line(seconds, "Seconds") }      
+        </>
     )
 }

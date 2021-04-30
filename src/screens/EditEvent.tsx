@@ -9,7 +9,7 @@ export const EditEvent = ({ navigation, route }: EditEventProps) => {
     return (
         <ScreenView>
             <StatusBar />
-            <EventForm event={route.params.event} /> 
+            <EventForm event={route.params.eventInfo} /> 
         </ScreenView>
     )
 }

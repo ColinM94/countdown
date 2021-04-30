@@ -25,6 +25,16 @@ export const EventForm = ({event}: EventFormProps) => {
     const { loading, toast } = useApp()
     const navigation = useNavigation()
 
+    React.useEffect(() => {
+        console.log(date)
+    }, [date])
+
+    const handleSetDate = (date: Date) => {
+        date.setMilliseconds(0)
+        date.setSeconds(0)
+        setDate(date)
+    }
+
     const handleSubmit = async () => {
         loading(true)
         if(name.length < 1) {
@@ -73,14 +83,14 @@ export const EventForm = ({event}: EventFormProps) => {
             <View style={{flexDirection: "row"}}>
                 <DateTimePicker 
                     value={date} 
-                    setValue={setDate} 
+                    setValue={handleSetDate} 
                     mode="date" 
                     placeholder="Select Date" 
                     containerStyle={styles.datePicker}
                 />
                 <DateTimePicker 
                     value={date} 
-                    setValue={setDate} 
+                    setValue={handleSetDate} 
                     mode="time" 
                     placeholder="Select Time" 
                     containerStyle={styles.timePicker}    

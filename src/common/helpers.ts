@@ -11,3 +11,11 @@ export function formatDate(date: Date) {
 export function formatTime(date: Date) {
     return ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2)
 }
+
+export function addCommas(string: string) {
+    return string.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function formatNumberWithCommas (num: number) {
+    return addCommas(num.toString())
+}

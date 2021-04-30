@@ -23,31 +23,46 @@ export const EventList = ({ navigation, route }: EventsProps) => {
 
     const styles = StyleSheet.create({
         container: {
-            marginBottom: 0,
             flexDirection: "row",
-            alignItems: "center"
+            marginBottom: 0
+        },
+        leftContent: {
+            marginRight: 24
         },
         chevron: {
             marginLeft: "auto"
+        },
+        timerStyle: {
+
+        },
+        timerTextStyle: {
+
+
+        },
+        timerNumberStyle: {
+            
+        },
+        timerLetterStyle: {
+        
         }
     })
 
     const eventItem = ({ item }: { item: EventInfo }) => (
         <Card style={styles.container} onPress={() => navigation.navigate("EventDetails", { eventInfo: item })}>
-            <View>
+            <View style={styles.leftContent}>
                 <Text h3>{item.name}</Text>
-                <Text subtitle2 >{formatDate(item.date)} @ {formatTime(item.date)}</Text> 
+                <Text subtitle>{formatDate(item.date)}</Text>
             </View>
-            <View style={styles.chevron} >
-                <Icon icon="chevron-right"/>
-            </View>        
+{/*             <Text adjustsFontSizeToFit>
+                <Timer date={item.date} style={styles.timerStyle} textStyle={styles.timerTextStyle} numberStyle={styles.timerNumberStyle} letterStyle={styles.timerLetterStyle} />  
+            </Text> */}
         </Card>
     )   
 
     return (
         <>
-        <ListView data={events} renderItem={eventItem} />
-        <FAB onPress={() => navigation.navigate("AddEvent")}/>
+            <ListView data={events} renderItem={eventItem} />
+            <FAB onPress={() => navigation.navigate("AddEvent")}/>
         </>
     )
 }
