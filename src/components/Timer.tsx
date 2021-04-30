@@ -16,6 +16,8 @@ interface TimerProps {
     textStyle?: StyleProp<TextStyle>
     numberStyle?: StyleProp<TextStyle>
     letterStyle?: StyleProp<TextStyle>
+    /** If true shows "Seconds" instead of "S" */
+    fullText?: boolean
     /** 
      * 1: Years 2: Months 3: Days 4: Hours 5: Minutes 6: Seconds. 
      * Default is 1.
@@ -25,7 +27,7 @@ interface TimerProps {
 }
 
 export const Timer = (props: TimerProps) => {
-    const { date, style, title, textStyle, numberStyle, letterStyle, precision=1 } = props
+    const { date, style, title, textStyle, numberStyle, letterStyle, precision=1, fullText=true } = props
 
     const [years, setYears] = React.useState(0)
     const [showYears, setShowYears] = React.useState(true)
@@ -130,7 +132,7 @@ export const Timer = (props: TimerProps) => {
     })
 
     const line = (num: number, letter: string) => (
-        <Text style={textStyle} numberOfLines={1} adjustsFontSizeToFit>    
+        <Text style={{marginEnd: 12}} numberOfLines={1} adjustsFontSizeToFit>    
             <Text h1 style={numberStyle}>{formatNumberWithCommas(num)}</Text>
             <Text subtitle style={letterStyle}>{letter}</Text>
         </Text>
@@ -138,12 +140,12 @@ export const Timer = (props: TimerProps) => {
 
     return (
         <>
-            { showYears && line(years, "Years") }
-            { showMonths && line(months, "Months") }
-            { showDays && line(days, "Days") }
-            { showHours && line(hours, "Hours") }
-            { showMinutes && line(minutes, "Minutes") }
-            { line(seconds, "Seconds") }      
+            { showYears && line(years, fullText ? "Years" : "Y") }
+            { showMonths && line(months, fullText ? "Months" : "M") }
+            { showDays && line(days, fullText ? "Days" : "D") }
+            { showHours && line(hours, fullText ? "Hours" : "H") }
+            { showMinutes && line(minutes, fullText ? "Minutes" : "M") }
+            { line(seconds, fullText ? "Seconds" : "S") }      
         </>
     )
 }

@@ -69,7 +69,7 @@ export const Navigation = () => {
     const drawerNavigator = () => (
         <Drawer.Navigator
             screenOptions={({ navigation }) => ({
-                headerShown: true,
+                headerShown: false,
                 headerTitleStyle: theme.typography.h3,
                 headerStyle: styles.header,
                 headerLeft: () => <IconButton onPress={() => navigation.toggleDrawer()} icon="bars" style={styles.headerIcon} />,

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ImageBackground, StyleSheet, View } from "react-native"
+import { ImageBackground, StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { EventDetailsProps } from 'navigation/types'
 import { useTheme } from 'contexts/ThemeContext'
 import { ScreenView } from 'library/ScreenView'
@@ -15,25 +15,20 @@ import Constants from "expo-constants"
 import { Text } from "library/Text"
 import Slider from '@react-native-community/slider'
 
-export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
+interface Props {
+    eventInfo: EventInfo
+    style: StyleProp<ViewStyle>
+}
+
+export const EventDetails = ({ eventInfo, style }: Props) => {
     const { theme, isDark } = useTheme()
     const { toast, loading } = useApp()
     const { currentUser } = useAuth()
 
-    const [eventInfo, setEventInfo] = React.useState<EventInfo>(route.params.eventInfo)
     const [isVisible, setIsVisible] = React.useState(false)
     const [isFullScreen, setIsFullScreen] = React.useState(false)
     const [sliderValue, setSliderValue] = React.useState(1)
 
-    React.useEffect(() => {
-        setEventInfo(route.params.eventInfo)
-    }, [route.params.eventInfo])
-
-    React.useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => <IconButton icon="ellipsis-v" onPress={() => setIsVisible(true)} style={styles.menuBtn}/> 
-        })
-    })
     const styles = StyleSheet.create({
         name: {
             marginTop: 32
@@ -49,7 +44,10 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
             alignItems: "center"
         },
         menuBtn: {
-            marginRight: theme.spacing.primary
+            position: "absolute",
+            right: 4,
+            top: 28
+
         },
         slider: {
             alignSelf: "flex-end"
@@ -80,18 +78,10 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
         },
     })
 
-    const toggleFullScreen = () => {
-        navigation.setOptions({
-            headerShown: isFullScreen,
-        })
-        setIsFullScreen(!isFullScreen)
-    }
-
     const handleDelete = async () => {
         loading(true)
         try {
             await deleteEvent(currentUser.id, eventInfo.id)
-            navigation.goBack()
         } catch (err) {
             toast(err.message)
         }
@@ -101,7 +91,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     const items: Item[] = [
         {
             text: "Fullscreen",
-            onPress: toggleFullScreen,
+
             leftIcon: isFullScreen ? "compress-arrows-alt" : "expand-arrows-alt"
         },
         {
@@ -117,9 +107,10 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
     ]
 
     return (
-        <View style={{flex: 1}}>
-            <StatusBar hidden={isFullScreen} style={isDark ? "light" : "dark"} />  
+        <View style={style}>
             <ImageBackground source={require("../../assets/test2.png")} style={styles.backgroundImage}> 
+                <IconButton icon="ellipsis-v" onPress={() => setIsVisible(true)} style={styles.menuBtn}/>
+
                 <Text h1 style={styles.name}>{eventInfo.name}</Text>
                 <View style={{flex: 1, justifyContent: "center"}}>
                     <Timer title={eventInfo.name} date={eventInfo.date} precision={sliderValue} textStyle={styles.text} numberStyle={styles.number} letterStyle={styles.letter}/> 

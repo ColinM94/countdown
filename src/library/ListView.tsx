@@ -1,26 +1,28 @@
 import * as React from "react"
 import { useTheme } from "contexts/ThemeContext"
-import { FlatList, ListRenderItem, RefreshControl, StyleProp, View, ViewStyle, StyleSheet } from "react-native"
+import { FlatList, ListRenderItem, RefreshControl, StyleProp, View, ViewStyle, StyleSheet, FlatListProps } from "react-native"
 
-type ListProps = {
-    children?: React.ReactNode | React.ReactNode[],
-    onRefresh?: () => void,
-    data?: any[],
-    renderItem?: ListRenderItem<any>,
-    headerComponent?: any,
+interface ListProps {
+    children?: React.ReactNode | React.ReactNode[]
+    onRefresh?: () => void
+    data?: any[]
+    renderItem?: ListRenderItem<any>
+    headerComponent?: any
     style?: StyleProp<ViewStyle>
+    numColumns?: number
 }
 
-export const ListView = ({data, renderItem, headerComponent, onRefresh, style}: ListProps) => {
+export const ListView = ({data, renderItem, headerComponent, onRefresh, style, numColumns=1}: ListProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         container: {
             minHeight: "100%",
-            padding: theme.spacing.primary,
+/*             paddingHorizontal: theme.spacing.primary / 2,
+            paddingVertical: theme.spacing.primary */
         },
         itemSeparator: {
-            height: theme.spacing.primary
+            /* height: theme.spacing.primary, */
         }
     })
 
@@ -39,10 +41,16 @@ export const ListView = ({data, renderItem, headerComponent, onRefresh, style}: 
                     onRefresh={onRefresh}
                 />
             }
+            numColumns={numColumns}
             ListHeaderComponent={headerComponent}
-            ItemSeparatorComponent={itemSeparator}
+/*             ItemSeparatorComponent={itemSeparator} */
             contentContainerStyle={[styles.container, style]}
             keyboardShouldPersistTaps='always'
+            horizontal={true}
+            snapToAlignment={'start'}
+            viewabilityConfig={{ itemVisiblePercentThreshold: 100 }}
+            pagingEnabled={true}
+            decelerationRate={'fast'}
         />
     )
 }

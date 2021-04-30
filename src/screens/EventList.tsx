@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, View, Image, Alert, Modal } from 'react-native'
+import { StyleSheet, View, Image, Alert, Modal, ImageBackground} from 'react-native'
 import { EventsProps } from 'navigation/types'
 import { useTheme } from 'contexts/ThemeContext'
 import { Card } from 'library/Card'
@@ -16,18 +16,25 @@ import { useApp } from 'contexts/AppContext'
 import { Timer } from 'components/Timer'
 import { Icon } from 'library/Icon'
 import { FAB } from 'library/FAB'
+import { Pressable } from "library/Pressable"
+import { useWindowDimensions } from 'react-native';
+import { EventDetails } from './EventDetails'
+
 
 export const EventList = ({ navigation, route }: EventsProps) => {
     const { theme } = useTheme()
     const { events } = useStore() 
 
+    const window = useWindowDimensions()
+
     const styles = StyleSheet.create({
         container: {
-            flexDirection: "row",
-            marginBottom: 0
+         /*    marginHorizontal: theme.spacing.primary / 2, */
+            flex: 1,
+            width: window.width
         },
         leftContent: {
-            marginRight: 24
+            
         },
         chevron: {
             marginLeft: "auto"
@@ -48,21 +55,21 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     })
 
     const eventItem = ({ item }: { item: EventInfo }) => (
-        <Card style={styles.container} onPress={() => navigation.navigate("EventDetails", { eventInfo: item })}>
-            <View style={styles.leftContent}>
+        <EventDetails eventInfo={item} style={{flex: 1, width: window.width}}/>
+
+/*         <Pressable onPress={() => navigation.navigate("EventDetails", { eventInfo: item })} style={styles.container} >
+            <ImageBackground source={require("../../assets/test2.png")} style={{flex: 1, width: "100%", alignItems: "center"}}> 
                 <Text h3>{item.name}</Text>
                 <Text subtitle>{formatDate(item.date)}</Text>
-            </View>
-{/*             <Text adjustsFontSizeToFit>
-                <Timer date={item.date} style={styles.timerStyle} textStyle={styles.timerTextStyle} numberStyle={styles.timerNumberStyle} letterStyle={styles.timerLetterStyle} />  
-            </Text> */}
-        </Card>
+                    <Timer date={item.date} style={styles.timerStyle} textStyle={styles.timerTextStyle} numberStyle={styles.timerNumberStyle} letterStyle={styles.timerLetterStyle} fullText={true} />  
+            </ImageBackground>
+        </Pressable> */  
     )   
 
     return (
         <>
-            <ListView data={events} renderItem={eventItem} />
-            <FAB onPress={() => navigation.navigate("AddEvent")}/>
+            <ListView data={events} renderItem={eventItem}/>
+         {/*    <FAB onPress={() => navigation.navigate("AddEvent")}/> */}
         </>
     )
 }
