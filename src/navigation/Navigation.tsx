@@ -154,7 +154,7 @@ export const Navigation = () => {
                                 component={EventDetails}
                                 options={{
                                     title: "Event Details",
-                                    headerShown: true
+                                    headerShown: false
                                 }}
                             />
                             <Stack.Screen
@@ -168,8 +168,7 @@ export const Navigation = () => {
                                 name="EditEvent"
                                 component={EditEvent}
                                 options={{
-                                    title: "Update Event",
-                                    
+                                    title: "Edit Event",      
                                 }}
                             />
                         </>

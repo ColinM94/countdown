@@ -1,31 +1,28 @@
 import * as React from "react"
-import { StyleProp, StyleSheet, TextStyle, View, ViewStyle } from "react-native"
-import { Text } from "library/Text"
+import { StyleProp, TextStyle, Text } from "react-native"
 import dayjs from "dayjs"
-import { addCommas, formatDate, formatNumberWithCommas, formatTime } from "common/helpers"
-import { Divider } from "library/Divider"
-import { Slider } from "react-native-elements"
+import {  formatNumberWithCommas } from "common/helpers"
 import { useTheme } from "contexts/ThemeContext"
 import { useApp } from "contexts/AppContext"
 
 interface TimerProps {
     /** Date  */
     date: Date
-    style?: StyleProp<ViewStyle>
-    title?: string
-    textStyle?: StyleProp<TextStyle>
-    numberStyle?: StyleProp<TextStyle>
-    letterStyle?: StyleProp<TextStyle>
+    /** If true shows "Seconds" instead of "S" */
+    fullText?: boolean
     /** 
      * 1: Years 2: Months 3: Days 4: Hours 5: Minutes 6: Seconds. 
      * Default is 1.
      * E.g. If set to 1, all values will be shown, if set to 6, only seconds will be shown.
     **/
     precision?: number
+    style?: StyleProp<TextStyle>
+    numberStyle?: StyleProp<TextStyle>
+    letterStyle?: StyleProp<TextStyle>
 }
 
 export const Timer = (props: TimerProps) => {
-    const { date, style, title, textStyle, numberStyle, letterStyle, precision=1 } = props
+    const { date, style, numberStyle, letterStyle, precision=1, fullText=true } = props
 
     const [years, setYears] = React.useState(0)
     const [showYears, setShowYears] = React.useState(true)
@@ -123,27 +120,21 @@ export const Timer = (props: TimerProps) => {
         setSeconds(Math.abs(secondDiff))
     }
 
-    const styles = StyleSheet.create({
-        container: {
-           
-        },  
-    })
-
     const line = (num: number, letter: string) => (
-        <Text style={textStyle} numberOfLines={1} adjustsFontSizeToFit>    
-            <Text h1 style={numberStyle}>{formatNumberWithCommas(num)}</Text>
-            <Text subtitle style={letterStyle}>{letter}</Text>
+        <Text style={style} numberOfLines={1} adjustsFontSizeToFit>    
+            <Text style={numberStyle}>{formatNumberWithCommas(num)}</Text>
+            <Text style={letterStyle}>{letter}</Text>
         </Text>
     )
 
     return (
         <>
-            { showYears && line(years, "Years") }
-            { showMonths && line(months, "Months") }
-            { showDays && line(days, "Days") }
-            { showHours && line(hours, "Hours") }
-            { showMinutes && line(minutes, "Minutes") }
-            { line(seconds, "Seconds") }      
+            { showYears && line(years, fullText ? "Years" : "Y") }
+            { showMonths && line(months, fullText ? "Months" : "M") }
+            { showDays && line(days, fullText ? "Days" : "D") }
+            { showHours && line(hours, fullText ? "Hours" : "H") }
+            { showMinutes && line(minutes, fullText ? "Minutes" : "M") }
+            { line(seconds, fullText ? "Seconds" : "S") }      
         </>
     )
 }

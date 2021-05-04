@@ -41,10 +41,10 @@ export const Menu = ({isVisible, setIsVisible, items}: MenuProps) => {
         },
         item: {
             flexDirection: "row",
-            padding: 12,
+            padding: 16,
         },
         leftIcon: {
-            marginRight: 12
+            marginRight: 16
         }
     })
 
