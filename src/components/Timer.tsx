@@ -57,7 +57,7 @@ export const Timer = (props: TimerProps) => {
         }, 1000)
 
         return () => clearInterval(timer)
-    }, [precision])
+    }, [precision, date])
 
     const calculate = () => {
         let date1 = dayjs(date).utc(true)

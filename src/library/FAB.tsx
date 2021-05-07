@@ -3,12 +3,14 @@ import { StyleSheet, View } from "react-native"
 import { Icon } from "./Icon"
 import { useTheme } from "contexts/ThemeContext"
 import { Pressable } from "./Pressable"
+import { IconProp } from "@fortawesome/fontawesome-svg-core"
 
 type FABProps = {
     onPress: () => void
+    icon: IconProp
 }
 
-export const FAB = ({ onPress }: FABProps) => {
+export const FAB = ({ onPress, icon }: FABProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -24,7 +26,7 @@ export const FAB = ({ onPress }: FABProps) => {
 
     return (
         <Pressable style={styles.fab} onPress={onPress} feedbackColor="lightblue">
-            <Icon icon="plus" size={20} color="white" />
+            <Icon icon={icon} size={20} color="white" />
         </Pressable>
     )
 }

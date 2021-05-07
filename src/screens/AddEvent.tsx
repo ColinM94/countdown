@@ -1,12 +1,10 @@
 import * as React from "react"
 import { AddEventProps } from "navigation/types"
 import { ScreenView } from "library/ScreenView"
-import { EventForm } from "components/EventForm"
+import { Event } from "components/Event"
 
 export const AddEvent = ({navigation, route}: AddEventProps) => {
   return (
-      <ScreenView>
-        <EventForm />
-      </ScreenView>
+    <Event />
   )
 }

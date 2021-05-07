@@ -5,7 +5,7 @@ import { Icon } from "./Icon"
 import { useTheme } from "contexts/ThemeContext"
 import { Pressable } from "./Pressable"
 
-type IconButtonProps = {
+export type IconButtonProps = {
     icon: IconProp,
     onPress?: () => void,
     color?: string,

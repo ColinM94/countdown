@@ -17,7 +17,8 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     const styles = StyleSheet.create({
         container: {
             flexDirection: "row",
-            marginBottom: 0
+            marginBottom: 0,
+            backgroundColor: "red",
         },
         leftContent: {
             marginRight: 24
@@ -55,7 +56,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     return (
         <>
             <ListView data={events} renderItem={eventItem} />
-            <FAB onPress={() => navigation.navigate("AddEvent")}/>
+            <FAB onPress={() => navigation.navigate("AddEvent")} icon="plus"/>
         </>
     )
 }

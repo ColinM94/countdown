@@ -125,7 +125,7 @@ export const Navigation = () => {
                         headerStyle: styles.header,
                         headerTitleStyle: theme.typography.h3,
                         headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} style={styles.headerIcon} />,
-                    
+                        headerShown: false
                     })}
                 >
                     { !currentUser.isSignedIn &&
