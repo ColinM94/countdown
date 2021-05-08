@@ -11,17 +11,9 @@ export interface ModalProps extends RNModalProps{
 export const Modal = ({show, setShow, children, ...rest}: ModalProps) => {
     const styles = StyleSheet.create({
         container: {
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            alignItems: "center",
-            justifyContent: "center"
+            height: "100%",
+            width: "100%",
         },
-        modal: {
-            
-        }
     })  
 
     const close = () => {

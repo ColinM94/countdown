@@ -36,6 +36,7 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
             date={date}
+            testID="dateTimePicker"
         />
     )
 }

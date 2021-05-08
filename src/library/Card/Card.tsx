@@ -1,10 +1,10 @@
 import * as React from "react"
 import { StyleSheet } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
-import { Pressable, PressableProps } from "./Pressable"
+import { Pressable, PressableProps } from "../Pressable"
 
 export interface CardProps extends PressableProps {
-
+    
 }
 
 export const Card = ({ style, children, ...rest }: CardProps) => {
@@ -21,7 +21,7 @@ export const Card = ({ style, children, ...rest }: CardProps) => {
     })
 
     return (
-        <Pressable style={[styles.card, style]} {...rest}>
+        <Pressable style={[styles.card, style]} testID="card" {...rest}>
             {children}
         </Pressable>
     )

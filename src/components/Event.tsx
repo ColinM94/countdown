@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { ImageBackground, StyleSheet, View, Text, TextInput, ColorValue } from "react-native"
-import { EventDetailsProps } from 'navigation/types'
 import { useTheme } from 'contexts/ThemeContext'
 import { Timer } from 'components/Timer'
 import { useApp } from 'contexts/AppContext'
@@ -16,7 +15,6 @@ import { ImagePicker } from 'library/ImagePicker'
 import { useNavigation } from '@react-navigation/native'
 import { DateTimePicker } from 'library/DateTimePicker'
 import { FAB } from 'library/FAB'
-import { LinearGradient } from 'expo-linear-gradient';
 import { ColorPicker } from 'library/ColorPicker'
 
 interface EventProps {

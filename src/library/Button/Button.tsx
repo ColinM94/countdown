@@ -1,12 +1,12 @@
 import * as React from "react"
-import { StyleProp, StyleSheet, TextStyle, ViewStyle } from "react-native"
+import { StyleProp, StyleSheet, TextStyle, Pressable, ViewStyle, Text } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
-import { Pressable, PressableProps } from "./Pressable"
-import { Text } from "./Text"
 
-export interface ButtonProps extends PressableProps {
-    title?: string
+export interface ButtonProps {
+    title: string
+    style?: StyleProp<ViewStyle>
     textStyle?: StyleProp<TextStyle>
+    onPress?: () => void
 }
 
 export const Button = (props: ButtonProps) => {
@@ -25,11 +25,18 @@ export const Button = (props: ButtonProps) => {
     })
 
     return (
-        <Pressable
-            style={[styles.button, style]}
+        <Pressable 
+            style={({ pressed }) => [
+                {
+                    opacity: pressed ? 0.8 : 1
+                },
+                styles.button, 
+
+            ]}  
+            testID="button"
             {...rest}
         >     
-            <Text button style={[styles.text, textStyle]}>{title}</Text>
+            <Text style={[theme.typography.button, styles.text, textStyle]}>{title}</Text>
         </Pressable>
     )
 }
