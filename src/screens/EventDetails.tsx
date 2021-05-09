@@ -10,7 +10,10 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
 
     React.useEffect(() => {
         setEventInfo(route.params.eventInfo)
-    }, [route.params.eventInfo])
+    }, 
+    
+    
+    [route.params.eventInfo])
 
     return (
        <Event eventInfo={eventInfo} icon="check"/>

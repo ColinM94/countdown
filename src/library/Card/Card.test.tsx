@@ -1,13 +1,13 @@
 import * as React from "react"
-import { render, fireEvent } from '@testing-library/react-native'
+import { render, fireEvent } from "@testing-library/react-native"
 import { Text, View } from "react-native"
 import { ThemeProvider } from "contexts/ThemeContext"
 import { Card } from "./Card"
 
 const onPressMock = jest.fn()
 
-test("render card with children and test onPress", () => {
-    const { getByTestId, getByText } = render(
+test("renders correctly, with children, and onPress works properly.", () => {
+    const { getByText, getByTestId } = render(
         <Card onPress={() => onPressMock("test")}>
             <View>
                 <Text>Text 1</Text>
@@ -15,12 +15,12 @@ test("render card with children and test onPress", () => {
             <View>
                 <Text>Text 2</Text>
             </View>
-        </Card>, 
-        {wrapper: ThemeProvider}
+        </Card>,
+        { wrapper: ThemeProvider }
     )
 
-    fireEvent.press(getByTestId("card")) 
+    getByText("Text 1")
+    getByText("Text 2")
+    fireEvent.press(getByTestId("card"))
     expect(onPressMock).toHaveBeenCalledWith("test")
-    expect(getByText("Text 1"))
-    expect(getByText("Text 2"))
 })

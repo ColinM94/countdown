@@ -16,10 +16,10 @@ export const SectionTitle = ({ title }: SectionTitleProps) => {
         },
         line: {
             height: 1,
-            backgroundColor: theme.colors.text.tertiary
+            backgroundColor: theme.colors.text.tertiary,
         },
         leftLine: {
-            flex: 1
+            flex: 1,
         },
         rightLine: {
             flex: 20,
@@ -27,14 +27,21 @@ export const SectionTitle = ({ title }: SectionTitleProps) => {
         text: {
             color: theme.colors.primary,
             marginVertical: theme.spacing.tertiary,
-            marginHorizontal: theme.spacing.tertiary
-        }
+            marginHorizontal: theme.spacing.tertiary,
+        },
     })
 
     return (
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View
+            style={{
+                flexDirection: "row",
+                alignItems: "center",
+            }}
+        >
             {/*             <View style={[styles.line, styles.leftLine]} /> */}
-            <Text subtitle style={styles.text}>{title}</Text>
+            <Text subtitle style={styles.text}>
+                {title}
+            </Text>
             {/*             <View style={[styles.line, styles.rightLine]} /> */}
         </View>
     )

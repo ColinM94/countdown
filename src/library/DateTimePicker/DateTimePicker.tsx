@@ -24,7 +24,7 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
         setIsVisible(false)
     }
 
-    const handleConfirm = (selectedDate: Date) => { 
+    const handleConfirm = (selectedDate: Date) => {
         hideDatePicker()
         setDate(selectedDate)
     }
