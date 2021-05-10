@@ -1,12 +1,11 @@
 import * as React from "react"
-import { StyleSheet, Modal, View } from "react-native"
+import { StyleSheet, Modal, View, FlatList } from "react-native"
 import { Text } from "library/Text"
 import { useTheme } from "contexts/ThemeContext"
-import { Pressable } from "./Pressable"
-import { FlatList } from "react-native-gesture-handler"
+import { Pressable } from "../Pressable"
 
-type Item = {
-    text: string,
+export type PickerItem = {
+    text: string
     value: string
 }
 
@@ -15,16 +14,22 @@ interface PickerProps {
     setValue: (value: string) => void
     show: boolean
     setShow: (show: boolean) => void
-    data: Item[]
+    data: PickerItem[]
 }
 
-export const Picker = ({value, setValue, show, setShow, data}: PickerProps) => {
+export const Picker = ({
+    value,
+    setValue,
+    show,
+    setShow,
+    data,
+}: PickerProps) => {
     const { theme } = useTheme()
 
     const hidePicker = () => {
         setShow(false)
     }
-    
+
     const styles = StyleSheet.create({
         container: {
             position: "absolute",
@@ -33,44 +38,60 @@ export const Picker = ({value, setValue, show, setShow, data}: PickerProps) => {
             width: "100%",
         },
         item: {
-            padding: 16
+            padding: 16,
         },
         selectableItem: {
             backgroundColor: theme.colors.card,
         },
         cancelItem: {
             backgroundColor: theme.colors.primary,
-            borderRadius: 0
-        }
+            borderRadius: 0,
+        },
     })
 
-    const handlePress = (item: Item) => {
+    const handlePress = (item: PickerItem) => {
         setValue(item.value)
         hidePicker()
     }
 
-    const renderItem = ({item} : {item: Item}) => (
-        <Pressable onPress={() => handlePress(item)} style={[styles.item, styles.selectableItem]} >
-            <Text subtitle style={{color: item.value === value ? theme.colors.text.primary : theme.colors.text.tertiary}}>{item.text}</Text>
+    const renderItem = ({ item }: { item: PickerItem }) => (
+        <Pressable
+            onPress={() => handlePress(item)}
+            style={[styles.item, styles.selectableItem]}
+        >
+            <Text
+                subtitle
+                style={{
+                    color:
+                        item.value === value
+                            ? theme.colors.text.primary
+                            : theme.colors.text.tertiary,
+                }}
+            >
+                {item.text}
+            </Text>
         </Pressable>
     )
 
     return (
         <Modal
             animationType="slide"
-            transparent={true}           
+            transparent={true}
             visible={show}
             onRequestClose={() => {
-                setShow(!show);
+                setShow(!show)
             }}
         >
             <View style={styles.container}>
-                <FlatList 
+                <FlatList
                     data={data}
                     renderItem={renderItem}
-                    keyExtractor={item => item.value}
+                    keyExtractor={(item) => item.value}
                 />
-                <Pressable onPress={hidePicker} style={[styles.item, styles.cancelItem]} >
+                <Pressable
+                    onPress={hidePicker}
+                    style={[styles.item, styles.cancelItem]}
+                >
                     <Text subtitle>Cancel</Text>
                 </Pressable>
             </View>

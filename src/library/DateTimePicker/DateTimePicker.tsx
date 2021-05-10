@@ -9,19 +9,19 @@ interface DateTimePickerProps {
     date: Date | undefined
     setDate: (date: Date) => void
     mode?: "date" | "time"
-    isVisible: boolean
-    setIsVisible: (visible: boolean) => void
+    show: boolean
+    setShow: (show: boolean) => void
 }
 
 export const DateTimePicker = (props: DateTimePickerProps) => {
-    const { date, setDate, mode = "date", isVisible, setIsVisible } = props
+    const { date, setDate, mode = "date", show, setShow } = props
 
     const showDatePicker = () => {
-        setIsVisible(true)
+        setShow(true)
     }
 
     const hideDatePicker = () => {
-        setIsVisible(false)
+        setShow(false)
     }
 
     const handleConfirm = (selectedDate: Date) => {
@@ -31,7 +31,7 @@ export const DateTimePicker = (props: DateTimePickerProps) => {
 
     return (
         <DateTimePickerModal
-            isVisible={isVisible}
+            isVisible={show}
             mode={mode}
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}

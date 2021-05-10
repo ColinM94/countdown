@@ -3,7 +3,13 @@ import { StyleSheet, useWindowDimensions, View } from "react-native"
 import { Icon } from "library/Icon"
 
 import { createStackNavigator } from "@react-navigation/stack"
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerContentComponentProps, DrawerItem } from "@react-navigation/drawer"
+import {
+    createDrawerNavigator,
+    DrawerContentScrollView,
+    DrawerItemList,
+    DrawerContentComponentProps,
+    DrawerItem,
+} from "@react-navigation/drawer"
 import { NavigationContainer } from "@react-navigation/native"
 
 import { useTheme } from "contexts/ThemeContext"
@@ -20,7 +26,7 @@ import { useAuth } from "contexts/AuthContext"
 import { Signin } from "screens/Signin"
 import { Pressable } from "library/Pressable"
 
-// <..Params> adds Type checking for initialParams screen prop. 
+// <..Params> adds Type checking for initialParams screen prop.
 const Stack = createStackNavigator<ScreenParams>()
 const Drawer = createDrawerNavigator<ScreenParams>()
 
@@ -37,7 +43,7 @@ export const Navigation = () => {
             text: theme.colors.text.primary,
             border: theme.colors.card,
             notification: theme.colors.secondary,
-        }
+        },
     }
 
     const styles = StyleSheet.create({
@@ -45,7 +51,7 @@ export const Navigation = () => {
             elevation: 4,
         },
         headerIcon: {
-            marginHorizontal: theme.spacing.secondary
+            marginHorizontal: theme.spacing.secondary,
         },
         drawer: {
             backgroundColor: theme.colors.card,
@@ -62,7 +68,7 @@ export const Navigation = () => {
         },
         drawerLabel: {
             color: theme.colors.text.primary,
-            paddingVertical: theme.spacing.primary
+            paddingVertical: theme.spacing.primary,
         },
     })
 
@@ -72,7 +78,13 @@ export const Navigation = () => {
                 headerShown: true,
                 headerTitleStyle: theme.typography.h3,
                 headerStyle: styles.header,
-                headerLeft: () => <IconButton onPress={() => navigation.toggleDrawer()} icon="bars" style={styles.headerIcon} />,
+                headerLeft: () => (
+                    <IconButton
+                        onPress={() => navigation.toggleDrawer()}
+                        icon="bars"
+                        style={styles.headerIcon}
+                    />
+                ),
             })}
             drawerType="slide"
             /* drawerType={dimensions.width >= 768 ? 'permanent' : 'front'} */
@@ -88,15 +100,27 @@ export const Navigation = () => {
                 component={EventList}
                 options={({ navigation }) => ({
                     title: "My Events",
-                    drawerIcon: () => <Icon icon="calendar-alt" size={theme.icon.size} style={styles.drawerIcon} />,
-/*                     headerRight: () => <IconButton onPress={() => navigation.navigate("AddEvent")} icon="plus" style={styles.headerIcon} />, */ 
-               })}
+                    drawerIcon: () => (
+                        <Icon
+                            icon="calendar-alt"
+                            size={theme.icon.size}
+                            style={styles.drawerIcon}
+                        />
+                    ),
+                    /*                     headerRight: () => <IconButton onPress={() => navigation.navigate("AddEvent")} icon="plus" style={styles.headerIcon} />, */
+                })}
             />
             <Drawer.Screen
                 name="Settings"
                 component={Settings}
                 options={{
-                    drawerIcon: () => <Icon icon="cog" size={theme.icon.size} style={styles.drawerIcon} />
+                    drawerIcon: () => (
+                        <Icon
+                            icon="cog"
+                            size={theme.icon.size}
+                            style={styles.drawerIcon}
+                        />
+                    ),
                 }}
             />
         </Drawer.Navigator>
@@ -105,12 +129,19 @@ export const Navigation = () => {
     const drawerContent = (props: DrawerContentComponentProps) => (
         <DrawerContentScrollView {...props}>
             <Pressable style={styles.drawerTitle}>
-                <View style={{justifyContent: "center", marginRight: theme.spacing.primary}}>
-                    <Icon icon="clock" size={32} color={theme.colors.primary}/>
+                <View
+                    style={{
+                        justifyContent: "center",
+                        marginRight: theme.spacing.primary,
+                    }}
+                >
+                    <Icon icon="clock" size={32} color={theme.colors.primary} />
                 </View>
                 <View>
-                    <Text h1 style={{fontSize: 24}}>Countdown</Text>
-                    <Text subtitle>Track your important events</Text> 
+                    <Text h1 style={{ fontSize: 24 }}>
+                        Countdown
+                    </Text>
+                    <Text subtitle>Track your important events</Text>
                 </View>
             </Pressable>
             <DrawerItemList {...props} />
@@ -124,11 +155,17 @@ export const Navigation = () => {
                     screenOptions={({ navigation }) => ({
                         headerStyle: styles.header,
                         headerTitleStyle: theme.typography.h3,
-                        headerLeft: () => <IconButton icon="arrow-left" onPress={() => navigation.goBack()} style={styles.headerIcon} />,
-                        headerShown: false
+                        headerLeft: () => (
+                            <IconButton
+                                icon="arrow-left"
+                                onPress={() => navigation.goBack()}
+                                style={styles.headerIcon}
+                            />
+                        ),
+                        headerShown: false,
                     })}
                 >
-                    { !currentUser.isSignedIn &&
+                    {!currentUser.isSignedIn && (
                         <>
                             <Stack.Screen
                                 name="Drawer"
@@ -138,9 +175,8 @@ export const Navigation = () => {
                                 }}
                             />
                         </>
-                    }
-                    {
-                        currentUser.isSignedIn && 
+                    )}
+                    {currentUser.isSignedIn && (
                         <>
                             <Stack.Screen
                                 name="Drawer"
@@ -154,27 +190,27 @@ export const Navigation = () => {
                                 component={EventDetails}
                                 options={{
                                     title: "Event Details",
-                                    headerShown: false
+                                    headerShown: false,
                                 }}
                             />
-                            <Stack.Screen
+                            {/*                             <Stack.Screen
                                 name="AddEvent"
                                 component={AddEvent}
                                 options={{
                                     title: "New Event"
                                 }}
-                            />
+                            /> */}
                             <Stack.Screen
                                 name="EditEvent"
                                 component={EditEvent}
                                 options={{
-                                    title: "Edit Event",      
+                                    title: "Edit Event",
                                 }}
                             />
                         </>
-                    }        
+                    )}
                 </Stack.Navigator>
-            </NavigationContainer >
+            </NavigationContainer>
         </View>
     )
 }

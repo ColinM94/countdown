@@ -4,10 +4,14 @@ import { Platform } from "react-native"
 import { IconButton, IconButtonProps } from "../IconButton"
 
 interface ImagePickerProps {
-    setImage: any
+    setImage: (image: any) => void
+    show: boolean
+    setShow: (show: boolean) => void
 }
 
-export const ImagePicker = ({ setImage }: ImagePickerProps) => {
+export const ImagePicker = (props: ImagePickerProps) => {
+    const { setImage, show, setShow } = props
+
     React.useEffect(() => {
         ;(async () => {
             if (Platform.OS !== "web") {
@@ -23,6 +27,13 @@ export const ImagePicker = ({ setImage }: ImagePickerProps) => {
         })()
     }, [])
 
+    React.useEffect(() => {
+        if (show) {
+            pickImage()
+        }
+        setShow(false)
+    }, [show])
+
     const pickImage = async () => {
         let result = await ExpoImagePicker.launchImageLibraryAsync({
             mediaTypes: ExpoImagePicker.MediaTypeOptions.All,
@@ -36,5 +47,5 @@ export const ImagePicker = ({ setImage }: ImagePickerProps) => {
         }
     }
 
-    return <IconButton icon="image" onPress={pickImage} />
+    return <></>
 }

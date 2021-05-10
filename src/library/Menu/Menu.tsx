@@ -6,7 +6,7 @@ import { Text } from "../Text"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { Icon } from "../Icon"
 
-export interface Item {
+export interface MenuItem {
     text: string
     onPress: () => void
     leftIcon: IconProp
@@ -14,17 +14,17 @@ export interface Item {
 }
 
 interface MenuProps {
-    isVisible: boolean
-    setIsVisible: (visible: boolean) => void
-    items: Item[]
+    show: boolean
+    setShow: (show: boolean) => void
+    items: MenuItem[]
 }
 
-export const Menu = ({ isVisible, setIsVisible, items }: MenuProps) => {
+export const Menu = ({ show, setShow, items }: MenuProps) => {
     const { theme } = useTheme()
 
     const handlePress = (onPress: () => void) => {
         onPress()
-        setIsVisible(false)
+        setShow(false)
     }
 
     const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ export const Menu = ({ isVisible, setIsVisible, items }: MenuProps) => {
         },
         item: {
             flexDirection: "row",
-            padding: 16,
+            padding: theme.spacing.primary,
         },
         leftIcon: {
             marginRight: 16,
@@ -51,15 +51,15 @@ export const Menu = ({ isVisible, setIsVisible, items }: MenuProps) => {
         <Modal
             animationType="fade"
             transparent={true}
-            visible={isVisible}
+            visible={show}
             onRequestClose={() => {
-                setIsVisible(!isVisible)
+                setShow(!show)
             }}
         >
             <Pressable
                 style={styles.container}
                 onPress={() => {
-                    setIsVisible(false)
+                    setShow(false)
                 }}
                 feedback={false}
             >
