@@ -3,9 +3,7 @@ import { StyleSheet } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
 import { Pressable, PressableProps } from "../Pressable"
 
-export interface CardProps extends PressableProps {
-    
-}
+export interface CardProps extends PressableProps {}
 
 export const Card = ({ style, children, ...rest }: CardProps) => {
     const { theme } = useTheme()
@@ -16,8 +14,8 @@ export const Card = ({ style, children, ...rest }: CardProps) => {
             borderRadius: theme.roundness,
             elevation: theme.elevation.card,
             marginBottom: theme.spacing.primary,
-            padding: theme.spacing.primary,  
-        }
+            padding: theme.spacing.primary,
+        },
     })
 
     return (

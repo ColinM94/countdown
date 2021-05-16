@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleProp, TextStyle, Text, View } from "react-native"
+import { StyleProp, TextStyle, Text, View, ViewStyle } from "react-native"
 import dayjs from "dayjs"
 import { formatNumberWithCommas } from "common/helpers"
 import { useTheme } from "contexts/ThemeContext"
@@ -16,7 +16,7 @@ interface TimerProps {
      * E.g. If set to 1, all values will be shown, if set to 6, only seconds will be shown.
      **/
     precision?: number
-    style?: StyleProp<TextStyle>
+    style?: StyleProp<ViewStyle>
     numberStyle?: StyleProp<TextStyle>
     letterStyle?: StyleProp<TextStyle>
 }
@@ -151,7 +151,6 @@ export const Timer = (props: TimerProps) => {
     const line = (num: number, letter: string) => (
         <Text numberOfLines={1} adjustsFontSizeToFit>
             <Text style={numberStyle}>{formatNumberWithCommas(num)}</Text>
-            <Text> </Text>
             <Text> </Text>
             <Text style={letterStyle}>{letter}</Text>
         </Text>

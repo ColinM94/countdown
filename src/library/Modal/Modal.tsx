@@ -9,13 +9,15 @@ export interface ModalProps extends RNModalProps {
     closeOnOutsidePress?: boolean
 }
 
-export const Modal = ({
-    show,
-    setShow,
-    children,
-    closeOnOutsidePress = true,
-    ...rest
-}: ModalProps) => {
+export const Modal = (props: ModalProps) => {
+    const {
+        show,
+        setShow,
+        children,
+        closeOnOutsidePress = true,
+        ...rest
+    } = props
+
     const styles = StyleSheet.create({
         container: {
             height: "100%",
@@ -40,6 +42,7 @@ export const Modal = ({
             <Pressable
                 style={styles.container}
                 onPress={closeOnOutsidePress ? close : undefined}
+                pointerEvents="auto"
             >
                 {children}
             </Pressable>

@@ -3,6 +3,7 @@ import { db } from "api/config"
 import { EventInfo } from "common/types"
 import { useAuth } from "./AuthContext"
 import { useApp } from "./AppContext"
+import { docToEventInfo } from "api/firestore"
 
 type StoreProviderProps = {
     children: JSX.Element | JSX.Element[]
@@ -17,7 +18,7 @@ type State = {
 }
 
 const initialState: State = {
-    events: []
+    events: [],
 }
 const StoreContext = React.createContext(initialState)
 
@@ -29,23 +30,23 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
     const [events, setEvents] = React.useState(initialState.events)
 
     const { currentUser } = useAuth()
-    const { loading} = useApp()
+    const { loading } = useApp()
 
     React.useEffect(() => {
-        if(!currentUser.id) return 
+        if (!currentUser.id) return
 
         loading(true)
-        const unsubscribe = db.collection("users").doc(currentUser.id).collection("events")
-            .onSnapshot(querySnapshot => {
+        const unsubscribe = db
+            .collection("users")
+            .doc(currentUser.id)
+            .collection("events")
+            .onSnapshot((querySnapshot) => {
                 loading(true)
                 let tempEvents: EventInfo[] = []
 
-                querySnapshot.forEach(doc => {
-                    let tempEvent: EventInfo = {
-                        id: doc.id,
-                        name: doc.data().name,
-                        date: doc.data().date.toDate()
-                    }
+                querySnapshot.forEach((doc) => {
+                    let tempEvent: EventInfo = docToEventInfo(doc)
+
                     tempEvents.push(tempEvent)
                 })
                 setEvents(tempEvents)
@@ -56,13 +57,10 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
     }, [currentUser])
 
     const value: Value = {
-        events
+        events,
     }
 
     return (
-        <StoreContext.Provider value={value}>
-            {children}
-        </StoreContext.Provider>
+        <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
     )
 }
-

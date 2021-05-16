@@ -64,11 +64,12 @@ export const Menu = ({ show, setShow, items }: MenuProps) => {
                 feedback={false}
             >
                 <View style={styles.menu}>
-                    {items.map((item) => (
+                    {items.map((item, index) => (
                         <>
                             <Pressable
                                 onPress={() => handlePress(item.onPress)}
                                 style={styles.item}
+                                key={index}
                             >
                                 <Icon
                                     icon={item.leftIcon}

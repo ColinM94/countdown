@@ -8,10 +8,7 @@ import {
     Text,
     TextInput,
 } from "react-native"
-import { EventContent } from "./EventContent"
 import Constants from "expo-constants"
-import { EventHeader } from "./EventHeader"
-import { EventFooter } from "./EventFooter"
 import { useTheme } from "contexts/ThemeContext"
 import { ColorPicker } from "library/ColorPicker"
 import { ImagePicker } from "library/ImagePicker"
@@ -25,31 +22,59 @@ import { Menu, MenuItem } from "library/Menu"
 import { useNavigation } from "@react-navigation/native"
 import Slider from "@react-native-community/slider"
 import { useWindowDimensions } from "react-native"
+import { addEvent, updateEvent } from "api/firestore"
+import { useAuth } from "contexts/AuthContext"
+import { useApp } from "contexts/AppContext"
 
 interface EventProps {
-    eventInfo: EventInfo
+    eventInfo?: EventInfo
 }
 
 export const Event = ({ eventInfo }: EventProps) => {
     const { theme } = useTheme()
+    const { currentUser } = useAuth()
+    const { toast } = useApp()
     const navigation = useNavigation()
 
-    const [name, setName] = React.useState(eventInfo.name)
-    const [date, setDate] = React.useState(eventInfo.date)
+    const [name, setName] = React.useState(eventInfo?.name ?? "")
+    const [date, setDate] = React.useState(eventInfo?.date ?? undefined)
     const [image, setImage] = React.useState()
-    const [backgroundColor, setBackgroundColor] = React.useState<ColorValue>(
-        "rgba(0,0,0,0)"
+    const [color, setColor] = React.useState<ColorValue>(
+        eventInfo?.color ?? theme.colors.card
     )
     const [sliderValue, setSliderValue] = React.useState(1)
-
-    const windowHeight = useWindowDimensions().height
 
     const [showColorPicker, setShowColorPicker] = React.useState(false)
     const [showImagePicker, setShowImagePicker] = React.useState(false)
     const [showDatePicker, setShowDatePicker] = React.useState(false)
     const [showTimePicker, setShowTimePicker] = React.useState(false)
-    const [showCustomiseModal, setShowCustomiseModal] = React.useState(false)
+    const [showCustomiseModal, setShowCustomiseModal] = React.useState(
+        !eventInfo
+    )
     const [showMenu, setShowMenu] = React.useState(false)
+
+    const windowHeight = useWindowDimensions().height
+
+    const handleSave = async () => {
+        setShowCustomiseModal(false)
+
+        try {
+            if (!eventInfo) {
+                await addEvent(currentUser.id, { name, date, color })
+                toast("Saved")
+            } else {
+                await updateEvent(currentUser.id, {
+                    id: eventInfo.id,
+                    name,
+                    date,
+                    color,
+                })
+                toast("Saved")
+            }
+        } catch (err) {
+            toast(err.message)
+        }
+    }
 
     const menuItems: MenuItem[] = [
         {
@@ -75,7 +100,7 @@ export const Event = ({ eventInfo }: EventProps) => {
     const styles = StyleSheet.create({
         background: {
             flex: 1,
-            backgroundColor: backgroundColor,
+            backgroundColor: color,
             height: windowHeight,
         },
         backgroundOverlay: {
@@ -103,8 +128,13 @@ export const Event = ({ eventInfo }: EventProps) => {
         name: {
             fontSize: 36,
             color: "rgba(255,255,255,0.87)",
+            marginBottom: theme.spacing.primary,
         },
         date: {
+            fontSize: 24,
+            color: "rgba(255,255,255,0.64)",
+        },
+        time: {
             fontSize: 24,
             color: "rgba(255,255,255,0.64)",
         },
@@ -155,17 +185,25 @@ export const Event = ({ eventInfo }: EventProps) => {
                     </View>
 
                     <View style={styles.content}>
-                        <TextInput style={styles.name} onChangeText={setName}>
+                        <TextInput
+                            style={styles.name}
+                            onChangeText={setName}
+                            placeholder="Event Name"
+                            placeholderTextColor={styles.name.color}
+                        >
                             {name}
                         </TextInput>
-                        <Text style={styles.date}>
-                            <Text onPress={() => setShowDatePicker(true)}>
-                                {formatDate(date)}
-                            </Text>
-                            <Text>{" @ "}</Text>
-                            <Text onPress={() => setShowTimePicker(true)}>
-                                {formatTime(date)}
-                            </Text>
+                        <Text
+                            style={styles.date}
+                            onPress={() => setShowDatePicker(true)}
+                        >
+                            {date ? formatDate(date) : "Date"}
+                        </Text>
+                        <Text
+                            style={styles.time}
+                            onPress={() => setShowTimePicker(true)}
+                        >
+                            {date ? formatTime(date) : "Time"}
                         </Text>
                         <Timer
                             date={date}
@@ -210,11 +248,7 @@ export const Event = ({ eventInfo }: EventProps) => {
                         onPress={() => setShowColorPicker(!showColorPicker)}
                     />
                 </View>
-                <FAB
-                    icon="check"
-                    onPress={() => setShowCustomiseModal(false)}
-                    color="#2EA043"
-                />
+                <FAB icon="check" onPress={handleSave} color="#2EA043" />
                 <FAB
                     icon="undo"
                     onPress={() => setShowCustomiseModal(false)}
@@ -237,8 +271,8 @@ export const Event = ({ eventInfo }: EventProps) => {
             <ColorPicker
                 show={showColorPicker}
                 setShow={setShowColorPicker}
-                color={backgroundColor}
-                setColor={setBackgroundColor}
+                color={color}
+                setColor={setColor}
             />
             <ImagePicker
                 setImage={setImage}
