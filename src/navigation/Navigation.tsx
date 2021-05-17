@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleSheet, useWindowDimensions, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { Icon } from "library/Icon"
 
 import { createStackNavigator } from "@react-navigation/stack"
@@ -8,7 +8,6 @@ import {
     DrawerContentScrollView,
     DrawerItemList,
     DrawerContentComponentProps,
-    DrawerItem,
 } from "@react-navigation/drawer"
 import { NavigationContainer } from "@react-navigation/native"
 
@@ -20,8 +19,6 @@ import { ScreenParams } from "./types"
 import { EventList } from "screens/EventList"
 import { Settings } from "screens/Settings"
 import { EventDetails } from "screens/EventDetails"
-import { AddEvent } from "screens/AddEvent"
-import { EditEvent } from "screens/EditEvent"
 import { useAuth } from "contexts/AuthContext"
 import { Signin } from "screens/Signin"
 import { Pressable } from "library/Pressable"
@@ -99,6 +96,7 @@ export const Navigation = () => {
                 name="EventList"
                 component={EventList}
                 options={({ navigation }) => ({
+                    headerShown: false,
                     title: "My Events",
                     drawerIcon: () => (
                         <Icon
@@ -178,12 +176,13 @@ export const Navigation = () => {
                     )}
                     {currentUser.isSignedIn && (
                         <>
-                            <Stack.Screen
-                                name="Drawer"
-                                component={drawerNavigator}
-                                options={{
+                            <Drawer.Screen
+                                name="EventList"
+                                component={EventList}
+                                options={({ navigation }) => ({
                                     headerShown: false,
-                                }}
+                                    title: "My Events",
+                                })}
                             />
                             <Stack.Screen
                                 name="EventDetails"
@@ -193,18 +192,12 @@ export const Navigation = () => {
                                     headerShown: false,
                                 }}
                             />
-                            {/*                             <Stack.Screen
-                                name="AddEvent"
-                                component={AddEvent}
+                            <Drawer.Screen
+                                name="Settings"
+                                component={Settings}
                                 options={{
-                                    title: "New Event"
-                                }}
-                            /> */}
-                            <Stack.Screen
-                                name="EditEvent"
-                                component={EditEvent}
-                                options={{
-                                    title: "Edit Event",
+                                    title: "Settings",
+                                    headerShown: false,
                                 }}
                             />
                         </>

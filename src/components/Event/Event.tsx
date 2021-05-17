@@ -22,7 +22,7 @@ import { Menu, MenuItem } from "library/Menu"
 import { useNavigation } from "@react-navigation/native"
 import Slider from "@react-native-community/slider"
 import { useWindowDimensions } from "react-native"
-import { addEvent, updateEvent } from "api/firestore"
+import { addEvent, deleteEvent, updateEvent } from "api/firestore"
 import { useAuth } from "contexts/AuthContext"
 import { useApp } from "contexts/AppContext"
 
@@ -33,7 +33,7 @@ interface EventProps {
 export const Event = ({ eventInfo }: EventProps) => {
     const { theme } = useTheme()
     const { currentUser } = useAuth()
-    const { toast } = useApp()
+    const { toast, loading } = useApp()
     const navigation = useNavigation()
 
     const [name, setName] = React.useState(eventInfo?.name ?? "")
@@ -56,8 +56,8 @@ export const Event = ({ eventInfo }: EventProps) => {
     const windowHeight = useWindowDimensions().height
 
     const handleSave = async () => {
+        loading(true)
         setShowCustomiseModal(false)
-
         try {
             if (!eventInfo) {
                 await addEvent(currentUser.id, { name, date, color })
@@ -74,6 +74,25 @@ export const Event = ({ eventInfo }: EventProps) => {
         } catch (err) {
             toast(err.message)
         }
+        loading(false)
+    }
+
+    const handleDelete = async () => {
+        loading(true)
+
+        try {
+            await deleteEvent(currentUser.id, eventInfo.id)
+            navigation.navigate("EventList")
+        } catch (err) {
+            toast(err.message)
+        }
+
+        loading(false)
+    }
+
+    const handleSetColor = (color: ColorValue) => {
+        setImage(undefined)
+        setColor(color)
     }
 
     const menuItems: MenuItem[] = [
@@ -85,7 +104,7 @@ export const Event = ({ eventInfo }: EventProps) => {
         {
             text: "Delete",
             leftIcon: "trash",
-            onPress: () => {},
+            onPress: handleDelete,
             divider: true,
         },
         {
@@ -272,7 +291,7 @@ export const Event = ({ eventInfo }: EventProps) => {
                 show={showColorPicker}
                 setShow={setShowColorPicker}
                 color={color}
-                setColor={setColor}
+                setColor={handleSetColor}
             />
             <ImagePicker
                 setImage={setImage}

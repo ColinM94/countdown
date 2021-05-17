@@ -34,6 +34,9 @@ import {
     faPalette,
     faTimes,
     faUndo,
+    faThList,
+    faArrowsAltV,
+    faArrowsAltH,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { AuthProvider } from "contexts/AuthContext"
@@ -77,7 +80,10 @@ export const Main = () => {
         faChevronDown,
         faChevronUp,
         faTimes,
-        faUndo
+        faUndo,
+        faThList,
+        faArrowsAltV,
+        faArrowsAltH
     )
 
     return (

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StyleSheet, View, Switch} from "react-native"
+import { StyleSheet, View, Switch, ScrollView } from "react-native"
 import { SettingsProps } from "navigation/types"
 import { useTheme } from "contexts/ThemeContext"
 import { ScreenView } from "library/ScreenView"
@@ -11,6 +11,8 @@ import { Picker } from "library/Picker"
 import { addDateFormat, updateUser } from "api/firestore"
 import { useAuth } from "contexts/AuthContext"
 import { useApp } from "contexts/AppContext"
+import { IconButton } from "library/IconButton"
+import Constants from "expo-constants"
 
 const options = [
     {
@@ -20,7 +22,7 @@ const options = [
     {
         text: "dd.mm.yy",
         value: "dd.mm.yy",
-    }
+    },
 ]
 
 export function Settings({ navigation, route }: SettingsProps) {
@@ -29,18 +31,19 @@ export function Settings({ navigation, route }: SettingsProps) {
     const { theme, isDark, setIsDark } = useTheme()
 
     const [dateFormat, setDateFormat] = React.useState(currentUser.dateFormat)
-    const [showDateFormatPicker, setShowDateFormatPicker] = React.useState(false)
-    
-    React.useEffect(() => {
-     
-    }, [])
-    
+    const [showDateFormatPicker, setShowDateFormatPicker] = React.useState(
+        false
+    )
+    const [showMenu, setShowMenu] = React.useState(false)
+
+    React.useEffect(() => {}, [])
+
     const handleDarkModePress = async () => {
         loading(true)
         setIsDark(!isDark)
 
         try {
-            await updateUser(currentUser.id, {darkMode: !isDark})
+            await updateUser(currentUser.id, { darkMode: !isDark })
         } catch (err) {
             toast(err.message)
         }
@@ -57,18 +60,30 @@ export function Settings({ navigation, route }: SettingsProps) {
     }
 
     const styles = StyleSheet.create({
+        header: {
+            paddingHorizontal: theme.spacing.primary,
+            paddingTop: Constants.statusBarHeight + 4,
+            paddingBottom: 4,
+            flexDirection: "row",
+        },
+        headerRightBtn: {
+            marginLeft: "auto",
+        },
+        headerLeftBtn: {
+            marginRight: "auto",
+        },
         item: {
-            flexDirection: "row"
+            flexDirection: "row",
         },
         itemRight: {
-            marginLeft: "auto", 
-            marginRight: theme.spacing.tertiary, 
-            justifyContent: "center"
+            marginLeft: "auto",
+            marginRight: theme.spacing.tertiary,
+            justifyContent: "center",
         },
         button: {
             marginBottom: theme.spacing.primary,
-            width: "100%"
-        }
+            width: "100%",
+        },
     })
 
     const handleDateFormat = async (value: string) => {
@@ -76,40 +91,75 @@ export function Settings({ navigation, route }: SettingsProps) {
         setDateFormat(value)
         try {
             await addDateFormat(currentUser.id, value)
-        } catch(err) {
+        } catch (err) {
             toast(err.message)
         }
         loading(false)
     }
 
     return (
-        <ScreenView>
-            <Card onPress={handleDarkModePress} style={styles.item}>
-                <View>
-                    <Text h3>Dark Mode</Text>
-                    <Text subtitle>Toggle dark theme</Text>
-                </View>
-                <Switch value={isDark} onValueChange={handleDarkModePress} thumbColor={theme.colors.primary} trackColor={{false: theme.colors.accent, true: theme.colors.primaryAccent}} style={{ marginLeft: "auto" }} />
-            </Card>
-            <Card onPress={() => setShowDateFormatPicker(true)} style={styles.item}>
-                <View>
-                    <Text h3>Date Format</Text>
-                    <Text subtitle>{dateFormat}</Text>
-                </View>
-                <View style={styles.itemRight}>
-                    <Icon icon="chevron-right" size={28} color={theme.icon.color}/>
-                </View>
-            </Card>
-            <Card onPress={handleSignOut} style={styles.item}>
-                <View>
-                    <Text h3>Sign out</Text>
-                    <Text subtitle>Return to the login screen</Text>
-                </View>
-                <View style={styles.itemRight}>
-                    <Icon icon="sign-out-alt" size={28} color={theme.icon.color}/>
-                </View>
-            </Card>
-            <Picker show={showDateFormatPicker} setShow={setShowDateFormatPicker} value={dateFormat} setValue={handleDateFormat} data={options}/>
-        </ScreenView>
+        <>
+            <View style={styles.header}>
+                <IconButton
+                    icon="arrow-left"
+                    style={styles.headerLeftBtn}
+                    onPress={() => navigation.goBack()}
+                />
+            </View>
+            <ScrollView style={{ padding: theme.spacing.primary }}>
+                <Card onPress={handleDarkModePress} style={styles.item}>
+                    <View>
+                        <Text h3>Dark Mode</Text>
+                        <Text subtitle>Toggle dark theme</Text>
+                    </View>
+                    <Switch
+                        value={isDark}
+                        onValueChange={handleDarkModePress}
+                        thumbColor={theme.colors.primary}
+                        trackColor={{
+                            false: theme.colors.accent,
+                            true: theme.colors.primaryAccent,
+                        }}
+                        style={{ marginLeft: "auto" }}
+                    />
+                </Card>
+                <Card
+                    onPress={() => setShowDateFormatPicker(true)}
+                    style={styles.item}
+                >
+                    <View>
+                        <Text h3>Date Format</Text>
+                        <Text subtitle>{dateFormat}</Text>
+                    </View>
+                    <View style={styles.itemRight}>
+                        <Icon
+                            icon="chevron-right"
+                            size={28}
+                            color={theme.icon.color}
+                        />
+                    </View>
+                </Card>
+                <Card onPress={handleSignOut} style={styles.item}>
+                    <View>
+                        <Text h3>Sign out</Text>
+                        <Text subtitle>Return to the login screen</Text>
+                    </View>
+                    <View style={styles.itemRight}>
+                        <Icon
+                            icon="sign-out-alt"
+                            size={28}
+                            color={theme.icon.color}
+                        />
+                    </View>
+                </Card>
+                <Picker
+                    show={showDateFormatPicker}
+                    setShow={setShowDateFormatPicker}
+                    value={dateFormat}
+                    setValue={handleDateFormat}
+                    data={options}
+                />
+            </ScrollView>
+        </>
     )
 }

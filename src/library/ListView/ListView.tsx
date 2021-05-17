@@ -31,7 +31,7 @@ export const ListView = ({
     const styles = StyleSheet.create({
         container: {
             minHeight: "100%",
-            padding: theme.spacing.primary,
+            padding: 0,
         },
         itemSeparator: {
             height: theme.spacing.primary,
