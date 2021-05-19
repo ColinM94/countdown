@@ -48,10 +48,13 @@ export const Timer = (props: TimerProps) => {
 
     const [seconds, setSeconds] = React.useState(0)
 
-    const { theme } = useTheme()
+    const [isPast, setIsPast] = React.useState(false)
+
     const { loading } = useApp()
 
     const utc = require("dayjs/plugin/utc")
+    var relativeTime = require("dayjs/plugin/relativeTime")
+    dayjs.extend(relativeTime)
     dayjs.extend(utc)
 
     React.useEffect(() => {
@@ -76,6 +79,8 @@ export const Timer = (props: TimerProps) => {
         let hourDiff = 0
         let minuteDiff = 0
         let secondDiff = 0
+
+        console.log(date1)
 
         if (precision === 1) {
             yearDiff = Math.floor(Math.trunc(date1.diff(date2, "year", true)))
@@ -151,8 +156,8 @@ export const Timer = (props: TimerProps) => {
     const line = (num: number, letter: string) => (
         <Text numberOfLines={1} adjustsFontSizeToFit>
             <Text style={numberStyle}>{formatNumberWithCommas(num)}</Text>
-            <Text> </Text>
             <Text style={letterStyle}>{letter}</Text>
+            <Text> </Text>
         </Text>
     )
 

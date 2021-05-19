@@ -42,7 +42,6 @@ export const Modal = (props: ModalProps) => {
             <Pressable
                 style={styles.container}
                 onPress={closeOnOutsidePress ? close : undefined}
-                pointerEvents="auto"
             >
                 {children}
             </Pressable>

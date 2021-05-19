@@ -7,6 +7,7 @@ import {
     ColorValue,
     Text,
     TextInput,
+    Keyboard,
 } from "react-native"
 import Constants from "expo-constants"
 import { useTheme } from "contexts/ThemeContext"
@@ -35,6 +36,7 @@ export const Event = ({ eventInfo }: EventProps) => {
     const { currentUser } = useAuth()
     const { toast, loading } = useApp()
     const navigation = useNavigation()
+    var nameTextInput: TextInput = React.createRef()
 
     const [name, setName] = React.useState(eventInfo?.name ?? "")
     const [date, setDate] = React.useState(eventInfo?.date ?? undefined)
@@ -61,7 +63,8 @@ export const Event = ({ eventInfo }: EventProps) => {
         try {
             if (!eventInfo) {
                 await addEvent(currentUser.id, { name, date, color })
-                toast("Saved")
+                navigation.navigate("EventList")
+                toast("Event Created")
             } else {
                 await updateEvent(currentUser.id, {
                     id: eventInfo.id,
@@ -197,6 +200,32 @@ export const Event = ({ eventInfo }: EventProps) => {
                 <View style={styles.backgroundOverlay}>
                     <View style={styles.header}>
                         <IconButton
+                            icon="image"
+                            onPress={() => setShowImagePicker(!showImagePicker)}
+                        />
+                        <IconButton
+                            icon="palette"
+                            style={styles.headerBtn}
+                            onPress={() => setShowColorPicker(!showColorPicker)}
+                        />
+                        <IconButton
+                            icon="calendar-alt"
+                            style={styles.headerBtn}
+                            onPress={() => setShowDatePicker(!showDatePicker)}
+                        />
+                        <IconButton
+                            icon="clock"
+                            style={styles.headerBtn}
+                            onPress={() => setShowTimePicker(!showTimePicker)}
+                        />
+                        <IconButton
+                            icon="pencil-alt"
+                            style={styles.headerBtn}
+                            onPress={() => {
+                                nameTextInput.focus()
+                            }}
+                        />
+                        <IconButton
                             icon="ellipsis-v"
                             style={styles.headerMenuBtn}
                             onPress={() => setShowMenu(!showMenu)}
@@ -209,6 +238,9 @@ export const Event = ({ eventInfo }: EventProps) => {
                             onChangeText={setName}
                             placeholder="Event Name"
                             placeholderTextColor={styles.name.color}
+                            ref={(ref) => {
+                                nameTextInput = ref
+                            }}
                         >
                             {name}
                         </TextInput>
@@ -231,61 +263,30 @@ export const Event = ({ eventInfo }: EventProps) => {
                             letterStyle={styles.letterStyle}
                             precision={sliderValue}
                         />
+                        <View style={styles.sliderContainer}>
+                            <Slider
+                                value={sliderValue}
+                                minimumValue={0}
+                                maximumValue={6}
+                                step={1}
+                                minimumTrackTintColor={theme.colors.primary}
+                                maximumTrackTintColor="#FFFFFF"
+                                onValueChange={setSliderValue}
+                                thumbTintColor={theme.colors.primary}
+                            />
+                        </View>
                     </View>
                 </View>
             </ImageBackground>
 
-            <Modal
-                show={showCustomiseModal}
-                setShow={setShowCustomiseModal}
-                closeOnOutsidePress={false}
-                animationType="fade"
-            >
-                <View style={styles.customiseModal}>
-                    <IconButton
-                        icon="image"
-                        onPress={() => setShowImagePicker(!showImagePicker)}
-                    />
-                    <IconButton
-                        icon="palette"
-                        style={styles.headerBtn}
-                        onPress={() => setShowColorPicker(!showColorPicker)}
-                    />
-                    <IconButton
-                        icon="calendar-alt"
-                        style={styles.headerBtn}
-                        onPress={() => setShowDatePicker(!showDatePicker)}
-                    />
-                    <IconButton
-                        icon="clock"
-                        style={styles.headerBtn}
-                        onPress={() => setShowTimePicker(!showTimePicker)}
-                    />
-                    <IconButton
-                        icon="pencil-alt"
-                        style={styles.headerBtn}
-                        onPress={() => setShowColorPicker(!showColorPicker)}
-                    />
-                </View>
-                <FAB icon="check" onPress={handleSave} color="#2EA043" />
-                <FAB
-                    icon="undo"
-                    onPress={() => setShowCustomiseModal(false)}
-                    style={{ bottom: 84 }}
-                />
-                <View style={styles.sliderContainer}>
-                    <Slider
-                        value={sliderValue}
-                        minimumValue={0}
-                        maximumValue={6}
-                        step={1}
-                        minimumTrackTintColor={theme.colors.primary}
-                        maximumTrackTintColor="#FFFFFF"
-                        onValueChange={setSliderValue}
-                        thumbTintColor={theme.colors.primary}
-                    />
-                </View>
-            </Modal>
+            <View style={styles.customiseModal}></View>
+            <FAB icon="check" onPress={handleSave} color="#2EA043" />
+            <FAB
+                icon="undo"
+                onPress={() => setShowCustomiseModal(false)}
+                style={{ bottom: 84 }}
+            />
+
             <Menu show={showMenu} setShow={setShowMenu} items={menuItems} />
             <ColorPicker
                 show={showColorPicker}

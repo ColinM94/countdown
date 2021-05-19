@@ -8,20 +8,16 @@ import {
 } from "react-native"
 import { EventsProps } from "navigation/types"
 import { useTheme } from "contexts/ThemeContext"
-import { Card } from "library/Card"
 import { EventInfo } from "common/types"
-import { formatDate, formatTime } from "common/helpers"
+import { formatDate } from "common/helpers"
 import { useStore } from "contexts/StoreContext"
-import { ListView } from "library/ListView"
 import { FAB } from "library/FAB"
 import { Timer } from "components/Event/Timer"
 import { FlatList } from "react-native-gesture-handler"
 import { IconButton } from "library/IconButton"
 import Constants from "expo-constants"
 import { Menu, MenuItem } from "library/Menu"
-import { Event } from "components/Event"
 import { Dimensions } from "react-native"
-import { Icon } from "library/Icon"
 
 export const EventList = ({ navigation, route }: EventsProps) => {
     const { theme } = useTheme()
@@ -30,6 +26,12 @@ export const EventList = ({ navigation, route }: EventsProps) => {
     const [showMenu, setShowMenu] = React.useState(false)
 
     const menuItems: MenuItem[] = [
+        {
+            text: "New Event",
+            leftIcon: "plus",
+            onPress: () => navigation.navigate("EventDetails"),
+            divider: true,
+        },
         {
             text: "Settings",
             leftIcon: "cog",
@@ -41,7 +43,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
 
     const eventItem = ({ item }: { item: EventInfo }) => (
         <ImageBackground
-            /*            source={require("assets/test2.png")} */
+            /*             source={require("assets/test2.png")} */
             style={[
                 styles.listItem,
                 { backgroundColor: item.color ?? theme.colors.card },
@@ -62,6 +64,13 @@ export const EventList = ({ navigation, route }: EventsProps) => {
             >
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.date}>{formatDate(item.date)}</Text>
+                <Timer
+                    date={item.date}
+                    fullText={false}
+                    style={{ flexDirection: "row" }}
+                    numberStyle={{ color: "rgba(255,255,255,0.75)" }}
+                    letterStyle={{ color: "rgba(255,255,255,0.57)" }}
+                />
             </Pressable>
         </ImageBackground>
     )
@@ -83,7 +92,7 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         },
         list: {
             padding: theme.spacing.primary,
-            paddingTop: 8,
+            paddingTop: 4,
             paddingBottom: theme.spacing.primary,
         },
         listItem: {
@@ -114,28 +123,6 @@ export const EventList = ({ navigation, route }: EventsProps) => {
         },
     })
 
-    const lastItem = () => (
-        <View style={[styles.listItem, { backgroundColor: "gold" }]}>
-            <Pressable
-                style={({ pressed }) => [
-                    styles.listItem,
-                    {
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: pressed
-                            ? "rgba(0,0,0,0.4)"
-                            : "rgba(0,0,0,0.25)",
-                    },
-                ]}
-                onPress={() => {
-                    navigation.navigate("EventDetails")
-                }}
-            >
-                <Icon icon="plus" color="white" size={40} />
-            </Pressable>
-        </View>
-    )
-
     return (
         <>
             <View style={styles.header}>
@@ -153,16 +140,16 @@ export const EventList = ({ navigation, route }: EventsProps) => {
                 ListEmptyComponent={itemSeparator}
                 style={styles.list}
                 numColumns={2}
+                ItemSeparatorComponent={itemSeparator}
                 columnWrapperStyle={{ justifyContent: "space-between" }}
-                ListHeaderComponent={lastItem}
             />
 
             <Menu show={showMenu} setShow={setShowMenu} items={menuItems} />
 
-            <FAB
+            {/*             <FAB
                 onPress={() => navigation.navigate("EventDetails")}
                 icon="plus"
-            />
+            /> */}
         </>
     )
 }
