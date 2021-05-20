@@ -1,4 +1,32 @@
 import * as React from "react"
+import { StyleSheet, Text } from "react-native"
+import { ScreenContainer } from "library/ScreenContainer"
+import { EventProps } from "navigation/types"
+
+export const Event = ({ navigation, route }: EventProps) => {
+    const [name, setName] = React.useState(route.params?.eventInfo.name ?? "")
+
+    const styles = StyleSheet.create({
+        name: {
+            color: "rgba(255,255,255,0.87)",
+            fontSize: 48,
+        },
+    })
+
+    return (
+        <ScreenContainer>
+            <Text style={styles.name}>{name}</Text>
+        </ScreenContainer>
+    )
+}
+
+/* import * as React from "react"
+
+export const Event = () => {
+    return <></>
+}
+
+import * as React from "react"
 import { EventInfo } from "common/types"
 import {
     StyleSheet,
@@ -352,3 +380,4 @@ export const Event = ({ eventInfo, mode = "view" }: EventProps) => {
         </>
     )
 }
+ */

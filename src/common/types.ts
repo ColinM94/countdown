@@ -6,4 +6,5 @@ export type EventInfo = {
     name: string
     date: Date
     color: ColorValue
+    image?: string
 }

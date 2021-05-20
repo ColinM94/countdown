@@ -1,8 +1,13 @@
 import * as React from "react"
-import { StyleProp, StyleSheet, TextInput, TextInputProps } from "react-native"
+import {
+    StyleProp,
+    StyleSheet,
+    TextInput,
+    TextInputProps,
+    Text,
+} from "react-native"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { useTheme } from "contexts/ThemeContext"
-import { Text } from "../Text"
 import { ViewStyle } from "react-native"
 import { Icon } from "../Icon"
 import { Pressable } from "../Pressable"
@@ -107,7 +112,7 @@ export const Input = (props: InputProps) => {
             testID="input"
         >
             {label && (
-                <Text subtitle testID="label">
+                <Text style={theme.typography.overline} testID="label">
                     {label}
                 </Text>
             )}

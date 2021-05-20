@@ -70,6 +70,7 @@ export const Timer = (props: TimerProps) => {
     }, [precision, date])
 
     const calculate = () => {
+        console.log(date)
         let date1 = dayjs(date).utc(true)
         let date2 = dayjs().utc(true)
 
@@ -79,8 +80,6 @@ export const Timer = (props: TimerProps) => {
         let hourDiff = 0
         let minuteDiff = 0
         let secondDiff = 0
-
-        console.log(date1)
 
         if (precision === 1) {
             yearDiff = Math.floor(Math.trunc(date1.diff(date2, "year", true)))

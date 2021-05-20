@@ -1,8 +1,7 @@
 import * as React from "react"
-import { StyleSheet, View, Modal } from "react-native"
+import { StyleSheet, View, Modal, Text } from "react-native"
 import { useTheme } from "contexts/ThemeContext"
 import { Pressable } from "../Pressable"
-import { Text } from "../Text"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { Icon } from "../Icon"
 
@@ -77,7 +76,9 @@ export const Menu = ({ show, setShow, items }: MenuProps) => {
                                     size={theme.icon.size}
                                     style={styles.leftIcon}
                                 />
-                                <Text>{item.text}</Text>
+                                <Text style={theme.typography.body}>
+                                    {item.text}
+                                </Text>
                             </Pressable>
                             <View
                                 style={{

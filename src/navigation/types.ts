@@ -6,11 +6,8 @@ import { EventInfo } from "common/types"
 // Param types for each screen.
 export type ScreenParams = {
     Signin: undefined
-    Drawer: undefined
-    AddEvent: undefined
-    EditEvent: { eventInfo: EventInfo }
-    EventDetails: { eventInfo: EventInfo } | undefined
-    EventList: undefined
+    Event: { eventInfo: EventInfo } | undefined
+    Events: undefined
     Settings: undefined
 }
 
@@ -19,24 +16,14 @@ export type SigninProps = {
     route: RouteProp<ScreenParams, "Signin">
 }
 
-export type EventDetailsProps = {
-    navigation: StackNavigationProp<ScreenParams, "EventDetails">
-    route: RouteProp<ScreenParams, "EventDetails">
-}
-
-export type EditEventProps = {
-    navigation: StackNavigationProp<ScreenParams, "EditEvent">
-    route: RouteProp<ScreenParams, "EditEvent">
+export type EventProps = {
+    navigation: StackNavigationProp<ScreenParams, "Event">
+    route: RouteProp<ScreenParams, "Event">
 }
 
 export type EventsProps = {
-    navigation: DrawerNavigationProp<ScreenParams, "EventList">
-    route: RouteProp<ScreenParams, "EventList">
-}
-
-export type AddEventProps = {
-    navigation: DrawerNavigationProp<ScreenParams, "AddEvent">
-    route: RouteProp<ScreenParams, "AddEvent">
+    navigation: StackNavigationProp<ScreenParams, "Events">
+    route: RouteProp<ScreenParams, "Events">
 }
 
 export type SettingsProps = {

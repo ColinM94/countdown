@@ -1,99 +1,40 @@
 import * as React from "react"
 import { LogBox } from "react-native"
 import { library } from "@fortawesome/fontawesome-svg-core"
-import { fab } from "@fortawesome/free-brands-svg-icons"
 import {
-    faHome,
-    faCalendarPlus,
-    faCalendarAlt,
-    faBars,
-    faCog,
-    faPlus,
-    faPencilAlt,
     faArrowLeft,
-    faChevronRight,
-    faCalendar,
     faClock,
-    faLock,
-    faEnvelope,
-    faUser,
-    faSignOutAlt,
-    faEye,
-    faEyeSlash,
-    faChevronDown,
-    faChevronUp,
-    faCompress,
+    faCog,
     faEllipsisV,
-    faEdit,
-    faTrash,
-    faExpand,
-    faExpandArrowsAlt,
-    faCompressArrowsAlt,
-    faImage,
-    faCheck,
-    faPalette,
-    faTimes,
-    faUndo,
-    faThList,
-    faArrowsAltV,
-    faArrowsAltH,
+    faEyeSlash,
+    faPlus,
+    faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { AuthProvider } from "contexts/AuthContext"
-import { StoreProvider } from "contexts/StoreContext"
-import { StatusBar } from "library/StatusBar"
 import { AppProvider } from "contexts/AppContext"
 import { ThemeProvider } from "contexts/ThemeContext"
 import { Navigation } from "navigation/Navigation"
+import { StatusBar } from "library/StatusBar"
 
 export const Main = () => {
     LogBox.ignoreLogs(["Setting a timer", "index.tsx", "Require cycle"])
     library.add(
-        faPalette,
-        faCheck,
-        faImage,
-        faExpandArrowsAlt,
-        faCompressArrowsAlt,
-        faExpand,
-        faTrash,
-        faEdit,
-        faEllipsisV,
-        faCompress,
-        faHome,
-        faCalendarPlus,
-        faCalendarAlt,
-        faBars,
-        faCog,
-        faPlus,
-        faPencilAlt,
-        faArrowLeft,
-        faChevronRight,
-        faCalendar,
-        faClock,
-        faLock,
-        faEnvelope,
-        faUser,
         faSignOutAlt,
-        faEye,
+        faEllipsisV,
+        faCog,
         faEyeSlash,
-        faChevronRight,
-        faChevronDown,
-        faChevronUp,
-        faTimes,
-        faUndo,
-        faThList,
-        faArrowsAltV,
-        faArrowsAltH
+        faPlus,
+        faClock,
+        faArrowLeft
     )
 
     return (
         <AppProvider>
             <AuthProvider>
                 <ThemeProvider>
-                    <StoreProvider>
-                        <StatusBar />
-                        <Navigation />
-                    </StoreProvider>
+                    <Navigation />
+                    <StatusBar />
                 </ThemeProvider>
             </AuthProvider>
         </AppProvider>
