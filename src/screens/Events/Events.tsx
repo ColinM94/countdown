@@ -28,13 +28,14 @@ export const Events = () => {
                     tempEvents.push(tempEvent)
                 })
                 setEvents(tempEvents)
+                loading(false)
             })
 
         return () => unsubscribe()
     }, [])
 
     return (
-        <ScreenContainer>
+        <ScreenContainer style={{ padding: 0 }}>
             <EventsHeader />
             <EventsList data={events} />
         </ScreenContainer>

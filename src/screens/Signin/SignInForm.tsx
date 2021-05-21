@@ -1,17 +1,13 @@
 import * as React from "react"
-import { StyleSheet, View, Text } from "react-native"
-import { Icon } from "library/Icon"
-
+import { StyleSheet, Text } from "react-native"
+import { sendResetPasswordEmail, signIn, signUp } from "api/auth"
+import { useApp } from "contexts/AppContext"
 import { useTheme } from "contexts/ThemeContext"
-import { Pressable } from "library/Pressable"
-import { ScreenContainer } from "library/ScreenContainer"
 import { Input } from "library/Input"
 import { Button } from "library/Button"
-import { SigninProps } from "navigation/types"
-import { useApp } from "contexts/AppContext"
-import { sendResetPasswordEmail, signIn, signUp } from "api/auth"
+import { Pressable } from "library/Pressable"
 
-export const Signin = (props: SigninProps) => {
+export const SignInForm = () => {
     const [showPassword, setShowPassword] = React.useState(false)
     const [currentLayout, setCurrentLayout] = React.useState<
         "signin" | "signup" | "forgotPassword"
@@ -79,22 +75,6 @@ export const Signin = (props: SigninProps) => {
     }
 
     const styles = StyleSheet.create({
-        titleContainer: {
-            marginTop: 56,
-            marginBottom: 40,
-            marginLeft: "auto",
-            marginRight: "auto",
-            flexDirection: "row",
-            color: theme.colors.text.primary,
-        },
-        title: {
-            color: theme.colors.text.primary,
-            fontSize: 40,
-        },
-        subtitle: {
-            color: theme.colors.text.secondary,
-            fontSize: 18,
-        },
         leftIcon: {
             marginLeft: 10,
             marginRight: 16,
@@ -118,26 +98,8 @@ export const Signin = (props: SigninProps) => {
             borderRadius: theme.roundness,
         },
     })
-
     return (
-        <ScreenContainer>
-            <View style={styles.titleContainer}>
-                <View
-                    style={{
-                        justifyContent: "center",
-                        marginRight: theme.spacing.primary,
-                    }}
-                >
-                    <Icon icon="clock" size={56} color={theme.colors.primary} />
-                </View>
-                <View>
-                    <Text style={styles.title}>Countdown</Text>
-                    <Text style={styles.subtitle}>
-                        Track your important events
-                    </Text>
-                </View>
-            </View>
-
+        <>
             <Input placeholder="Email" value={email} setValue={setEmail} />
             {currentLayout !== "forgotPassword" && (
                 <Input
@@ -169,7 +131,7 @@ export const Signin = (props: SigninProps) => {
                     onPress={() => setCurrentLayout("signup")}
                     feedback={true}
                 >
-                    <Text>
+                    <Text style={theme.typography.subtitle}>
                         Need an account?{" "}
                         <Text style={{ fontWeight: "bold" }}>Sign Up.</Text>
                     </Text>
@@ -181,7 +143,7 @@ export const Signin = (props: SigninProps) => {
                     onPress={() => setCurrentLayout("signin")}
                     feedback={true}
                 >
-                    <Text>
+                    <Text style={theme.typography.subtitle}>
                         Already have an account?{" "}
                         <Text style={{ fontWeight: "bold" }}>Sign In.</Text>
                     </Text>
@@ -193,7 +155,9 @@ export const Signin = (props: SigninProps) => {
                     onPress={() => setCurrentLayout("signin")}
                     feedback={true}
                 >
-                    <Text>Return to Signin.</Text>
+                    <Text style={theme.typography.subtitle}>
+                        Return to Signin.
+                    </Text>
                 </Pressable>
             )}
             {currentLayout == "signin" && (
@@ -202,11 +166,11 @@ export const Signin = (props: SigninProps) => {
                     onPress={() => setCurrentLayout("forgotPassword")}
                     feedback={true}
                 >
-                    <Text>Forgot password?</Text>
+                    <Text style={theme.typography.subtitle}>
+                        Forgot password?
+                    </Text>
                 </Pressable>
             )}
-        </ScreenContainer>
+        </>
     )
 }
-
-export default Signin

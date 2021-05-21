@@ -32,7 +32,7 @@ export const EventsListItem = ({ eventInfo }: ListItemProps) => {
                 windowWidth / 2 -
                 theme.spacing.primary -
                 theme.spacing.primary / 2,
-            height: 125,
+            height: 150,
             backgroundColor: eventInfo.color ?? theme.colors.card,
         },
         inner: {

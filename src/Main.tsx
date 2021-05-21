@@ -6,6 +6,7 @@ import {
     faClock,
     faCog,
     faEllipsisV,
+    faEye,
     faEyeSlash,
     faPlus,
     faSignOutAlt,
@@ -26,7 +27,8 @@ export const Main = () => {
         faEyeSlash,
         faPlus,
         faClock,
-        faArrowLeft
+        faArrowLeft,
+        faEye
     )
 
     return (
