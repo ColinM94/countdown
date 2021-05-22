@@ -7,14 +7,13 @@ interface ScreenContainerProps extends ViewProps {
     children: React.ReactNode | React.ReactNode[]
 }
 
-/** Prevents content going behind statusbar and adds padding. */
+/** Prevents content going behind statusbar. */
 export const ScreenContainer = ({ children, style }: ScreenContainerProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
         container: {
             paddingTop: Constants.statusBarHeight,
-            padding: theme.spacing.primary,
             flex: 1,
         },
     })

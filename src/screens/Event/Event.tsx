@@ -1,22 +1,58 @@
 import * as React from "react"
-import { StyleSheet, Text } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 import { ScreenContainer } from "library/ScreenContainer"
 import { EventProps } from "navigation/types"
+import { formatDate } from "common/helpers"
+import { useTheme } from "contexts/ThemeContext"
+import Constants from "expo-constants"
+import { Timer } from "components/Timer"
 
 export const Event = ({ navigation, route }: EventProps) => {
+    const { theme } = useTheme()
     const [name, setName] = React.useState(route.params?.eventInfo.name ?? "")
+    const [date, setDate] = React.useState(
+        route.params?.eventInfo.date ?? new Date()
+    )
+    const [color, setColor] = React.useState(
+        route.params?.eventInfo.color ?? theme.colors.background
+    )
 
     const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: color,
+        },
+        content: {
+            paddingTop: Constants.statusBarHeight,
+            flex: 1,
+            justifyContent: "space-around",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.3)",
+        },
+        heading: {
+            alignItems: "center",
+        },
         name: {
             color: "rgba(255,255,255,0.87)",
             fontSize: 48,
         },
+        date: {
+            color: "rgba(255,255,255,0.70)",
+            fontSize: 24,
+        },
+        timer: {},
     })
 
     return (
-        <ScreenContainer>
-            <Text style={styles.name}>{name}</Text>
-        </ScreenContainer>
+        <View style={styles.container}>
+            <View style={styles.content}>
+                <View style={styles.heading}>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.date}>{formatDate(date)}</Text>
+                </View>
+                <Timer />
+            </View>
+        </View>
     )
 }
 
