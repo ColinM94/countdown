@@ -8,8 +8,8 @@ interface ScreenContainerProps extends ViewProps {
 }
 
 /** Prevents content going behind statusbar. */
-export const ScreenContainer = ({ children, style }: ScreenContainerProps) => {
-    const { theme } = useTheme()
+export const ScreenContainer = (props: ScreenContainerProps) => {
+    const { children, style } = props
 
     const styles = StyleSheet.create({
         container: {

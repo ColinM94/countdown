@@ -7,8 +7,10 @@ import { db } from "api/config"
 import { useAuth } from "contexts/AuthContext"
 import { useApp } from "contexts/AppContext"
 import { docToEventInfo } from "api/firestore"
+import { EventsProps } from "navigation/types"
+import { View } from "react-native"
 
-export const Events = () => {
+export const Events = ({ navigation, route }: EventsProps) => {
     const { currentUser } = useAuth()
     const { loading } = useApp()
 
@@ -17,7 +19,7 @@ export const Events = () => {
     React.useEffect(() => {
         const unsubscribe = db
             .collection("users")
-            .doc(currentUser.id)
+            .doc(currentUser.id!)
             .collection("events")
             .onSnapshot((querySnapshot) => {
                 loading(true)
@@ -35,9 +37,9 @@ export const Events = () => {
     }, [])
 
     return (
-        <ScreenContainer style={{ padding: 0 }}>
-            <EventsHeader />
+        <View style={{ flex: 1 }}>
+            <EventsHeader navigation={navigation} />
             <EventsList data={events} />
-        </ScreenContainer>
+        </View>
     )
 }

@@ -3,11 +3,15 @@ import { LogBox } from "react-native"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import {
     faArrowLeft,
+    faCheck,
     faClock,
     faCog,
     faEllipsisV,
     faEye,
     faEyeSlash,
+    faImage,
+    faPalette,
+    faPencilAlt,
     faPlus,
     faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons"
@@ -28,7 +32,12 @@ export const Main = () => {
         faPlus,
         faClock,
         faArrowLeft,
-        faEye
+        faEye,
+        faEyeSlash,
+        faPencilAlt,
+        faPalette,
+        faImage,
+        faCheck
     )
 
     return (

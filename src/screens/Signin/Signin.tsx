@@ -14,8 +14,15 @@ import { SignInHeading } from "./SignInHeading"
 import { SignInForm } from "./SignInForm"
 
 export const Signin = (props: SigninProps) => {
+    const { theme } = useTheme()
+    const styles = StyleSheet.create({
+        container: {
+            padding: theme.spacing.primary,
+        },
+    })
+
     return (
-        <ScreenContainer>
+        <ScreenContainer style={styles.container}>
             <SignInHeading />
             <SignInForm />
         </ScreenContainer>

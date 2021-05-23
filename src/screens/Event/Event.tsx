@@ -1,14 +1,21 @@
 import * as React from "react"
 import { StyleSheet, Text, View } from "react-native"
-import { ScreenContainer } from "library/ScreenContainer"
 import { EventProps } from "navigation/types"
 import { formatDate } from "common/helpers"
 import { useTheme } from "contexts/ThemeContext"
 import Constants from "expo-constants"
 import { Timer } from "components/Timer"
+import { EventCountdown } from "./EventCountdown"
+import { EventHeader } from "./EventHeader"
+import { EventTitle } from "./EventTitle"
+import { ScreenContainer } from "library/ScreenContainer"
+import { FAB } from "library/FAB"
+
+export type EventMode = "view" | "edit"
 
 export const Event = ({ navigation, route }: EventProps) => {
     const { theme } = useTheme()
+
     const [name, setName] = React.useState(route.params?.eventInfo.name ?? "")
     const [date, setDate] = React.useState(
         route.params?.eventInfo.date ?? new Date()
@@ -16,41 +23,43 @@ export const Event = ({ navigation, route }: EventProps) => {
     const [color, setColor] = React.useState(
         route.params?.eventInfo.color ?? theme.colors.background
     )
+    const [image, setImage] = React.useState()
+    const [mode, setMode] = React.useState<EventMode>("view")
 
     const styles = StyleSheet.create({
         container: {
             flex: 1,
             backgroundColor: color,
         },
-        content: {
-            paddingTop: Constants.statusBarHeight,
+        overlay: {
             flex: 1,
-            justifyContent: "space-around",
-            alignItems: "center",
             backgroundColor: "rgba(0,0,0,0.3)",
         },
-        heading: {
+        content: {
+            flex: 1,
             alignItems: "center",
+            padding: theme.spacing.primary,
         },
-        name: {
-            color: "rgba(255,255,255,0.87)",
-            fontSize: 48,
-        },
-        date: {
-            color: "rgba(255,255,255,0.70)",
-            fontSize: 24,
-        },
-        timer: {},
     })
 
     return (
         <View style={styles.container}>
-            <View style={styles.content}>
-                <View style={styles.heading}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.date}>{formatDate(date)}</Text>
+            <View style={styles.overlay}>
+                <EventHeader
+                    mode={mode}
+                    setMode={setMode}
+                    color={color}
+                    setColor={setColor}
+                    image={image}
+                    setImage={setImage}
+                />
+                <View style={styles.content}>
+                    <EventTitle name={name} date={date} />
+                    <EventCountdown />
+                    {mode === "edit" && (
+                        <FAB icon="check" onPress={() => setMode("view")} />
+                    )}
                 </View>
-                <Timer />
             </View>
         </View>
     )

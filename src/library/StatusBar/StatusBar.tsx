@@ -6,6 +6,6 @@ export const StatusBar = () => {
     const { theme, isDark } = useTheme()
 
     return (
-        <ExpoStatusBar style={isDark ? "light" : "dark"} translucent={true}/>
+        <ExpoStatusBar style={isDark ? "light" : "dark"} translucent={true} />
     )
 }

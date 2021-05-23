@@ -11,6 +11,7 @@ import { EventInfo } from "common/types"
 import { useTheme } from "contexts/ThemeContext"
 import { formatDate } from "common/helpers"
 import { useNavigation } from "@react-navigation/native"
+import { Timer } from "components/Timer"
 
 interface ListItemProps {
     eventInfo: EventInfo
@@ -36,19 +37,28 @@ export const EventsListItem = ({ eventInfo }: ListItemProps) => {
             backgroundColor: eventInfo.color ?? theme.colors.card,
         },
         inner: {
-            flexDirection: "row",
             padding: 12,
             height: "100%",
             width: "100%",
+            backgroundColor: "orange",
         },
         name: {
             color: "rgba(255,255,255,0.87)",
             fontSize: theme.typography.h1.fontSize,
         },
         date: {
-            marginTop: "auto",
-            color: "rgba(255,255,255,0.57)",
+            color: "rgba(255,255,255,0.7)",
             fontSize: theme.typography.subtitle.fontSize,
+            marginTop: "auto",
+        },
+        timer: {},
+        timerNumbers: {
+            fontSize: 20,
+            color: "rgba(255,255,255,0.80)",
+        },
+        timerText: {
+            fontSize: 12,
+            color: "rgba(255,255,255,0.7)",
         },
     })
 
@@ -76,12 +86,17 @@ export const EventsListItem = ({ eventInfo }: ListItemProps) => {
                     ]}
                     source={eventInfo?.image && require("assets/test2.png")}
                 >
-                    <View>
-                        <Text style={styles.name}>{eventInfo.name}</Text>
-                        <Text style={styles.date}>
-                            {formatDate(eventInfo.date)}
-                        </Text>
-                    </View>
+                    <Text style={styles.name}>{eventInfo.name}</Text>
+                    <Text style={styles.date}>
+                        {formatDate(eventInfo.date)}
+                    </Text>
+                    <Timer
+                        date={eventInfo.date}
+                        direction="row"
+                        style={styles.timer}
+                        numberStyle={styles.timerNumbers}
+                        textStyle={styles.timerText}
+                    />
                 </ImageBackground>
             )}
         </Pressable>

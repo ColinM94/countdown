@@ -5,8 +5,7 @@ import { IconButton } from "library/IconButton"
 import { Menu, MenuItem } from "library/Menu"
 import { Header } from "library/Header"
 
-export const EventsHeader = () => {
-    const navigation = useNavigation()
+export const EventsHeader = ({ navigation }) => {
     const [showMenu, setShowMenu] = React.useState(false)
 
     const menuItems: MenuItem[] = [
