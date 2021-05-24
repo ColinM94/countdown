@@ -14,6 +14,7 @@ import {
     faPencilAlt,
     faPlus,
     faSignOutAlt,
+    faTrash,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { AuthProvider } from "contexts/AuthContext"
@@ -21,6 +22,7 @@ import { AppProvider } from "contexts/AppContext"
 import { ThemeProvider } from "contexts/ThemeContext"
 import { Navigation } from "navigation/Navigation"
 import { StatusBar } from "library/StatusBar"
+import { ToastProvider } from "contexts/ToastContext"
 
 export const Main = () => {
     LogBox.ignoreLogs(["Setting a timer", "index.tsx", "Require cycle"])
@@ -37,17 +39,20 @@ export const Main = () => {
         faPencilAlt,
         faPalette,
         faImage,
-        faCheck
+        faCheck,
+        faTrash
     )
 
     return (
         <AppProvider>
-            <AuthProvider>
-                <ThemeProvider>
-                    <Navigation />
-                    <StatusBar />
-                </ThemeProvider>
-            </AuthProvider>
+            <ToastProvider>
+                <AuthProvider>
+                    <ThemeProvider>
+                        <Navigation />
+                        <StatusBar />
+                    </ThemeProvider>
+                </AuthProvider>
+            </ToastProvider>
         </AppProvider>
     )
 }

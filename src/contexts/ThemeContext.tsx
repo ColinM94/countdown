@@ -55,7 +55,7 @@ type Theme = {
     }
 }
 
-const ThemeContext = React.createContext<UseThemeProps>({} as UseThemeProps)
+export const ThemeContext = React.createContext<UseThemeProps>({} as UseThemeProps)
 
 export const useTheme = () => {
     return React.useContext(ThemeContext)
@@ -73,15 +73,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         accent: isDark ? "grey" : "lightgrey",
         feedback: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
         text: {
-            primary: isDark
-                ? "rgba(255, 255, 255, 0.87)"
-                : "rgba(0, 0, 0, 0.87)",
-            secondary: isDark
-                ? "rgba(255, 255, 255, 0.54)"
-                : "rgba(0, 0, 0, 0.64)",
-            tertiary: isDark
-                ? "rgba(255, 255, 255, 0.38)"
-                : "rgba(0, 0, 0, 0.38)",
+            primary: isDark ? "rgba(255, 255, 255, 0.87)" : "rgba(0, 0, 0, 0.87)",
+            secondary: isDark ? "rgba(255, 255, 255, 0.54)" : "rgba(0, 0, 0, 0.64)",
+            tertiary: isDark ? "rgba(255, 255, 255, 0.38)" : "rgba(0, 0, 0, 0.38)",
         },
     }
 
@@ -163,7 +157,5 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         setIsDark,
     }
 
-    return (
-        <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-    )
+    return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

@@ -4,36 +4,17 @@ import { useNavigation } from "@react-navigation/native"
 import { Header } from "library/Header"
 import { Menu, MenuItem } from "library/Menu"
 import { IconButton } from "library/IconButton"
-import { EventMode } from "./Event"
+import { useEvent } from "./Event"
 import { ColorPicker } from "library/ColorPicker"
 import { ImagePicker } from "library/ImagePicker"
-import { FAB } from "library/FAB"
 
-interface EventHeaderProps {
-    mode: EventMode
-    setMode: (mode: EventMode) => void
-    color: ColorValue
-    setColor: (color: ColorValue) => void
-    image: any
-    setImage: (image: any) => void
-}
-
-export const EventHeader = (props: EventHeaderProps) => {
+export const EventHeader = () => {
     const navigation = useNavigation()
-
-    const { mode, setMode, color, setColor, image, setImage } = props
+    const { setImage, color, setColor, mode, setMode } = useEvent()
 
     const [showImagePicker, setShowImagePicker] = React.useState(false)
     const [showColorPicker, setShowColorPicker] = React.useState(false)
     const [showMenu, setShowMenu] = React.useState(false)
-
-    const menuItems: MenuItem[] = [
-        {
-            text: "Edit",
-            leftIcon: "pencil-alt",
-            onPress: () => setMode("edit"),
-        },
-    ]
 
     const toggleMenu = () => {
         setShowMenu(!showMenu)
@@ -51,6 +32,23 @@ export const EventHeader = (props: EventHeaderProps) => {
         setImage(undefined)
         setColor(color)
     }
+
+    const handleDelete = () => {
+        alert("Delete")
+    }
+
+    const menuItems: MenuItem[] = [
+        {
+            text: "Edit",
+            leftIcon: "pencil-alt",
+            onPress: () => setMode("edit"),
+        },
+        {
+            text: "Delete",
+            leftIcon: "trash",
+            onPress: handleDelete,
+        },
+    ]
 
     const styles = StyleSheet.create({
         headerBtn: {
@@ -82,12 +80,14 @@ export const EventHeader = (props: EventHeaderProps) => {
                         />
                     </>
                 )}
-                <IconButton
-                    icon="ellipsis-v"
-                    style={styles.menuBtn}
-                    color={iconBtnColor}
-                    onPress={toggleMenu}
-                />
+                {mode === "view" && (
+                    <IconButton
+                        icon="ellipsis-v"
+                        style={styles.menuBtn}
+                        color={iconBtnColor}
+                        onPress={toggleMenu}
+                    />
+                )}
             </Header>
             <Menu items={menuItems} show={showMenu} setShow={setShowMenu} />
             {mode === "edit" && (
