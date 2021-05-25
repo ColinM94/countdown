@@ -12,7 +12,7 @@ export const EventsHeader = ({ navigation }) => {
         {
             text: "New Event",
             leftIcon: "plus",
-            onPress: () => alert("New Event"),
+            onPress: () => navigation.navigate("Event"),
             divider: true,
         },
         {

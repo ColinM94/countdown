@@ -15,6 +15,7 @@ import {
     faPlus,
     faSignOutAlt,
     faTrash,
+    faUndo,
 } from "@fortawesome/free-solid-svg-icons"
 
 import { AuthProvider } from "contexts/AuthContext"
@@ -40,7 +41,8 @@ export const Main = () => {
         faPalette,
         faImage,
         faCheck,
-        faTrash
+        faTrash,
+        faUndo
     )
 
     return (

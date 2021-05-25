@@ -7,10 +7,15 @@ import { IconButton } from "library/IconButton"
 import { useEvent } from "./Event"
 import { ColorPicker } from "library/ColorPicker"
 import { ImagePicker } from "library/ImagePicker"
+import { deleteEvent } from "api/firestore"
+import { useAuth } from "contexts/AuthContext"
+import { useToast } from "contexts/ToastContext"
 
 export const EventHeader = () => {
     const navigation = useNavigation()
-    const { setImage, color, setColor, mode, setMode } = useEvent()
+    const { currentUser } = useAuth()
+    const { toast } = useToast()
+    const { setImage, color, setColor, mode, setMode, id } = useEvent()
 
     const [showImagePicker, setShowImagePicker] = React.useState(false)
     const [showColorPicker, setShowColorPicker] = React.useState(false)
@@ -33,8 +38,14 @@ export const EventHeader = () => {
         setColor(color)
     }
 
-    const handleDelete = () => {
-        alert("Delete")
+    const handleDelete = async () => {
+        try {
+            await deleteEvent(currentUser.id!, id!)
+            toast("deleted")
+            navigation.navigate("Events")
+        } catch (err) {
+            toast(err.message)
+        }
     }
 
     const menuItems: MenuItem[] = [
@@ -64,7 +75,7 @@ export const EventHeader = () => {
     return (
         <>
             <Header>
-                {mode === "edit" && (
+                {mode === "edit" || mode === "add" ? (
                     <>
                         <IconButton
                             icon="image"
@@ -78,8 +89,19 @@ export const EventHeader = () => {
                             color={iconBtnColor}
                             onPress={toggleColorPicker}
                         />
+                        <ColorPicker
+                            show={showColorPicker}
+                            setShow={setShowColorPicker}
+                            color={color}
+                            setColor={handleSetColor}
+                        />
+                        <ImagePicker
+                            setImage={setImage}
+                            show={showImagePicker}
+                            setShow={setShowImagePicker}
+                        />
                     </>
-                )}
+                ) : null}
                 {mode === "view" && (
                     <IconButton
                         icon="ellipsis-v"
@@ -90,21 +112,6 @@ export const EventHeader = () => {
                 )}
             </Header>
             <Menu items={menuItems} show={showMenu} setShow={setShowMenu} />
-            {mode === "edit" && (
-                <>
-                    <ColorPicker
-                        show={showColorPicker}
-                        setShow={setShowColorPicker}
-                        color={color}
-                        setColor={handleSetColor}
-                    />
-                    <ImagePicker
-                        setImage={setImage}
-                        show={showImagePicker}
-                        setShow={setShowImagePicker}
-                    />
-                </>
-            )}
         </>
     )
 }
