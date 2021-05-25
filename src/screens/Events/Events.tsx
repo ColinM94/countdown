@@ -1,5 +1,4 @@
 import * as React from "react"
-import { ScreenContainer } from "library/ScreenContainer"
 import { EventsList } from "./EventsList"
 import { EventsHeader } from "./EventsHeader"
 import { EventInfo } from "common/types"

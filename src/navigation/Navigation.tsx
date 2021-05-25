@@ -75,10 +75,7 @@ export const Navigation = () => {
                         <>
                             <Stack.Screen name="Events" component={Events} />
                             <Stack.Screen name="Event" component={Event} />
-                            <Stack.Screen
-                                name="Settings"
-                                component={Settings}
-                            />
+                            <Stack.Screen name="Settings" component={Settings} />
                         </>
                     )}
                 </Stack.Navigator>

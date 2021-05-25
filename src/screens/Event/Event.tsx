@@ -1,14 +1,16 @@
 import * as React from "react"
-import { ColorValue, StyleSheet, View, Text } from "react-native"
+import { ColorValue } from "react-native"
 import { EventProps } from "navigation/types"
 import { useTheme } from "contexts/ThemeContext"
-import { EventHeader } from "./EventHeader"
-import { EventContent } from "./EventContent"
+import { EventView } from "./EventView"
 import { useToast } from "contexts/ToastContext"
+import { addEvent, deleteEvent, updateEvent } from "api/firestore"
+import { useAuth } from "contexts/AuthContext"
 
 export type EventMode = "view" | "edit" | "add"
 
 interface EventState {
+    id?: string
     name: string
     setName: (name: string) => void
     date: Date
@@ -19,8 +21,9 @@ interface EventState {
     setImage: (image: any) => void
     mode: EventMode
     setMode: (mode: EventMode) => void
-    id?: string
-    undoChanges: () => void
+    handleUndo: () => void
+    handleSave: () => void
+    handleDelete: () => void
 }
 
 export const EventContext = React.createContext({} as EventState)
@@ -32,6 +35,7 @@ export const useEvent = () => {
 export const Event = ({ navigation, route }: EventProps) => {
     const { theme } = useTheme()
     const { toast } = useToast()
+    const { currentUser } = useAuth()
 
     const eventInfo = route.params?.eventInfo
     const [id, setId] = React.useState(eventInfo?.id)
@@ -59,7 +63,34 @@ export const Event = ({ navigation, route }: EventProps) => {
         return () => navigation.removeListener("beforeRemove", listener)
     })
 
-    const undoChanges = () => {
+    const handleSave = async () => {
+        try {
+            if (mode === "edit") {
+                await updateEvent(currentUser.id!, {
+                    id: id,
+                    name: name,
+                    date: date,
+                    color: color,
+                    image: image,
+                })
+                setMode("view")
+                toast("Saved changes")
+            } else if (mode === "add") {
+                await addEvent(currentUser.id!, {
+                    name: name,
+                    date: date,
+                    color: color,
+                    image: image,
+                })
+                toast("Event created")
+                navigation.navigate("Events")
+            }
+        } catch (err) {
+            toast(err.message)
+        }
+    }
+
+    const handleUndo = () => {
         setName(eventInfo?.name ?? "")
         setDate(eventInfo?.date ?? new Date())
         setColor(eventInfo?.color ?? theme.colors.card)
@@ -67,16 +98,15 @@ export const Event = ({ navigation, route }: EventProps) => {
         setMode("view")
     }
 
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: color,
-        },
-        overlay: {
-            flex: 1,
-            backgroundColor: "rgba(0,0,0,0.3)",
-        },
-    })
+    const handleDelete = async () => {
+        try {
+            await deleteEvent(currentUser.id!, id!)
+            toast("deleted")
+            navigation.navigate("Events")
+        } catch (err) {
+            toast(err.message)
+        }
+    }
 
     const value: EventState = {
         name,
@@ -90,17 +120,14 @@ export const Event = ({ navigation, route }: EventProps) => {
         mode,
         setMode,
         id,
-        undoChanges,
+        handleUndo,
+        handleSave,
+        handleDelete,
     }
 
     return (
         <EventContext.Provider value={value}>
-            <View style={styles.container}>
-                <View style={styles.overlay}>
-                    <EventHeader />
-                    <EventContent />
-                </View>
-            </View>
+            <EventView />
         </EventContext.Provider>
     )
 }

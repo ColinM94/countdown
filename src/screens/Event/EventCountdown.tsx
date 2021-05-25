@@ -4,7 +4,6 @@ import { Timer } from "components/Timer"
 import { Dimensions } from "react-native"
 
 export const EventCountdown = () => {
-    const windowWidth = Dimensions.get("window").width
     const windowHeight = Dimensions.get("window").height
 
     const calculateFontSize = (fontSize: number) => {

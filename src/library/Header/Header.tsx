@@ -5,9 +5,10 @@ import { useTheme } from "contexts/ThemeContext"
 
 interface HeaderProps {
     children: React.ReactNode | React.ReactNode[]
+    style?: StyleProp<ViewStyle>
 }
 
-export const Header = ({ children }: HeaderProps) => {
+export const Header = ({ children, style }: HeaderProps) => {
     const { theme } = useTheme()
 
     const styles = StyleSheet.create({
@@ -21,5 +22,5 @@ export const Header = ({ children }: HeaderProps) => {
         },
     })
 
-    return <View style={styles.container}>{children}</View>
+    return <View style={[styles.container, style]}>{children}</View>
 }

@@ -3,6 +3,7 @@ import { LogBox } from "react-native"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import {
     faArrowLeft,
+    faCalendarAlt,
     faCheck,
     faClock,
     faCog,
@@ -42,7 +43,8 @@ export const Main = () => {
         faImage,
         faCheck,
         faTrash,
-        faUndo
+        faUndo,
+        faCalendarAlt
     )
 
     return (
